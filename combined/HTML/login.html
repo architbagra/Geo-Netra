@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GeoNetra - Sign In &amp; Access Portal</title>
+  <meta name="description" content="Sign in or register to access the GeoNetra intelligent hazard monitoring network.">
+  <link rel="stylesheet" href="../CSS/style.css?v=2.0">
+  <link rel="stylesheet" href="../CSS/auth.css?v=2.0">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script type="module" src="../script.js?v=2.0"></script>
+</head>
+
+<body class="page-auth" data-page="login">
+  <div class="auth-page-wrapper">
+    <div class="auth-container">
+      <!-- National Monitoring Pill -->
+      <div class="auth-top-kicker">
+        <div class="auth-kicker-pill">
+          <i data-lucide="shield-check" style="width:14px;height:14px;"></i>
+          <span>National Hazard Intelligence Network</span>
+        </div>
+      </div>
+
+      <!-- Main Auth Card -->
+      <article class="auth-card">
+        <!-- Circular Eye Emblem Logo (Image 1 Specification) -->
+        <div class="auth-badge-wrapper">
+          <div class="auth-badge-circle">
+            <img src="../assets/geonetra-logo.svg" alt="GeoNetra Eye Emblem" class="auth-badge-img" id="authBadgeImg">
+          </div>
+        </div>
+
+        <!-- Alert Banner -->
+        <div class="auth-alert" id="authAlert" role="alert" aria-live="polite">
+          <i data-lucide="alert-circle" id="alertIcon" style="width:18px;height:18px;flex-shrink:0;"></i>
+          <span id="alertMessage"></span>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════════════════════
+             1. SIGN IN VIEW (Exact Image 1 Layout)
+             ══════════════════════════════════════════════════════════════════ -->
+        <div id="signInSection">
+          <div class="auth-header-block">
+            <h1 class="auth-title">Welcome to GeoNetra</h1>
+            <p class="auth-subtitle">Sign in to your account to continue</p>
+          </div>
+
+          <form id="signInForm" class="auth-form" novalidate>
+            <!-- Email or Phone Number -->
+            <div class="form-group">
+              <label for="signin-identifier" class="form-label">Email or Phone Number</label>
+              <div class="input-wrapper">
+                <input type="text" id="signin-identifier" class="form-input" 
+                  placeholder="Enter your email or phone number" required autocomplete="username" autofocus>
+              </div>
+            </div>
+
+            <!-- Password with Forgot Password link -->
+            <div class="form-group">
+              <div class="form-label-row">
+                <label for="signin-password" class="form-label">Password</label>
+                <button type="button" class="forgot-password-link" id="btnForgotPassword">Forgot password?</button>
+              </div>
+              <div class="input-wrapper">
+                <input type="password" id="signin-password" class="form-input input-with-action" 
+                  placeholder="Enter your password" required autocomplete="current-password">
+                <button type="button" class="input-toggle-btn" id="toggleSignInPassword" aria-label="Toggle password visibility">
+                  <i data-lucide="eye" style="width:18px;height:18px;"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Sign In Primary Button -->
+            <button type="submit" class="btn-auth-primary" id="btnSignInSubmit">
+              <i data-lucide="log-in" style="width:18px;height:18px;"></i>
+              <span>Sign In</span>
+            </button>
+          </form>
+
+          <!-- Switch to Create Account -->
+          <div class="auth-footer-block">
+            <span>Don't have an account?</span>
+            <button type="button" class="auth-switch-btn" id="btnGoToRegister">Create account</button>
+          </div>
+        </div>
+
+        <!-- ══════════════════════════════════════════════════════════════════
+             2. CREATE ACCOUNT VIEW (Exact Image 2 Layout)
+             ══════════════════════════════════════════════════════════════════ -->
+        <div id="registerSection" style="display: none;">
+          <div class="auth-header-block">
+            <h1 class="auth-title">Create an Account</h1>
+            <p class="auth-subtitle">Join GeoNetra to access real-time hazard monitoring and field telemetry</p>
+          </div>
+
+          <form id="registerForm" class="auth-form" novalidate>
+            <!-- Username -->
+            <div class="form-group">
+              <label for="reg-username" class="form-label">Username</label>
+              <div class="input-wrapper">
+                <input type="text" id="reg-username" class="form-input" 
+                  placeholder="Choose a username" required autocomplete="nickname">
+              </div>
+            </div>
+
+            <!-- Email Address -->
+            <div class="form-group">
+              <label for="reg-email" class="form-label">Email address</label>
+              <div class="input-wrapper">
+                <input type="email" id="reg-email" class="form-input" 
+                  placeholder="Enter your email" required autocomplete="email">
+              </div>
+            </div>
+
+            <!-- Phone Number with Country Prefix Selector (Image 2 & 3 Reference) -->
+            <div class="form-group">
+              <label for="reg-phone" class="form-label">Phone number</label>
+              <div class="phone-input-group">
+                <div class="country-prefix-picker" id="reg-country-picker">
+                  <button type="button" class="country-prefix-btn" id="reg-country-btn" aria-haspopup="listbox" aria-expanded="false" title="Select Country Code">
+                    <span class="country-flag-icon" id="reg-country-flag"><img src="https://flagcdn.com/20x15/in.png" srcset="https://flagcdn.com/40x30/in.png 2x" width="20" height="15" alt="India" class="country-flag-img"></span>
+                    <span class="country-dial-code" id="reg-country-code">+91</span>
+                    <i data-lucide="chevron-down" class="country-chevron"></i>
+                  </button>
+                  
+                  <div class="country-dropdown-popover" id="reg-country-dropdown" hidden style="display: none;">
+                    <div class="country-search-wrap">
+                      <i data-lucide="search" class="country-search-icon"></i>
+                      <input type="text" class="country-search-input" id="reg-country-search" placeholder="Search country or code..." autocomplete="off">
+                    </div>
+                    <ul class="country-options-list" id="reg-country-list" role="listbox"></ul>
+                  </div>
+                  <input type="hidden" id="reg-country-val" value="+91">
+                </div>
+                <input type="tel" id="reg-phone" class="form-input phone-number-input" 
+                  placeholder="Enter phone number" maxlength="15" required autocomplete="tel">
+              </div>
+            </div>
+
+            <!-- Password -->
+            <div class="form-group">
+              <label for="reg-password" class="form-label">Password</label>
+              <div class="input-wrapper">
+                <input type="password" id="reg-password" class="form-input input-with-action" 
+                  placeholder="Create a password" required autocomplete="new-password">
+                <button type="button" class="input-toggle-btn" id="toggleRegPassword" aria-label="Toggle password visibility">
+                  <i data-lucide="eye" style="width:18px;height:18px;"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Password Requirements (Image 2 Recreation) -->
+            <div class="password-requirements-card">
+              <div class="password-requirements-title">Password requirements:</div>
+              <div class="password-requirements-grid">
+                <div class="req-item" id="req-length">
+                  <span class="req-circle"></span>
+                  <span>8+ characters</span>
+                </div>
+                <div class="req-item" id="req-upper">
+                  <span class="req-circle"></span>
+                  <span>Uppercase (A-Z)</span>
+                </div>
+                <div class="req-item" id="req-lower">
+                  <span class="req-circle"></span>
+                  <span>Lowercase (a-z)</span>
+                </div>
+                <div class="req-item" id="req-numsym">
+                  <span class="req-circle"></span>
+                  <span>Number &amp; symbol</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Confirm Password -->
+            <div class="form-group">
+              <label for="reg-confirm" class="form-label">Confirm Password</label>
+              <div class="input-wrapper">
+                <input type="password" id="reg-confirm" class="form-input input-with-action" 
+                  placeholder="Re-enter your password" required autocomplete="new-password">
+                <button type="button" class="input-toggle-btn" id="toggleRegConfirm" aria-label="Toggle confirm password visibility">
+                  <i data-lucide="eye" style="width:18px;height:18px;"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Create Account Primary Button -->
+            <button type="submit" class="btn-auth-primary" id="btnRegisterSubmit">
+              <i data-lucide="user-plus" style="width:18px;height:18px;"></i>
+              <span>Create Account</span>
+            </button>
+          </form>
+
+          <!-- Switch to Sign In -->
+          <div class="auth-footer-block">
+            <span>Already have an account?</span>
+            <button type="button" class="auth-switch-btn" id="btnGoToSignIn">Sign in</button>
+          </div>
+        </div>
+      </article>
+
+      <!-- Security Seal Footer -->
+      <div class="auth-security-footer">
+        <i data-lucide="shield" style="width:13px;height:13px;"></i>
+        <span>Encrypted Disaster Telemetry &amp; Field Observer Verification</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

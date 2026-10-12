@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GeoNetra - Live Geospatial Hazard Map</title>
+  <link rel="stylesheet" href="../CSS/style.css?v=2.0">
+  <link rel="stylesheet" href="../CSS/map.css?v=2.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script type="module" src="../script.js?v=2.0"></script>
+</head>
+
+<body data-page="map">
+  <div class="app-container">
+    <!-- Redesigned Top Horizontal Navigation Shell -->
+    <header class="geonetra-header" id="mainHeader"></header>
+
+    <main class="main-content">
+      <section class="map-page-section">
+        <div class="container-wide" style="display:flex;flex-direction:column;flex:1;">
+          <!-- ── Map Header & Action Bar ── -->
+          <div class="map-control-header">
+            <div class="map-title-wrap">
+              <h1>Geospatial Hazard Intelligence Map</h1>
+              <p>Real-time Firestore incident pins, AI telemetry feeds, and Social Media Radar emergency detection.</p>
+            </div>
+            <div class="map-actions-toolbar">
+              <button type="button" id="social-radar-btn" class="social-radar-btn">
+                <i data-lucide="radio-tower"></i>
+                <span>Scan Social Radar</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Social Radar Feedback Status -->
+          <p id="social-radar-status" class="social-radar-status" hidden></p>
+
+          <!-- ── Interactive Map Canvas Container ── -->
+          <div class="map-canvas-container">
+            <!-- Floating Glassmorphic Pill Controls -->
+            <div class="map-floating-overlay-bar">
+              <span class="map-pill-badge">
+                <span class="status-pulse-dot"></span>
+                <span>Live MongoDB Atlas Stream</span>
+              </span>
+              <div class="map-pill-divider"></div>
+              <span class="map-pill-badge">
+                <i data-lucide="layers"></i>
+                <span>All Monitored Corridors</span>
+              </span>
+            </div>
+
+            <!-- Leaflet Container -->
+            <div id="map"></div>
+
+            <!-- ── Slide-in Hazard Details Panel (Glassmorphic) ── -->
+            <!-- ── Redesigned Incident Report Panel (Matching Mockup) ── -->
+            <aside id="hazard-panel" class="hazard-panel collapsed" aria-label="Incident Report">
+              <!-- Top Subtle Hero Image Backdrop -->
+              <div class="panel-hero-backdrop" id="panel-hero-backdrop" title="Click to view photo evidence">
+                <div class="hero-backdrop-img" id="hero-backdrop-img"></div>
+                <div class="hero-backdrop-gradient"></div>
+              </div>
+
+              <div class="panel-header">
+                <h3>INCIDENT REPORT</h3>
+                <button id="close-panel" class="close-panel-btn" title="Close Panel" aria-label="Close details">
+                  <i data-lucide="x"></i>
+                </button>
+              </div>
+
+              <div class="panel-scroll-content">
+                <!-- Title & Severity Row -->
+                <div class="panel-title-section">
+                  <h2 id="panel-type" class="panel-title">Hazard</h2>
+                  <div class="panel-sub-row">
+                    <div id="panel-severity-indicator" class="panel-severity-indicator sev-low">
+                      <span class="severity-dot"></span>
+                      <span id="panel-severity">LOW SEVERITY</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Location & Timestamp List (with Photo Count in line with Timing) -->
+                <div class="panel-meta-list">
+                  <div class="meta-row">
+                    <i data-lucide="map-pin"></i>
+                    <span id="panel-location">Talwariya, Khandwa Tahsil, Khandwa, Madhya Pradesh, 450551, India</span>
+                  </div>
+                  <div class="meta-row meta-row-split">
+                    <div class="meta-time-wrap">
+                      <i data-lucide="clock"></i>
+                      <span id="panel-time">11/10/2026, 6:34:10 pm</span>
+                    </div>
+                    <button type="button" id="panel-photo-badge" class="panel-photo-count-btn" title="Click to view photo evidence">
+                      <i data-lucide="image"></i>
+                      <span id="panel-photo-count">1 photo</span>
+                    </button>
+                  </div>
+                </div>
+
+                <!-- Observer Note -->
+                <div class="panel-section">
+                  <div class="observer-note-header-row">
+                    <span class="panel-section-label">OBSERVER NOTE</span>
+                    <div id="panel-report-verification" class="panel-report-verification unverified">
+                      <span class="verification-dot"></span>
+                      <span id="panel-verification-text" class="verification-text">UNVERIFIED REPORT</span>
+                    </div>
+                  </div>
+                  <p id="panel-raw-text" class="panel-note-text">No notes provided.</p>
+                </div>
+
+                <!-- Multilingual AI Summary Section (Dropdown Selector) -->
+                <div class="panel-section" id="panel-summary-section">
+                  <div class="summary-header-row">
+                    <span class="panel-section-label">AI SUMMARY</span>
+                    <div class="summary-lang-dropdown-wrap">
+                      <i data-lucide="languages" class="summary-lang-icon"></i>
+                      <select id="summary-lang-select" class="summary-lang-select" aria-label="Select Summary Language">
+                        <option value="english" selected>English</option>
+                        <option value="hindi">Hindi (हिन्दी)</option>
+                        <option value="original">Original Text</option>
+                        <option value="marathi">Marathi (मराठी)</option>
+                        <option value="bengali">Bengali (বাংলা)</option>
+                        <option value="gujarati">Gujarati (ગુજરાતી)</option>
+                        <option value="tamil">Tamil (தமிழ்)</option>
+                        <option value="telugu">Telugu (తెలుగు)</option>
+                        <option value="kannada">Kannada (ಕನ್ನಡ)</option>
+                        <option value="malayalam">Malayalam (മലയാളം)</option>
+                        <option value="punjabi">Punjabi (ਪੰਜਾਬੀ)</option>
+                        <option value="urdu">Urdu (اردو)</option>
+                        <option value="spanish">Spanish (Español)</option>
+                        <option value="french">French (Français)</option>
+                        <option value="arabic">Arabic (العربية)</option>
+                        <option value="german">German (Deutsch)</option>
+                        <option value="japanese">Japanese (日本語)</option>
+                      </select>
+                      <i data-lucide="chevron-down" class="summary-lang-chevron"></i>
+                    </div>
+                  </div>
+                  <p id="panel-summary-text" class="panel-summary-text">[AI summary of the note appears here, in the selected language]</p>
+                </div>
+
+                <!-- Broadcast / Share Alert Action -->
+                <button type="button" id="panel-share-btn" class="btn-broadcast-alert" onclick="navigator.clipboard?.writeText(window.location.href);alert('Incident report link copied to clipboard!');">
+                  <i data-lucide="share-2"></i>
+                  <span>Broadcast / Share alert</span>
+                </button>
+              </div>
+            </aside>
+
+            <!-- ── Evidence Photo Preview Lightbox Carousel Modal ── -->
+            <div id="photo-lightbox-modal" class="photo-lightbox-modal" hidden>
+              <div class="lightbox-backdrop" id="lightbox-backdrop"></div>
+              <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-label="Evidence Photo Preview">
+                <div class="lightbox-top-bar">
+                  <div class="lightbox-meta">
+                    <span class="lightbox-counter-pill" id="lightbox-counter">1 / 1</span>
+                    <span class="lightbox-incident-type" id="lightbox-incident-type">Incident Evidence</span>
+                  </div>
+                  <button type="button" class="lightbox-close-circle" id="lightbox-close" title="Close Preview">
+                    <i data-lucide="x"></i>
+                  </button>
+                </div>
+
+                <div class="lightbox-stage">
+                  <button type="button" class="lightbox-nav-arrow prev" id="lightbox-prev" title="Previous photo" aria-label="Previous photo">
+                    <i data-lucide="chevron-left"></i>
+                  </button>
+
+                  <div class="lightbox-slide-frame">
+                    <img id="lightbox-img" src="" alt="Evidence photo preview" class="lightbox-main-img">
+                  </div>
+
+                  <button type="button" class="lightbox-nav-arrow next" id="lightbox-next" title="Next photo" aria-label="Next photo">
+                    <i data-lucide="chevron-right"></i>
+                  </button>
+                </div>
+
+                <div class="lightbox-bottom-bar">
+                  <p id="lightbox-location-text" class="lightbox-caption"></p>
+                  <div id="lightbox-dots-wrap" class="lightbox-dots-wrap"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Shared Footer -->
+    <div class="geonetra-footer-container"></div>
+  </div>
+</body>
+</html>

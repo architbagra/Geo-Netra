@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GeoNetra - Hazard Advisories &amp; Safety Guidance</title>
+  <link rel="stylesheet" href="../CSS/style.css?v=2.0">
+  <link rel="stylesheet" href="../CSS/advisories.css?v=2.0">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script type="module" src="../script.js?v=2.0"></script>
+</head>
+
+<body class="page-advisories" data-page="advisories">
+  <div class="app-container">
+    <!-- Redesigned Top Horizontal Navigation Shell -->
+    <header class="geonetra-header" id="mainHeader"></header>
+
+    <main class="main-content">
+      <section class="advisories-main-section">
+        <div class="container-wide">
+          <!-- ── Urgent National Alert Banner ── -->
+          <div class="alert-banner-wrap">
+            <div class="official-alert-banner">
+              <div class="alert-banner-left">
+                <div class="alert-siren-icon">
+                  <i data-lucide="siren"></i>
+                </div>
+                <div class="alert-banner-text">
+                  <strong>HIGH RISK CYCLONIC SWELL ADVISORY:</strong> Deep depression advancing along western coastal waters. Review evacuation plans and stay clear of high tidal zones.
+                </div>
+              </div>
+              <a href="map.html" class="btn-danger" style="padding: 0.5rem 1rem; font-size: 0.84rem; white-space: nowrap;">
+                <i data-lucide="map-pin"></i> View Hotspot Map
+              </a>
+            </div>
+          </div>
+
+          <!-- ── Header & Region Toolbar ── -->
+          <div class="advisories-toolbar">
+            <div class="location-advisory-pill">
+              <i data-lucide="map-pin"></i>
+              <span>Active Region: <strong>Mumbai Coastal Zone &amp; Western Belt</strong></span>
+            </div>
+
+            <!-- Dynamic Safety Carousel -->
+            <div class="safety-carousel">
+              <i data-lucide="info" class="carousel-icon"></i>
+              <div class="carousel-track-container">
+                <div class="carousel-track" id="carouselTrack">
+                  <div class="carousel-slide">Do not walk or drive in flood waters. Turn around, do not drown.</div>
+                  <div class="carousel-slide">Rely exclusively on verified alerts from disaster management authorities.</div>
+                  <div class="carousel-slide">Prepare a 72-hour family emergency pack with water, medicines, and power backup.</div>
+                  <div class="carousel-slide">Secure loose rooftop structures and stay indoors during high gale winds.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-header-block">
+            <span class="section-kicker"><i data-lucide="shield-check"></i> Standard Operating Procedures</span>
+            <h1 class="section-title">Hazard Advisories &amp; Safety Guidance</h1>
+            <p class="section-subtitle">Official contingency guidelines developed by disaster management authorities to protect families and emergency responders.</p>
+          </div>
+
+          <!-- ── Advisory Cards Grid ── -->
+          <div class="cards-grid">
+            <!-- 1. Cyclone Preparedness -->
+            <article class="advisory-card">
+              <div class="advisory-card-header">
+                <div class="card-icon-circle icon-cyclone">
+                  <i data-lucide="tornado"></i>
+                </div>
+                <div class="card-title-area">
+                  <h3>Cyclone Preparedness</h3>
+                  <p>Tropical storms and hurricane-velocity coastal winds</p>
+                </div>
+                <span class="severity-tag high">High Risk</span>
+              </div>
+              <div class="advisory-card-body">
+                <details open>
+                  <summary>Warning Signs &amp; Early Indicators</summary>
+                  <div class="details-content">
+                    <ul>
+                      <li>Rapid barometric pressure drop followed by abnormal sea swell.</li>
+                      <li>Dense low cloud formation and sudden sustained wind velocity surges.</li>
+                      <li>Official meteorological cyclone watch status upgrades.</li>
+                    </ul>
+                  </div>
+                </details>
+                <details>
+                  <summary>Immediate Survival Actions</summary>
+                  <div class="details-content">
+                    <ul>
+                      <li>Remain indoors away from glass windows and open verandas.</li>
+                      <li>Switch off electrical main breaker and domestic gas lines.</li>
+                      <li>Evacuate low-lying shoreline habitations when instructed by authorities.</li>
+                    </ul>
+                  </div>
+                </details>
+                <details>
+                  <summary>Community Coordination</summary>
+                  <div class="details-content">
+                    <ul>
+                      <li>Check on elderly and medically vulnerable neighbors.</li>
+                      <li>Only share official verified disaster broadcast bulletins.</li>
+                      <li>Adhere to designated regional evacuation corridors.</li>
+                    </ul>
+                  </div>
+                </details>
+                <details>
+                  <summary>Emergency Helplines</summary>
+                  <div class="details-content">
+                    <ul>
+                      <li><strong>1078</strong> - National Disaster Management Authority (NDMA)</li>
+                      <li><strong>112</strong> - Emergency Response Support System (ERSS)</li>
+                    </ul>
+                  </div>
+                </details>
+              </div>
+            </article>
+
+            <!-- 2. Flood Safety -->
+            <article class="advisory-card">
+              <div class="advisory-card-header">
+                <div class="card-icon-circle icon-flood">
+                  <i data-lucide="waves"></i>
+                </div>
+                <div class="card-title-area">
+                  <h3>Flash Flood &amp; Surge Safety</h3>
+                  <p>Inundation, storm surges, and river breach protocol</p>
+                </div>
+                <span class="severity-tag high">High Risk</span>
+              </div>
+              <div class="advisory-card-body">
+                <details open>
+                  <summary>Warning Signs &amp; Inundation Triggers</summary>
+                  <div class="details-content">
+                    <ul>
+                      <li>Persistent extreme precipitation exceeding drainage capacity.</li>
+                      <li>Rapid rise of backwaters, river channels, and municipal canals.</li>
+                      <li>Sustained high tide coinciding with heavy upstream outflow.</li>
+                    </ul>
+                  </div>
+                </details>
+                <details>
+                  <summary>Immediate Evacuation Protocol</summary>
+                  <div class="details-content">
+                    <ul>
+                      <li>Never attempt to walk or drive through moving water currents.</li>
+                      <li>Move immediately to multi-story structures or elevated ground.</li>
+                      <li>Disconnect electrical appliances to prevent electrocution hazards.</li>
+                    </ul>
+                  </div>
+                </details>
+                <details>
+                  <summary>Health &amp; Water Safety</summary>
+                  <div class="details-content">
+                    <ul>
+                      <li>Do not consume unboiled tap or ground water during flood situations.</li>
+                      <li>Beware of snakes and wildlife seeking higher ground.</li>
+                      <li>Keep water purification tablets ready in emergency supplies.</li>
+                    </ul>
+                  </div>
+                </details>
+                <details>
+                  <summary>Emergency Helplines</summary>
+                  <div class="details-content">
+                    <ul>
+                      <li><strong>1070</strong> - State Disaster Relief Commissioner</li>
+                      <li><strong>108</strong> - Emergency Medical &amp; Ambulance Services</li>
+                    </ul>
+                  </div>
+                </details>
+              </div>
+            </article>
+
+            <!-- 3. Landslide Risk -->
+            <article class="advisory-card">
+              <div class="advisory-card-header">
+                <div class="card-icon-circle icon-landslide">
+                  <i data-lucide="mountain-snow"></i>
+                </div>
+                <div class="card-title-area">
+                  <h3>Landslide &amp; Slope Stabilization</h3>
+                  <p>Debris flows, rockfalls, and saturated slope shifts</p>
+                </div>
+                <span class="severity-tag medium">Medium Risk</span>
+              </div>
+              <div class="advisory-card-body">
+                <details>
+                  <summary>Warning Signs &amp; Terrain Movement</summary>
+                  <div class="details-content">
+                    <ul>
+                      <li>New fissures or widening cracks in foundations, slopes, or roads.</li>
+                      <li>Trees, fences, or utility poles tilting noticeably downhill.</li>
+                      <li>Faint rumbling sounds that gradually increase in intensity.</li>
+                    </ul>
+                  </div>
+                </details>
+                <details>
+                  <summary>Immediate Protective Actions</summary>
+                  <div class="details-content">
+                    <ul>
+                      <li>Evacuate rapidly out of the direct downslope slide path.</li>
+                      <li>If escape is obstructed, curl tightly and protect your head.</li>
+                      <li>Stay awake and alert during prolonged heavy nocturnal storms.</li>
+                    </ul>
+                  </div>
+                </details>
+                <details>
+                  <summary>Slope Management Tips</summary>
+                  <div class="details-content">
+                    <ul>
+                      <li>Avoid cutting into steep slope toes for unauthorized construction.</li>
+                      <li>Ensure hillside drainage channels remain clear of debris.</li>
+                    </ul>
+                  </div>
+                </details>
+                <details>
+                  <summary>Emergency Helplines</summary>
+                  <div class="details-content">
+                    <ul>
+                      <li><strong>112</strong> - Emergency Response</li>
+                      <li><strong>101</strong> - Fire and Rescue Department</li>
+                    </ul>
+                  </div>
+                </details>
+              </div>
+            </article>
+
+            <!-- 4. Marine Pollution -->
+            <article class="advisory-card">
+              <div class="advisory-card-header">
+                <div class="card-icon-circle icon-pollution">
+                  <i data-lucide="droplets"></i>
+                </div>
+                <div class="card-title-area">
+                  <h3>Marine Chemical &amp; Oil Spill</h3>
+                  <p>Hazardous maritime discharge and shoreline contamination</p>
+                </div>
+                <span class="severity-tag low">Low Risk</span>
+              </div>
+              <div class="advisory-card-body">
+                <details>
+                  <summary>Warning Signs &amp; Contamination Clues</summary>
+                  <div class="details-content">
+                    <ul>
+                      <li>Iridescent chemical slicks or pungent chemical odors on coastlines.</li>
+                      <li>Unusual behavioral distress or mortality among marine fauna.</li>
+                      <li>Oily tar balls depositing along beaches and port docks.</li>
+                    </ul>
+                  </div>
+                </details>
+                <details>
+                  <summary>Immediate Precautionary Measures</summary>
+                  <div class="details-content">
+                    <ul>
+                      <li>Stay upwind from vapors to avoid toxic inhalation.</li>
+                      <li>Do not handle or salvage unknown barrels or chemical containers.</li>
+                      <li>Report coordinate sightings immediately to Coast Guard channels.</li>
+                    </ul>
+                  </div>
+                </details>
+                <details>
+                  <summary>Public Health Guidance</summary>
+                  <div class="details-content">
+                    <ul>
+                      <li>Avoid swimming or fishing in contaminated shoreline zones.</li>
+                      <li>Adhere to official advisories on local seafood consumption.</li>
+                    </ul>
+                  </div>
+                </details>
+                <details>
+                  <summary>Emergency Helplines</summary>
+                  <div class="details-content">
+                    <ul>
+                      <li><strong>1554</strong> - Indian Coast Guard Search &amp; Pollution Rescue</li>
+                      <li><strong>112</strong> - Hazmat Emergency Unit</li>
+                    </ul>
+                  </div>
+                </details>
+              </div>
+            </article>
+          </div>
+
+          <!-- ── Emergency Kit & Helplines Sections ── -->
+          <div class="sections-grid">
+            <section class="section-panel">
+              <div class="section-panel-header">
+                <i data-lucide="briefcase-medical"></i>
+                <span>72-Hour Family Emergency Kit</span>
+              </div>
+              <div class="kit-grid">
+                <div class="kit-item"><i data-lucide="droplet"></i><span>Potable Water (4L/person)</span></div>
+                <div class="kit-item"><i data-lucide="flashlight"></i><span>Waterproof Torch</span></div>
+                <div class="kit-item"><i data-lucide="cross"></i><span>First Aid &amp; Meds</span></div>
+                <div class="kit-item"><i data-lucide="battery-charging"></i><span>Heavy Power Bank</span></div>
+                <div class="kit-item"><i data-lucide="file-check"></i><span>ID &amp; Documents</span></div>
+                <div class="kit-item"><i data-lucide="radio"></i><span>AM/FM Battery Radio</span></div>
+              </div>
+            </section>
+
+            <section class="section-panel">
+              <div class="section-panel-header">
+                <i data-lucide="phone-call"></i>
+                <span>24/7 Verified Emergency Hotlines</span>
+              </div>
+              <div class="contacts-list">
+                <div class="contact-card warning">
+                  <div class="contact-info">
+                    <div class="contact-icon"><i data-lucide="flame"></i></div>
+                    <div class="contact-text">
+                      <h4>National Disaster Helpline (NDMA)</h4>
+                      <p>Toll-free 24/7 central emergency desk</p>
+                    </div>
+                  </div>
+                  <a href="tel:1078" class="contact-number-pill">1078</a>
+                </div>
+
+                <div class="contact-card">
+                  <div class="contact-info">
+                    <div class="contact-icon"><i data-lucide="shield-alert"></i></div>
+                    <div class="contact-text">
+                      <h4>Police, Fire &amp; Emergency Dispatch</h4>
+                      <p>Immediate tactical first responders</p>
+                    </div>
+                  </div>
+                  <a href="tel:112" class="contact-number-pill">112</a>
+                </div>
+
+                <div class="contact-card">
+                  <div class="contact-info">
+                    <div class="contact-icon" style="background:#0284c7;"><i data-lucide="anchor"></i></div>
+                    <div class="contact-text">
+                      <h4>Indian Coast Guard Maritime Rescue</h4>
+                      <p>Deep-sea and coastal distress assistance</p>
+                    </div>
+                  </div>
+                  <a href="tel:1554" class="contact-number-pill">1554</a>
+                </div>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Shared Footer -->
+    <div class="geonetra-footer-container"></div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      // Accordion exclusive toggle logic
+      document.querySelectorAll("details").forEach((targetDetail) => {
+        targetDetail.addEventListener("toggle", () => {
+          if (!targetDetail.open) return;
+          const parentCard = targetDetail.closest(".advisory-card");
+          if (!parentCard) return;
+          parentCard.querySelectorAll("details").forEach((detail) => {
+            if (detail !== targetDetail) {
+              detail.removeAttribute("open");
+            }
+          });
+        });
+      });
+
+      // Safety Carousel Auto-rotation
+      const track = document.getElementById("carouselTrack");
+      const slides = document.querySelectorAll(".carousel-slide");
+      if (track && slides.length > 0) {
+        let index = 0;
+        window.setInterval(() => {
+          index = (index + 1) % slides.length;
+          track.style.transform = `translateX(-${index * 100}%)`;
+        }, 4500);
+      }
+    });
+  </script>
+</body>
+</html>

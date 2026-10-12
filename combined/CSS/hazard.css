@@ -1,0 +1,274 @@
+/* ═════════════════════════════════════════════════════════════════════
+   GEONETRA - HAZARD REPORTING STYLES
+   Official Palette: Primary Black (#000000) | White (#FFFFFF) | Royal Indigo (#2C3480)
+   ═════════════════════════════════════════════════════════════════════ */
+
+.hazard-report-section {
+  padding: 3rem 0 5rem;
+  background-color: var(--bg-page);
+}
+
+.report-layout-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.report-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-xl);
+  padding: 2.25rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.report-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Severity Selector with Tactile Depth */
+.severity-selector {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.85rem;
+}
+
+.severity-selector input {
+  display: none;
+}
+
+.severity-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  padding: 0.9rem 0.5rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-medium);
+  background: var(--bg-surface-subtle);
+  color: var(--text-secondary);
+  font-weight: 700;
+  font-size: 0.88rem;
+  cursor: pointer;
+  transition: all var(--transition);
+  text-align: center;
+}
+
+.severity-label svg,
+.severity-label [data-lucide] {
+  width: 20px;
+  height: 20px;
+}
+
+.severity-label:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-2px);
+}
+
+/* Checked States */
+#sev-low:checked + .severity-label {
+  background: var(--severity-low-bg);
+  border-color: var(--severity-low);
+  color: var(--severity-low-text);
+  box-shadow: 0 4px 12px rgba(5, 150, 105, 0.18);
+}
+
+#sev-medium:checked + .severity-label {
+  background: var(--severity-med-bg);
+  border-color: var(--severity-med);
+  color: var(--severity-med-text);
+  box-shadow: 0 4px 12px rgba(217, 119, 6, 0.18);
+}
+
+#sev-high:checked + .severity-label {
+  background: var(--severity-high-bg);
+  border-color: var(--severity-high);
+  color: var(--severity-high-text);
+  box-shadow: 0 4px 12px rgba(220, 38, 38, 0.18);
+}
+
+/* Interactive Map Right Column */
+.hazard-map-panel {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-xl);
+  padding: 1.75rem;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.map-tools-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.location-search-row {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.hazard-map-stage {
+  width: 100%;
+  height: 380px;
+  border-radius: var(--radius-lg);
+  border: 1px solid var(--border-subtle);
+  overflow: hidden;
+  position: relative;
+  box-shadow: var(--shadow-sm);
+}
+
+.confirm-location-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.85rem;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 0.92rem;
+  background: var(--bg-surface-muted);
+  border: 1px solid var(--border-medium);
+  color: var(--text-head);
+  transition: all var(--transition);
+}
+
+.confirm-location-btn:not(:disabled) {
+  background: var(--brand-indigo-light);
+  border-color: var(--brand-indigo);
+  color: var(--brand-indigo);
+  cursor: pointer;
+}
+
+.confirm-location-btn:not(:disabled):hover {
+  background: var(--brand-indigo);
+  color: #ffffff;
+}
+
+/* AI Summary Section */
+.ai-summary-card {
+  border: 1px solid var(--brand-indigo-border);
+  border-radius: var(--radius-lg);
+  background: var(--brand-indigo-light);
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+body[data-theme="dark"] .ai-summary-card {
+  background: rgba(44, 52, 128, 0.15);
+}
+
+.ai-summary-header {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  font-weight: 800;
+  font-size: 0.92rem;
+  color: var(--brand-indigo);
+}
+
+body[data-theme="dark"] .ai-summary-header {
+  color: #a5b4fc;
+}
+
+.ai-summary-text {
+  font-size: 0.92rem;
+  color: var(--text-head);
+  line-height: 1.55;
+  background: var(--bg-surface);
+  padding: 0.85rem 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+}
+
+.ai-summary-actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.ai-summary-status {
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.45rem 0.75rem;
+  border-radius: var(--radius-sm);
+}
+
+.ai-summary-status.success {
+  background: var(--severity-low-bg);
+  color: var(--severity-low-text);
+}
+
+.ai-summary-status.error {
+  background: var(--severity-high-bg);
+  color: var(--severity-high-text);
+}
+
+/* Photo Upload Box */
+.photo-upload-dropzone {
+  border: 2px dashed var(--border-medium);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  text-align: center;
+  background: var(--bg-surface-subtle);
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.photo-upload-dropzone:hover {
+  border-color: var(--brand-indigo);
+  background: var(--brand-indigo-light);
+}
+
+.photo-preview-wrap {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-muted);
+  border: 1px solid var(--border-subtle);
+  margin-top: 0.75rem;
+}
+
+.photo-preview {
+  width: 64px;
+  height: 64px;
+  border-radius: var(--radius-sm);
+  object-fit: cover;
+}
+
+/* Submission Status Banner */
+.form-status {
+  padding: 1rem 1.25rem;
+  border-radius: var(--radius-md);
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+
+.form-status.success {
+  background: var(--severity-low-bg);
+  color: var(--severity-low-text);
+  border: 1px solid var(--severity-low-border);
+}
+
+.form-status.error {
+  background: var(--severity-high-bg);
+  color: var(--severity-high-text);
+  border: 1px solid var(--severity-high-border);
+}
+
+@media (max-width: 960px) {
+  .report-layout-grid {
+    grid-template-columns: 1fr;
+  }
+}

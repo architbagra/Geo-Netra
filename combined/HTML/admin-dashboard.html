@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GeoNetra - Operations Command Center (Admin)</title>
+  <link rel="stylesheet" href="../CSS/style.css?v=2.0">
+  <link rel="stylesheet" href="../CSS/admin.css?v=2.0">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script type="module" src="../script.js?v=2.0"></script>
+</head>
+
+<body data-page="admin-dashboard" data-admin-required="true">
+  <div class="app-container">
+    <!-- Shared Top Navigation Header -->
+    <header class="geonetra-header" id="mainHeader"></header>
+
+    <main class="main-content">
+      <div class="admin-console-wrap">
+        <!-- Top Kicker & Navigation -->
+        <div class="admin-header-row">
+          <div>
+            <div class="admin-badge-pill">
+              <i data-lucide="shield-check" style="width:14px;height:14px;"></i>
+              <span>National Operations Command Center</span>
+            </div>
+            <h1 class="admin-header-title">Operations Command Dashboard</h1>
+            <p class="admin-header-desc">
+              Real-time situational awareness across coastal, seismic, meteorological, and crowdsourced hazard streams.
+            </p>
+          </div>
+
+          <div class="admin-quick-nav">
+            <a href="admin-dashboard.html" class="admin-nav-btn active">
+              <i data-lucide="layout-dashboard"></i>
+              <span>Overview</span>
+            </a>
+            <a href="manage-reports.html" class="admin-nav-btn">
+              <i data-lucide="list-checks"></i>
+              <span>Manage Reports</span>
+            </a>
+            <a href="pinned-hazards.html" class="admin-nav-btn">
+              <i data-lucide="pin"></i>
+              <span>Pinned Board</span>
+            </a>
+            <a href="verification.html" class="admin-nav-btn">
+              <i data-lucide="user-check"></i>
+              <span>Verification</span>
+            </a>
+            <a href="map.html" class="admin-nav-btn">
+              <i data-lucide="map-pin"></i>
+              <span>Live Map</span>
+            </a>
+            <a href="shelters.html" class="admin-nav-btn">
+              <i data-lucide="shield-plus"></i>
+              <span>Nearby Shelters</span>
+            </a>
+            <a href="globe.html" class="admin-nav-btn">
+              <i data-lucide="orbit"></i>
+              <span>3D Globe</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 5 KPI Stat Tiles -->
+        <section class="admin-stat-grid">
+          <article class="admin-stat-card">
+            <div class="stat-card-head"><i data-lucide="inbox"></i><span>Total Inflow</span></div>
+            <strong class="stat-card-value" id="kpi-total">0</strong>
+            <p class="stat-card-copy">All submitted incident reports across the national network.</p>
+          </article>
+          <article class="admin-stat-card">
+            <div class="stat-card-head"><i data-lucide="alert-circle" style="color:#f59e0b;"></i><span>Active Queue</span></div>
+            <strong class="stat-card-value" id="kpi-active" style="color:#f59e0b;">0</strong>
+            <p class="stat-card-copy">Open hazards awaiting resolution or field verification.</p>
+          </article>
+          <article class="admin-stat-card">
+            <div class="stat-card-head"><i data-lucide="triangle-alert" style="color:#ef4444;"></i><span>High Severity</span></div>
+            <strong class="stat-card-value" id="kpi-severe" style="color:#ef4444;">0</strong>
+            <p class="stat-card-copy">Critical threats requiring urgent emergency mobilization.</p>
+          </article>
+          <article class="admin-stat-card">
+            <div class="stat-card-head"><i data-lucide="check-circle-2" style="color:#10b981;"></i><span>Resolved / Solved</span></div>
+            <strong class="stat-card-value" id="kpi-resolved" style="color:#10b981;">0</strong>
+            <p class="stat-card-copy">Incidents confirmed addressed and cleared by responders.</p>
+          </article>
+          <article class="admin-stat-card">
+            <div class="stat-card-head"><i data-lucide="pin" style="color:#a855f7;"></i><span>Pinned to Map</span></div>
+            <strong class="stat-card-value" id="kpi-pinned" style="color:#a855f7;">0</strong>
+            <p class="stat-card-copy">Surfaced as priority emergency beacons on citizen maps.</p>
+          </article>
+        </section>
+
+        <!-- Recent Submissions Table -->
+        <div class="admin-table-card">
+          <div class="admin-table-header">
+            <h3>Recent Submissions Audit Trail</h3>
+            <a href="manage-reports.html" style="color:#60a5fa;font-size:0.85rem;font-weight:600;">View All in Moderation Queue &rarr;</a>
+          </div>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Location</th>
+                <th>Hazard Category</th>
+                <th>Severity</th>
+                <th>Votes</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="adminRecentTableBody">
+              <tr>
+                <td colspan="6" style="text-align:center;color:#64748b;padding:2rem;">Loading live submissions...</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <!-- Shared Footer -->
+    <div class="geonetra-footer-container"></div>
+  </div>
+</body>
+</html>

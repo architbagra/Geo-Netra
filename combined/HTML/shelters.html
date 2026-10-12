@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GeoNetra - Emergency Shelters &amp; Relief Camps Directory</title>
+  <meta name="description" content="Locate nearest verified government and humanitarian emergency shelters, live bed occupancy, medical facilities, and evacuation contact lines.">
+  <link rel="stylesheet" href="../CSS/style.css?v=2.0">
+  <link rel="stylesheet" href="../CSS/shelters.css?v=1.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script type="module" src="../script.js?v=2.0"></script>
+  <script src="../shelters.js?v=1.0"></script>
+</head>
+
+<body class="page-shelters" data-page="shelters">
+  <div class="app-container">
+    <!-- Redesigned Top Horizontal Navigation Shell (Hydrated by script.js) -->
+    <header class="geonetra-header" id="mainHeader"></header>
+
+    <main class="main-content">
+      <section class="shelters-page-section">
+        <div class="container-wide" style="display:flex;flex-direction:column;flex:1;">
+
+          <!-- ── Top Header & KPI Stats Bar ── -->
+          <div class="shelters-top-bar">
+            <div class="shelters-header-wrap">
+              <div class="shelters-title-group">
+                <h1>
+                  <i data-lucide="shield-plus"></i>
+                  <span>Emergency Shelters &amp; Relief Camps Directory</span>
+                </h1>
+                <p>
+                  Official multi-tier cyclone shelters, flood evacuation sanctuaries, and municipal relief camps. Explore real-time bed capacity, live GPS proximity dispatch, on-site medical telemetry, and direct emergency helplines.
+                </p>
+              </div>
+
+              <div class="shelters-header-actions">
+                <button type="button" class="btn-gps-locate" id="btn-gps-locate" title="Calculate proximity using browser GPS">
+                  <i data-lucide="crosshair"></i>
+                  <span>Find Shelters Near Me</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- KPI Metric Counters -->
+            <div class="shelters-kpi-grid">
+              <div class="shelter-kpi-card">
+                <div class="kpi-icon-pill blue">
+                  <i data-lucide="building-2"></i>
+                </div>
+                <div class="kpi-data">
+                  <span class="kpi-value" id="kpi-shelters-count">16</span>
+                  <span class="kpi-label">Monitored Shelters</span>
+                </div>
+              </div>
+
+              <div class="shelter-kpi-card">
+                <div class="kpi-icon-pill purple">
+                  <i data-lucide="users"></i>
+                </div>
+                <div class="kpi-data">
+                  <span class="kpi-value" id="kpi-total-capacity">14,200</span>
+                  <span class="kpi-label">Total Bed Capacity</span>
+                </div>
+              </div>
+
+              <div class="shelter-kpi-card">
+                <div class="kpi-icon-pill green">
+                  <i data-lucide="bed-double"></i>
+                </div>
+                <div class="kpi-data">
+                  <span class="kpi-value" id="kpi-available-beds">7,420</span>
+                  <span class="kpi-label">Vacant Beds Available</span>
+                </div>
+              </div>
+
+              <div class="shelter-kpi-card">
+                <div class="kpi-icon-pill amber">
+                  <i data-lucide="heart-pulse"></i>
+                </div>
+                <div class="kpi-data">
+                  <span class="kpi-value" id="kpi-medical-shelters">14</span>
+                  <span class="kpi-label">24/7 Medical Stations</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Search & Filter Toolbar ── -->
+          <div class="shelters-filter-bar">
+            <div class="shelters-search-group">
+              <i data-lucide="search"></i>
+              <input type="text" 
+                     id="shelter-search" 
+                     class="shelters-search-input" 
+                     placeholder="Search shelters by name, locality, district, or amenities..."
+                     aria-label="Search emergency shelters">
+            </div>
+
+            <div class="shelters-filter-controls">
+              <!-- Region Dropdown -->
+              <select id="region-select" class="shelters-select" aria-label="Select disaster monitoring region">
+                <option value="all">All Vulnerable Regions</option>
+                <option value="mumbai">Mumbai Coastal Belt</option>
+                <option value="odisha">Odisha Cyclone Belt</option>
+                <option value="kerala">Kerala Waterways Basin</option>
+                <option value="chennai">Chennai Coastal Belt</option>
+                <option value="gujarat">Gujarat Shore &amp; Gulf</option>
+                <option value="bengal">Bengal &amp; Sundarbans</option>
+              </select>
+
+              <!-- Filter Pills -->
+              <div class="filter-pills-row">
+                <button type="button" class="filter-pill-btn active" data-filter="all">
+                  <span>All</span>
+                </button>
+                <button type="button" class="filter-pill-btn" data-filter="available">
+                  <i data-lucide="check-circle"></i>
+                  <span>Available Only</span>
+                </button>
+                <button type="button" class="filter-pill-btn" data-filter="high-capacity">
+                  <i data-lucide="maximize"></i>
+                  <span>High Capacity (800+)</span>
+                </button>
+                <button type="button" class="filter-pill-btn" data-filter="medical">
+                  <i data-lucide="stethoscope"></i>
+                  <span>Medical Facility</span>
+                </button>
+              </div>
+
+              <!-- Sort Dropdown -->
+              <select id="sort-select" class="shelters-select" aria-label="Sort shelters">
+                <option value="nearest">Sort: Nearest Distance</option>
+                <option value="available-beds">Sort: Most Vacant Beds</option>
+                <option value="capacity">Sort: Highest Capacity</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- ── Split Layout Container (Left List, Right Map) ── -->
+          <div class="shelters-split-layout">
+            
+            <!-- ── Left Side: Shelters Directory List ── -->
+            <section class="shelters-list-panel" aria-label="Emergency Shelters Directory">
+              <div class="list-panel-header">
+                <div class="list-count-badge">
+                  <span>Shelters in Focus</span>
+                  <span class="list-count-pill" id="list-count-badge">0</span>
+                </div>
+                <div class="sort-select-wrap">
+                  <i data-lucide="info" style="width:14px;height:14px;color:var(--text-muted);"></i>
+                  <span>Click card to locate on map</span>
+                </div>
+              </div>
+
+              <!-- Scrollable Cards Container -->
+              <div class="shelters-scroll-list" id="shelters-scroll-list">
+                <!-- Dynamically populated by shelters.js -->
+              </div>
+            </section>
+
+            <!-- ── Right Side: Interactive Geospatial Map ── -->
+            <section class="shelters-map-panel" aria-label="Interactive Shelters Map">
+              
+              <!-- Floating Overlays on Map -->
+              <div class="map-floating-pill-row">
+                <div class="map-glass-badge">
+                  <span class="status-pulse-dot"></span>
+                  <span>Emergency Shelter GIS Network</span>
+                </div>
+                <div class="map-glass-badge">
+                  <i data-lucide="navigation" style="width:14px;height:14px;color:#60a5fa;"></i>
+                  <span>Live Proximity Routing</span>
+                </div>
+              </div>
+
+              <!-- Floating Map Action Buttons -->
+              <div class="map-floating-actions">
+                <button type="button" class="map-control-btn" id="btn-map-my-location" title="Center on my location" aria-label="My GPS location">
+                  <i data-lucide="crosshair"></i>
+                </button>
+                <button type="button" class="map-control-btn" id="btn-map-fit-all" title="Fit all matching shelters" aria-label="Fit all shelters">
+                  <i data-lucide="maximize-2"></i>
+                </button>
+              </div>
+
+              <!-- Map Legend -->
+              <div class="map-legend-box">
+                <div class="legend-title">Occupancy Status</div>
+                <div class="legend-items-list">
+                  <div class="legend-item">
+                    <span class="legend-dot green"></span>
+                    <span>Available (&lt;70% full)</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot amber"></span>
+                    <span>Limited (70-95% full)</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot red"></span>
+                    <span>At Capacity (95%+)</span>
+                  </div>
+                  <div class="legend-item">
+                    <span class="legend-dot blue"></span>
+                    <span>Your Location</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Leaflet Map Canvas -->
+              <div id="shelters-map"></div>
+            </section>
+
+          </div>
+
+        </div>
+      </section>
+    </main>
+
+    <!-- Shared Official Footer (Hydrated by script.js) -->
+    <div class="geonetra-footer-container"></div>
+  </div>
+</body>
+</html>

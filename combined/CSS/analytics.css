@@ -1,0 +1,876 @@
+/* ═════════════════════════════════════════════════════════════════════
+   GEONETRA - NATURAL HAZARD ANALYTICS (Bklit UI / shadcn/ui Design System)
+   Inspired by @bklit/area-chart, @bklit/shimmering-text, & modern shadcn/ui
+   Palette: Obsidian (#09090b) | Zinc Dark (#0f121d) | Electric Blue (#3b82f6) | Cyan (#06b6d4) | Violet (#8b5cf6)
+   ═════════════════════════════════════════════════════════════════════ */
+
+/* ── Bklit UI Design Tokens & Shimmer Animation ── */
+:root {
+  --bklit-bg: #09090b;
+  --bklit-surface: #0f121d;
+  --bklit-surface-elevated: #161b2e;
+  --bklit-border: rgba(255, 255, 255, 0.08);
+  --bklit-border-hover: rgba(255, 255, 255, 0.16);
+  --bklit-text-primary: #f8fafc;
+  --bklit-text-secondary: #94a3b8;
+  --bklit-accent-blue: #3b82f6;
+  --bklit-accent-cyan: #06b6d4;
+  --bklit-accent-emerald: #10b981;
+  --bklit-accent-amber: #f59e0b;
+  --bklit-accent-rose: #f43f5e;
+}
+
+/* @bklit/shimmering-text component animation */
+@keyframes bklit-shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer-text {
+  background: linear-gradient(
+    90deg,
+    rgba(226, 232, 240, 0.65) 0%,
+    rgba(255, 255, 255, 1) 50%,
+    rgba(226, 232, 240, 0.65) 100%
+  );
+  background-size: 200% 100%;
+  color: transparent;
+  -webkit-background-clip: text;
+  background-clip: text;
+  display: inline-block;
+  animation: bklit-shimmer 3.5s ease-in-out infinite;
+}
+
+.pulse-dot-cyan {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #38bdf8;
+  box-shadow: 0 0 8px rgba(56, 189, 248, 0.9);
+  display: inline-block;
+  animation: pulseCyan 2s infinite;
+}
+
+@keyframes pulseCyan {
+  0% { transform: scale(0.95); opacity: 0.8; }
+  50% { transform: scale(1.25); opacity: 1; box-shadow: 0 0 12px rgba(56, 189, 248, 1); }
+  100% { transform: scale(0.95); opacity: 0.8; }
+}
+
+/* ── Top Header Banner (Bklit UI Header) ── */
+.analytics-banner {
+  background: linear-gradient(180deg, rgba(15, 18, 29, 0.95) 0%, rgba(9, 9, 11, 0.95) 100%);
+  border-bottom: 1px solid var(--bklit-border);
+  padding: 2.5rem 0 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.analytics-banner::before {
+  content: "";
+  position: absolute;
+  top: -100px;
+  left: 30%;
+  width: 500px;
+  height: 250px;
+  background: radial-gradient(ellipse, rgba(59, 130, 246, 0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.bklit-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.28rem 0.75rem;
+  border-radius: 9999px;
+  background: rgba(59, 130, 246, 0.12);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  color: #93c5fd;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.75rem;
+}
+
+.analytics-banner .section-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 2.15rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.025em;
+  line-height: 1.2;
+}
+
+.analytics-banner .section-subtitle {
+  font-size: 0.95rem;
+  color: #94a3b8;
+  max-width: 720px;
+  line-height: 1.5;
+  margin-top: 0.45rem;
+}
+
+/* Main Layout Container */
+.analytics-container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2.25rem 0 4.5rem;
+}
+
+/* ── Standalone 3D Planetary Globe Portal Card ── */
+.bklit-globe-portal-banner {
+  background: linear-gradient(135deg, rgba(15, 18, 29, 0.95) 0%, rgba(14, 30, 54, 0.75) 100%);
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  border-radius: 18px;
+  padding: 1.5rem 1.75rem;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4), 0 0 20px rgba(56, 189, 248, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.75rem;
+  flex-wrap: wrap;
+  position: relative;
+  overflow: hidden;
+}
+
+.bklit-globe-portal-banner::after {
+  content: "";
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.bklit-globe-portal-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  max-width: 720px;
+}
+
+.bklit-globe-portal-copy h3 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.28rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+
+.bklit-globe-portal-copy p {
+  font-size: 0.88rem;
+  color: #94a3b8;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.bklit-globe-launch-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.8rem 1.35rem;
+  font-size: 0.92rem;
+  font-weight: 700;
+  border-radius: 10px;
+  box-shadow: 0 0 18px rgba(37, 99, 235, 0.45);
+  flex-shrink: 0;
+}
+
+
+.bklit-card-header-bar {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.bklit-header-title-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.bklit-shimmer-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.2rem 0.65rem;
+  border-radius: 9999px;
+  background: rgba(6, 182, 212, 0.1);
+  border: 1px solid rgba(6, 182, 212, 0.3);
+  font-size: 0.72rem;
+  font-weight: 700;
+  width: fit-content;
+}
+
+.bklit-card-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.015em;
+  margin: 0;
+}
+
+.bklit-card-subtitle {
+  font-size: 0.86rem;
+  color: #94a3b8;
+  margin: 0;
+  max-width: 650px;
+}
+
+.bklit-globe-header-stats {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.globe-stat-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--bklit-border);
+  color: #cbd5e1;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.globe-stat-pill.active {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.35);
+  color: #60a5fa;
+}
+
+.globe-stat-pill i {
+  width: 14px;
+  height: 14px;
+}
+
+/* Globe Viewport Shell */
+.geonetra-globe-shell {
+  position: relative;
+  width: 100%;
+  height: clamp(480px, 52vw, 620px);
+  min-height: 480px;
+  overflow: hidden;
+  border-radius: 16px;
+  border: 1px solid var(--bklit-border);
+  background: radial-gradient(ellipse at 50% 45%, #0e1e36 0%, #060e1a 52%, #02060d 100%);
+  box-shadow: inset 0 0 40px rgba(0, 0, 0, 0.6);
+}
+
+#geonetra-globe-map {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.geonetra-wind-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.geonetra-wind-canvas.is-active {
+  opacity: 1;
+}
+
+/* Floating Local Weather Summary */
+.geonetra-weather-summary {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  pointer-events: none;
+}
+
+.weather-summary-badge {
+  display: flex;
+  flex-direction: column;
+  padding: 0.65rem 1rem;
+  border-radius: 12px;
+  background: rgba(9, 9, 11, 0.85);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+}
+
+.weather-summary-badge span {
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #38bdf8;
+}
+
+.weather-summary-badge strong {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #ffffff;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  margin-top: 0.15rem;
+}
+
+.geonetra-weather-location {
+  font-size: 0.75rem;
+  color: #cbd5e1;
+  background: rgba(9, 9, 11, 0.7);
+  backdrop-filter: blur(8px);
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  width: fit-content;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.geonetra-weather-readout {
+  font-size: 0.74rem;
+  color: #94a3b8;
+  max-width: 520px;
+  line-height: 1.4;
+  background: rgba(9, 9, 11, 0.7);
+  backdrop-filter: blur(8px);
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  width: fit-content;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Layer Toolbar Pills (Bklit UI Controls) */
+.geonetra-layer-toolbar {
+  position: absolute;
+  left: 18px;
+  bottom: 110px;
+  z-index: 5;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  pointer-events: auto;
+}
+
+.geonetra-layer-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.85rem;
+  border-radius: 8px;
+  background: rgba(15, 18, 29, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #cbd5e1;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.geonetra-layer-btn:hover {
+  background: rgba(255, 255, 255, 0.12);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.geonetra-layer-btn.active {
+  background: #2563eb;
+  border-color: #3b82f6;
+  color: #ffffff;
+  box-shadow: 0 0 14px rgba(37, 99, 235, 0.5);
+}
+
+.geonetra-layer-btn i {
+  width: 14px;
+  height: 14px;
+}
+
+/* Globe Status */
+.geonetra-globe-status {
+  position: absolute;
+  top: 18px;
+  right: 64px;
+  z-index: 5;
+  padding: 0.4rem 0.8rem;
+  border-radius: 8px;
+  background: rgba(9, 9, 11, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #e2e8f0;
+  font-size: 0.75rem;
+  font-weight: 600;
+  pointer-events: none;
+}
+
+/* Timeline & Slider */
+.geonetra-timeline {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 18px;
+  z-index: 5;
+  display: grid;
+  grid-template-columns: 52px 1fr;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1.15rem;
+  border-radius: 12px;
+  background: rgba(9, 9, 11, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.55);
+}
+
+.geonetra-play-btn {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 0 14px rgba(37, 99, 235, 0.5);
+  transition: transform 0.2s;
+}
+
+.geonetra-play-btn:hover {
+  transform: scale(1.06);
+}
+
+.geonetra-play-btn i {
+  width: 18px;
+  height: 18px;
+}
+
+.geonetra-timeline-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  min-width: 0;
+}
+
+.timeline-meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.geonetra-time-label {
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  border: 1px solid rgba(56, 189, 248, 0.25);
+  width: fit-content;
+}
+
+.timeline-subtext {
+  font-size: 0.72rem;
+  color: #94a3b8;
+}
+
+.geonetra-time-slider {
+  width: 100%;
+  accent-color: #3b82f6;
+  cursor: pointer;
+  height: 5px;
+}
+
+.geonetra-days {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  font-size: 0.72rem;
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.geonetra-days span {
+  text-align: center;
+  border-left: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.geonetra-days span:first-child {
+  border-left: none;
+}
+
+/* ── Bklit UI KPI Cards Grid ── */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.15rem;
+}
+
+.bklit-kpi-card {
+  background: var(--bklit-surface);
+  border: 1px solid var(--bklit-border);
+  border-radius: 16px;
+  padding: 1.25rem 1.35rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.bklit-kpi-card:hover {
+  border-color: var(--bklit-border-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.35);
+}
+
+.bklit-kpi-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.bklit-kpi-label {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--bklit-text-secondary);
+}
+
+.bklit-kpi-icon-wrap {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--bklit-border);
+}
+
+.bklit-kpi-icon-wrap i {
+  width: 16px;
+  height: 16px;
+}
+
+.bklit-kpi-value {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.95rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.bklit-kpi-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.78rem;
+}
+
+.bklit-trend-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.15rem 0.45rem;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+.bklit-trend-badge.positive {
+  background: rgba(16, 185, 129, 0.15);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.bklit-trend-badge.warning {
+  background: rgba(239, 68, 68, 0.15);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.bklit-trend-badge.info {
+  background: rgba(59, 130, 246, 0.15);
+  color: #60a5fa;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+.bklit-kpi-subtext {
+  color: var(--bklit-text-secondary);
+}
+
+/* ── Bklit UI Chart Panels (@bklit/area-chart & shadcn/ui) ── */
+.charts-row-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.charts-row-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+.bklit-chart-panel {
+  background: var(--bklit-surface);
+  border: 1px solid var(--bklit-border);
+  border-radius: 18px;
+  padding: 1.45rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+  transition: border-color 0.2s ease;
+}
+
+.bklit-chart-panel:hover {
+  border-color: var(--bklit-border-hover);
+}
+
+.bklit-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.bklit-panel-title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.bklit-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.bklit-panel-title i {
+  width: 17px;
+  height: 17px;
+  color: #3b82f6;
+}
+
+.bklit-panel-subtitle {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  margin: 0;
+}
+
+.bklit-timeframe-pills {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid var(--bklit-border);
+  padding: 0.2rem;
+  border-radius: 8px;
+}
+
+.timeframe-pill-btn {
+  padding: 0.18rem 0.5rem;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 0.72rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.timeframe-pill-btn.active {
+  background: #2563eb;
+  color: #ffffff;
+}
+
+.chart-wrapper-sm {
+  height: 250px;
+  position: relative;
+}
+
+.chart-wrapper-md {
+  height: 310px;
+  position: relative;
+}
+
+.chart-wrapper-centered {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Hotspot Heatmap & Geographic Clusters ── */
+.bottom-row {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 1.25rem;
+}
+
+.bklit-heatmap-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 4px;
+}
+
+.bklit-heatmap-table th {
+  padding: 0.55rem 0.5rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #94a3b8;
+  text-align: center;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 6px;
+}
+
+.bklit-heatmap-table td {
+  padding: 0.65rem 0.5rem;
+  text-align: center;
+  font-size: 0.84rem;
+  font-weight: 800;
+  border-radius: 8px;
+  transition: transform 0.15s ease;
+}
+
+.bklit-heatmap-table td:hover {
+  transform: scale(1.08);
+}
+
+.bklit-row-label-cell {
+  text-align: left !important;
+  font-weight: 700 !important;
+  color: #cbd5e1;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* Heatmap Cell Color Intensity */
+.heat-strong-blue   { background: rgba(37, 99, 235, 0.75); color: #ffffff; }
+.heat-med-blue      { background: rgba(37, 99, 235, 0.40); color: #93c5fd; }
+.heat-low-blue      { background: rgba(37, 99, 235, 0.14); color: #60a5fa; }
+
+.heat-strong-crimson{ background: rgba(239, 68, 68, 0.75); color: #ffffff; }
+.heat-med-crimson   { background: rgba(239, 68, 68, 0.40); color: #fca5a5; }
+.heat-low-crimson   { background: rgba(239, 68, 68, 0.14); color: #f87171; }
+
+.heat-strong-amber  { background: rgba(245, 158, 11, 0.75); color: #ffffff; }
+.heat-med-amber     { background: rgba(245, 158, 11, 0.40); color: #fde68a; }
+.heat-low-amber     { background: rgba(245, 158, 11, 0.14); color: #fbbf24; }
+
+.heat-strong-violet { background: rgba(139, 92, 246, 0.75); color: #ffffff; }
+.heat-med-violet    { background: rgba(139, 92, 246, 0.40); color: #ddd6fe; }
+.heat-low-violet    { background: rgba(139, 92, 246, 0.14); color: #c4b5fd; }
+
+.heat-strong-emerald{ background: rgba(16, 185, 129, 0.75); color: #ffffff; }
+.heat-med-emerald   { background: rgba(16, 185, 129, 0.40); color: #a7f3d0; }
+.heat-low-emerald   { background: rgba(16, 185, 129, 0.14); color: #34d399; }
+
+/* Geographic Heatmap Card */
+.geo-heatmap-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  height: 100%;
+}
+
+.geo-heatmap-stage {
+  width: 100%;
+  height: 270px;
+  border-radius: 12px;
+  border: 1px solid var(--bklit-border);
+  overflow: hidden;
+  background: #000;
+}
+
+.geo-heatmap-legend {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  flex-wrap: wrap;
+  padding: 0.5rem 0.2rem;
+}
+
+.geo-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.76rem;
+  color: #cbd5e1;
+}
+
+.geo-legend-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.geo-legend-dot.flood { background: #2563eb; }
+.geo-legend-dot.cyclone { background: #06b6d4; }
+.geo-legend-dot.landslide { background: #f59e0b; }
+.geo-legend-dot.earthquake { background: #8b5cf6; }
+.geo-legend-dot.spill { background: #10b981; }
+
+/* ── Responsive Rules ── */
+@media (max-width: 1100px) {
+  .charts-row-3 {
+    grid-template-columns: 1fr;
+  }
+  .charts-row-2 {
+    grid-template-columns: 1fr;
+  }
+  .bottom-row {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .geonetra-timeline {
+    grid-template-columns: 44px 1fr;
+    padding: 0.6rem;
+  }
+  .geonetra-layer-toolbar {
+    bottom: 95px;
+    gap: 0.35rem;
+  }
+  .geonetra-layer-btn {
+    padding: 0.35rem 0.65rem;
+    font-size: 0.72rem;
+  }
+}

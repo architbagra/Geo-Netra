@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GeoNetra - Operations Dashboard</title>
+  <link rel="stylesheet" href="../CSS/style.css?v=2.0">
+  <link rel="stylesheet" href="../CSS/dashboard.css?v=2.0">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script type="module" src="../script.js?v=2.0"></script>
+</head>
+
+<body data-page="dashboard">
+  <div class="app-container">
+    <!-- Redesigned Top Horizontal Navigation Shell -->
+    <header class="geonetra-header" id="mainHeader"></header>
+
+    <main class="main-content">
+      <!-- ── Dashboard Hero Banner ── -->
+      <section class="dashboard-hero-banner">
+        <img class="dashboard-hero-bg" src="../assets/pexels-spacex-586056.jpg" alt="Satellite Earth Monitoring">
+        <div class="container-wide dashboard-hero-content">
+          <div class="dashboard-header-text">
+            <span class="brand-badge-gov" style="margin-bottom: 0.5rem; display: inline-block;">
+              OPERATIONS DESK
+            </span>
+            <h1>Emergency Intelligence &amp; Command Overview</h1>
+            <p>Access real-time telemetry, authoritative advisories, incident reporting, and spatial tracking modules.</p>
+          </div>
+
+          <div class="dashboard-kpi-bar">
+            <div class="dashboard-kpi-item">
+              <div class="kpi-icon-pill"><i data-lucide="activity"></i></div>
+              <div>
+                <div class="kpi-stat-number counter" data-target="21900">0</div>
+                <div class="kpi-stat-label">Total Reports Processed</div>
+              </div>
+            </div>
+            <div class="dashboard-kpi-item">
+              <div class="kpi-icon-pill"><i data-lucide="flame"></i></div>
+              <div>
+                <div class="kpi-stat-number counter" data-target="342">0</div>
+                <div class="kpi-stat-label">Active Monitoring Incidents</div>
+              </div>
+            </div>
+            <div class="dashboard-kpi-item">
+              <div class="kpi-icon-pill"><i data-lucide="map-pin"></i></div>
+              <div>
+                <div class="kpi-stat-number counter" data-target="86">0</div>
+                <div class="kpi-stat-label">High-Risk Zones Active</div>
+              </div>
+            </div>
+            <div class="dashboard-kpi-item">
+              <div class="kpi-icon-pill"><i data-lucide="shield-check"></i></div>
+              <div>
+                <div class="kpi-stat-number counter" data-target="95">0</div>
+                <div class="kpi-stat-label">Validation Confidence %</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Available Services Grid ── -->
+      <section class="dashboard-main-section">
+        <div class="container-wide">
+          <div class="section-header-block">
+            <span class="section-kicker"><i data-lucide="grid"></i> Core Modules</span>
+            <h2 class="section-title">Available Hazard Services</h2>
+            <p class="section-subtitle">Select an operational module below to analyze risk factors, broadcast incidents, or track field events.</p>
+          </div>
+
+          <div class="services-grid">
+            <!-- 1. Analytics Module -->
+            <article class="service-card" style="--card-accent: var(--brand-indigo);">
+              <div class="service-card-body">
+                <div class="service-top-row">
+                  <div class="service-icon-box">
+                    <i data-lucide="bar-chart-3"></i>
+                  </div>
+                  <span class="service-status-pill active">Real-Time Sync</span>
+                </div>
+                <h3>Incident Analytics &amp; Trends</h3>
+                <p>Interactive Chart.js visualizations, incident distribution breakdowns, risk category heatmaps, and high-frequency reporting trends.</p>
+                <div class="service-card-meta">
+                  <span class="meta-pill-item"><i data-lucide="clock"></i> 5-min intervals</span>
+                  <span class="meta-pill-item"><i data-lucide="database"></i> Verified telemetry</span>
+                </div>
+                <a href="analytics.html" class="btn-primary service-action-btn">
+                  <span>Open Analytics Dashboard</span>
+                  <i data-lucide="arrow-right"></i>
+                </a>
+              </div>
+            </article>
+
+            <!-- 2. Local Advisories Module -->
+            <article class="service-card" style="--card-accent: #059669;">
+              <div class="service-card-body">
+                <div class="service-top-row">
+                  <div class="service-icon-box" style="color: #059669; background: rgba(5, 150, 105, 0.08); border-color: rgba(5, 150, 105, 0.2);">
+                    <i data-lucide="megaphone"></i>
+                  </div>
+                  <span class="service-status-pill active">Official Feeds</span>
+                </div>
+                <h3>Safety Advisories &amp; Guidance</h3>
+                <p>Expert-backed preparedness protocols for cyclones, floods, landslides, and chemical hazards with verified national emergency contact lines.</p>
+                <div class="service-card-meta">
+                  <span class="meta-pill-item"><i data-lucide="shield-alert"></i> Level-4 Protocol</span>
+                  <span class="meta-pill-item"><i data-lucide="phone-call"></i> 24/7 Helplines</span>
+                </div>
+                <a href="advisories.html" class="btn-primary service-action-btn" style="background-color: #059669; border-color: #059669;">
+                  <span>Review Safety Advisories</span>
+                  <i data-lucide="arrow-right"></i>
+                </a>
+              </div>
+            </article>
+
+            <!-- 3. Report Hazard Module -->
+            <article class="service-card" style="--card-accent: var(--severity-high);">
+              <div class="service-card-body">
+                <div class="service-top-row">
+                  <div class="service-icon-box" style="color: var(--severity-high); background: var(--severity-high-bg); border-color: var(--severity-high-border);">
+                    <i data-lucide="triangle-alert"></i>
+                  </div>
+                  <span class="service-status-pill" style="color: var(--severity-high-text); background: var(--severity-high-bg); border-color: var(--severity-high-border);">Urgent Action</span>
+                </div>
+                <h3>Submit Hazard Report</h3>
+                <p>Broadcast field observations directly to authorities. Features interactive Leaflet pin-drop GPS, photo evidence upload, and AI bilingual summaries.</p>
+                <div class="service-card-meta">
+                  <span class="meta-pill-item"><i data-lucide="sparkles"></i> Gemini AI Summary</span>
+                  <span class="meta-pill-item"><i data-lucide="map-pin"></i> GPS Pinpoint</span>
+                </div>
+                <a href="hazard.html" class="btn-primary service-action-btn" style="background-color: var(--severity-high); border-color: var(--severity-high);">
+                  <span>Start Hazard Report</span>
+                  <i data-lucide="arrow-right"></i>
+                </a>
+              </div>
+            </article>
+
+            <!-- 4. Map Events Module -->
+            <article class="service-card" style="--card-accent: #2563eb;">
+              <div class="service-card-body">
+                <div class="service-top-row">
+                  <div class="service-icon-box" style="color: #2563eb; background: rgba(37, 99, 235, 0.08); border-color: rgba(37, 99, 235, 0.2);">
+                    <i data-lucide="map-pin"></i>
+                  </div>
+                  <span class="service-status-pill active">Live Firestore</span>
+                </div>
+                <h3>Live Geospatial Map</h3>
+                <p>Interactive spatial mapping of real-time Firestore incident pins, Social Radar emergency scans, and collapsible multi-language event details.</p>
+                <div class="service-card-meta">
+                  <span class="meta-pill-item"><i data-lucide="radio-tower"></i> Social Media Radar</span>
+                  <span class="meta-pill-item"><i data-lucide="layers"></i> Multi-layer Leaflet</span>
+                </div>
+                <a href="map.html" class="btn-primary service-action-btn" style="background-color: #2563eb; border-color: #2563eb;">
+                  <span>Open Live Map</span>
+                  <i data-lucide="arrow-right"></i>
+                </a>
+              </div>
+            </article>
+
+            <!-- 5. 3D Planetary Globe Module -->
+            <article class="service-card" style="--card-accent: #0284c7;">
+              <div class="service-card-body">
+                <div class="service-top-row">
+                  <div class="service-icon-box" style="color: #0284c7; background: rgba(2, 132, 199, 0.08); border-color: rgba(2, 132, 199, 0.2);">
+                    <i data-lucide="orbit"></i>
+                  </div>
+                  <span class="service-status-pill active">3D Spherical</span>
+                </div>
+                <h3>3D Planetary Weather &amp; Threat Globe</h3>
+                <p>Interactive MapTiler 3D spherical Earth with Open-Meteo wind stream dynamics, RainViewer Doppler radar, and live incident telemetry.</p>
+                <div class="service-card-meta">
+                  <span class="meta-pill-item"><i data-lucide="wind"></i> Atmospheric Streams</span>
+                  <span class="meta-pill-item"><i data-lucide="clock"></i> 96h Prediction</span>
+                </div>
+                <a href="globe.html" class="btn-primary service-action-btn" style="background-color: #0284c7; border-color: #0284c7;">
+                  <span>Launch 3D Globe</span>
+                  <i data-lucide="arrow-right"></i>
+                </a>
+              </div>
+            </article>
+
+            <!-- 6. Shelters Directory Module -->
+            <article class="service-card" style="--card-accent: #d97706;">
+              <div class="service-card-body">
+                <div class="service-top-row">
+                  <div class="service-icon-box" style="color: #d97706; background: rgba(217, 119, 6, 0.08); border-color: rgba(217, 119, 6, 0.2);">
+                    <i data-lucide="shield-alert"></i>
+                  </div>
+                  <span class="service-status-pill active">GIS Dispatch</span>
+                </div>
+                <h3>Emergency Shelters &amp; Relief Camps</h3>
+                <p>Real-time evacuation relief centers directory with live occupancy meters, amenities tracking, GPS proximity dispatch, and routing.</p>
+                <div class="service-card-meta">
+                  <span class="meta-pill-item"><i data-lucide="navigation"></i> Proximity Routing</span>
+                  <span class="meta-pill-item"><i data-lucide="home"></i> Safe Havens</span>
+                </div>
+                <a href="shelters.html" class="btn-primary service-action-btn" style="background-color: #d97706; border-color: #d97706;">
+                  <span>View Emergency Shelters</span>
+                  <i data-lucide="arrow-right"></i>
+                </a>
+              </div>
+            </article>
+          </div>
+
+          <!-- Recent Notices Strip -->
+          <div class="recent-notices-section">
+            <div class="notices-header">
+              <div class="notices-title">
+                <i data-lucide="bell-ring" style="color: var(--brand-indigo);"></i>
+                <span>Active Network Broadcasts</span>
+              </div>
+              <a href="advisories.html" class="btn-secondary" style="padding: 0.4rem 0.85rem; font-size: 0.82rem;">
+                View All Advisories
+              </a>
+            </div>
+
+            <div class="notices-list">
+              <div class="notice-item">
+                <div class="notice-info">
+                  <span class="severity-tag high"><i data-lucide="alert-triangle"></i> High Risk</span>
+                  <div>
+                    <div class="notice-text-main">Severe Coastal Swell Alert · Mumbai &amp; Konkan Belt</div>
+                    <div class="notice-text-sub">Fishermen cautioned against deep sea venturing. Expected wave heights exceeding 3.8m.</div>
+                  </div>
+                </div>
+                <a href="map.html" class="btn-secondary" style="font-size: 0.8rem; padding: 0.4rem 0.75rem; white-space: nowrap;">
+                  <i data-lucide="map-pin"></i> Locate on Map
+                </a>
+              </div>
+
+              <div class="notice-item">
+                <div class="notice-info">
+                  <span class="severity-tag medium"><i data-lucide="wind"></i> Category 2</span>
+                  <div>
+                    <div class="notice-text-main">Cyclonic Circulation · North Bay of Bengal</div>
+                    <div class="notice-text-sub">Tracking west-northwestward. Coastal observation units on standby alert.</div>
+                  </div>
+                </div>
+                <a href="map.html" class="btn-secondary" style="font-size: 0.8rem; padding: 0.4rem 0.75rem; white-space: nowrap;">
+                  <i data-lucide="map-pin"></i> Locate on Map
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Shared Footer -->
+    <div class="geonetra-footer-container"></div>
+  </div>
+</body>
+</html>

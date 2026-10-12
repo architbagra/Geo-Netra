@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GeoNetra - Account Settings &amp; Profile</title>
+  <link rel="stylesheet" href="../CSS/style.css?v=2.0">
+  <link rel="stylesheet" href="../CSS/profile.css?v=2.0">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script type="module" src="../script.js?v=2.0"></script>
+</head>
+
+<body data-page="profile">
+  <div class="app-container">
+    <!-- Shared Header -->
+    <header class="geonetra-header" id="mainHeader"></header>
+
+    <main class="main-content">
+      <section class="account-settings-page-wrap">
+        <article class="account-settings-card" id="pageAccountCard">
+          <!-- ── Section 1: Account Info (Image 1 Specification) ── -->
+          <div class="account-settings-section">
+            <h1 class="account-settings-title">Account Info</h1>
+
+            <div class="account-info-rows">
+              <!-- Username Row -->
+              <div class="account-info-row">
+                <span class="account-row-label">Username</span>
+                <div class="account-row-content">
+                  <span class="account-row-val" data-account-field="username">ObserverUser</span>
+                  <button type="button" class="btn-account-edit" data-edit-trigger="username">Edit</button>
+                </div>
+              </div>
+
+              <!-- Email Row -->
+              <div class="account-info-row">
+                <span class="account-row-label">Email</span>
+                <div class="account-row-content">
+                  <span class="account-row-val" data-account-field="email">*************@gmail.com</span>
+                  <button type="button" class="btn-account-reveal" data-reveal-trigger="email">Reveal</button>
+                  <button type="button" class="btn-account-edit" data-edit-trigger="email">Edit</button>
+                </div>
+              </div>
+
+              <!-- Phone Number Row -->
+              <div class="account-info-row">
+                <span class="account-row-label">Phone Number</span>
+                <div class="account-row-content">
+                  <span class="account-row-val" data-account-field="phone">*********5170</span>
+                  <button type="button" class="btn-account-reveal" data-reveal-trigger="phone">Reveal</button>
+                  <button type="button" class="btn-account-edit" data-edit-trigger="phone">Edit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="account-divider"></div>
+
+          <!-- ── Section 2: Password & Security (Image 1 Specification) ── -->
+          <div class="account-settings-section">
+            <h2 class="account-settings-title">Password &amp; Security</h2>
+
+            <div class="account-info-rows">
+              <!-- Password Row -->
+              <div class="account-info-row">
+                <span class="account-row-label">Password</span>
+                <div class="account-row-content">
+                  <button type="button" class="btn-account-edit" data-edit-trigger="password">Edit</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <!-- Shared Footer -->
+    <div class="geonetra-footer-container"></div>
+  </div>
+</body>
+</html>

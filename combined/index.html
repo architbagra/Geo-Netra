@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GeoNetra - National Intelligent Hazard Monitoring Network</title>
+  <meta name="description" content="GeoNetra delivers real-time hazard detection, community reporting, geospatial intelligence, and official emergency advisories.">
+  <link rel="stylesheet" href="CSS/style.css?v=2.0">
+  <link rel="stylesheet" href="CSS/index.css?v=2.0">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script type="module" src="script.js?v=2.0"></script>
+</head>
+
+<body class="page-home" data-page="home">
+  <div class="app-container">
+    <!-- Redesigned Top Horizontal Navigation Shell (Hydrated by script.js) -->
+    <header class="geonetra-header" id="mainHeader"></header>
+
+    <main class="main-content">
+      <!-- ── Hero Banner Section ── -->
+      <section class="hero-section">
+        <div class="hero-background-media" aria-hidden="true">
+          <img class="hero-bg-img" src="assets/pexels-asadphoto-1456291.jpg" alt="Coastal monitoring zone">
+          <div class="hero-overlay-gradient"></div>
+        </div>
+
+        <div class="container-wide hero-content-grid">
+          <div class="hero-text-block">
+            <div class="hero-kicker-pill">
+              <i data-lucide="shield-check"></i>
+              <span>National Hazard Intelligence Portal</span>
+            </div>
+            <h1 class="hero-title">
+              Detect Hazards Early. <br>
+              <span class="hero-title-highlight">Coordinate Fast. Protect Every Community.</span>
+            </h1>
+            <p class="hero-description">
+              GeoNetra unifies crowdsourced citizen reporting, AI-assisted bilingual telemetry, and live geospatial tracking across monitored coastlines, waterways, and urban clusters to provide actionable situational awareness when conditions change.
+            </p>
+            <div class="hero-actions-row">
+              <a href="HTML/hazard.html" class="btn-primary hero-btn-primary">
+                <i data-lucide="triangle-alert"></i>
+                <span>Report an Active Hazard</span>
+              </a>
+              <a href="HTML/globe.html" class="btn-secondary hero-btn-secondary" style="border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.08); color: #38bdf8;">
+                <i data-lucide="orbit"></i>
+                <span>3D Threat Globe</span>
+              </a>
+              <a href="HTML/map.html" class="btn-secondary hero-btn-secondary">
+                <i data-lucide="map"></i>
+                <span>Open Live Geospatial Map</span>
+              </a>
+            </div>
+
+            <!-- ── Recent Reports Panel (Merged from Sagar-Setu with Bklit UI Polish) ── -->
+            <section class="glass-panel home-recent-reports" aria-labelledby="home-recent-reports-title">
+              <div class="home-reports-header">
+                <div class="home-reports-title-group">
+                  <div class="home-reports-pulse-beacon"></div>
+                  <h3 class="home-reports-title" id="home-recent-reports-title">
+                    <i data-lucide="list"></i>
+                    <span>Recent Reports</span>
+                  </h3>
+                </div>
+                <a href="HTML/analytics.html" class="home-reports-view-all">
+                  <span>View Full Matrix</span>
+                  <i data-lucide="arrow-right"></i>
+                </a>
+              </div>
+              <div class="reports-table-wrapper">
+                <table class="analytics-table home-reports-table">
+                  <thead>
+                    <tr>
+                      <th>Location</th>
+                      <th>Hazard Type</th>
+                      <th>Severity</th>
+                      <th>Time</th>
+                      <th>Status</th>
+                    </tr>
+                  </thead>
+                  <tbody id="home-reports-tbody">
+                    <tr>
+                      <td class="cell-location">Mumbai Coast</td>
+                      <td class="cell-hazard">Coastal Flooding</td>
+                      <td><span class="badge-neon badge-red">High Risk</span></td>
+                      <td class="cell-time">10 mins ago</td>
+                      <td class="status-cell"><span class="status-indicator status-active">Active</span></td>
+                    </tr>
+                    <tr>
+                      <td class="cell-location">Chennai Harbor</td>
+                      <td class="cell-hazard">Cyclone Warning</td>
+                      <td><span class="badge-neon badge-orange">Medium</span></td>
+                      <td class="cell-time">2 hours ago</td>
+                      <td class="status-cell"><span class="status-indicator status-monitoring">Monitoring</span></td>
+                    </tr>
+                    <tr>
+                      <td class="cell-location">Kerala Backwaters</td>
+                      <td class="cell-hazard">Algal Bloom</td>
+                      <td><span class="badge-neon badge-green">Low Risk</span></td>
+                      <td class="cell-time">5 hours ago</td>
+                      <td class="status-cell"><span class="status-indicator status-resolved">Resolved</span></td>
+                    </tr>
+                    <tr>
+                      <td class="cell-location">Goa Shoreline</td>
+                      <td class="cell-hazard">Oil Spill Traces</td>
+                      <td><span class="badge-neon badge-orange">Medium</span></td>
+                      <td class="cell-time">1 day ago</td>
+                      <td class="status-cell"><span class="status-indicator status-active">Active</span></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </div>
+
+          <div class="hero-cards-stack">
+            <!-- Mission Card -->
+            <article class="hero-glass-card">
+              <div class="hero-card-header">
+                <h3>System Status</h3>
+                <span class="hero-card-badge">24/7 Monitoring</span>
+              </div>
+              <p class="hero-card-desc">
+                High-frequency satellite radar feeds, ground observer telemetry, and public safety broadcast channels are actively synchronized with disaster management authorities.
+              </p>
+            </article>
+
+            <!-- Live Stats KPI Bar -->
+            <div class="live-stats-bar">
+              <div class="stat-cell">
+                <span class="stat-number" data-target="45">0</span>
+                <span class="stat-label">Verified Reports</span>
+              </div>
+              <div class="stat-cell">
+                <span class="stat-number" data-target="12">0</span>
+                <span class="stat-label">Active Alerts</span>
+              </div>
+              <div class="stat-cell">
+                <span class="stat-number" data-target="6">0</span>
+                <span class="stat-label">Critical Swells</span>
+              </div>
+            </div>
+
+            <!-- Quick Map Launch Card -->
+            <div class="map-launcher-card">
+              <div class="map-launcher-info">
+                <h4>Interactive Hazard Hotspots</h4>
+                <p>Pinpoint active incidents, filter by hazard severity, and scan radar.</p>
+              </div>
+              <a href="HTML/map.html" class="btn-primary" style="white-space: nowrap;">
+                <i data-lucide="crosshair"></i>
+                <span>View Map</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Platform Capabilities Section ── -->
+      <section class="features-section">
+        <div class="container-wide">
+          <div class="section-header-block">
+            <span class="section-kicker"><i data-lucide="layers"></i> Integrated Architecture</span>
+            <h2 class="section-title">Government-Grade Hazard Monitoring Infrastructure</h2>
+            <p class="section-subtitle">A cohesive multi-layer system engineered for emergency response units, field observers, and citizens.</p>
+          </div>
+
+          <div class="features-grid">
+            <article class="feature-box">
+              <div class="feature-icon-wrapper">
+                <i data-lucide="radio-tower"></i>
+              </div>
+              <h3>Geospatial Radar &amp; Mapping</h3>
+              <p>Real-time incident mapping powered by OpenStreetMap, interactive clustering, and multi-tier severity markers covering coastal and inland zones.</p>
+            </article>
+
+            <article class="feature-box">
+              <div class="feature-icon-wrapper">
+                <i data-lucide="sparkles"></i>
+              </div>
+              <h3>AI Bilingual Summaries</h3>
+              <p>Gemini 2.5 Flash intelligence digests unstructured field reports into concise, verified summaries in English, Hindi, and local vernaculars.</p>
+            </article>
+
+            <article class="feature-box">
+              <div class="feature-icon-wrapper">
+                <i data-lucide="life-buoy"></i>
+              </div>
+              <h3>Official Emergency Advisories</h3>
+              <p>Authoritative preparedness guidance for cyclones, flash floods, landslides, and chemical incidents with 24/7 emergency dispatch directory.</p>
+            </article>
+
+            <article class="feature-box">
+              <div class="feature-icon-wrapper" style="color: #38bdf8; background: rgba(56, 189, 248, 0.1);">
+                <i data-lucide="orbit"></i>
+              </div>
+              <h3>3D Meteorological &amp; Threat Globe</h3>
+              <p>MapTiler 3D spherical Earth projection modeling Eulerian wind stream particles, RainViewer radar, and live telemetry hazard pins.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Stories of Resilience Section ── -->
+      <section class="resilience-section">
+        <div class="container-wide">
+          <div class="section-header-block">
+            <span class="section-kicker"><i data-lucide="book-heart"></i> Community Preparedness</span>
+            <h2 class="section-title">Stories of Courage &amp; Rapid Relief</h2>
+            <p class="section-subtitle">Real accounts of courage, preparedness, and coordinated action that saved lives during severe crises.</p>
+          </div>
+
+          <div class="resilience-grid">
+            <article class="story-card">
+              <div class="story-image-wrap">
+                <img class="story-img" src="assets/IMG-20190805-WA0058.jpg" alt="NDRF rescue operations during 2019 floods">
+                <span class="story-date-badge">August 2019</span>
+              </div>
+              <div class="story-content">
+                <h3 class="story-subtitle">When Humanity Stood Tall</h3>
+                <p class="story-paragraph">
+                  During severe floods, specialized rescue squads and local volunteers navigated violent river surges to safely evacuate stranded families from submerged villages.
+                </p>
+                <a href="HTML/advisories.html" class="story-action-btn">
+                  <span>Open Safety Advisories</span>
+                  <i data-lucide="arrow-right"></i>
+                </a>
+              </div>
+            </article>
+
+            <article class="story-card">
+              <div class="story-image-wrap">
+                <img class="story-img" src="https://images.unsplash.com/photo-1509803874385-db7c23652552?w=900&q=80" alt="Cyclone Amphan aftermath">
+                <span class="story-date-badge">May 2020</span>
+              </div>
+              <div class="story-content">
+                <h3 class="story-subtitle">Surviving Cyclone Amphan</h3>
+                <p class="story-paragraph">
+                  Early meteorological warnings combined with community evacuation protocols enabled coastal villages to relocate vulnerable residents before landfall.
+                </p>
+                <a href="HTML/dashboard.html" class="story-action-btn">
+                  <span>View Incident Analytics</span>
+                  <i data-lucide="arrow-right"></i>
+                </a>
+              </div>
+            </article>
+
+            <article class="story-card">
+              <div class="story-image-wrap">
+                <img class="story-img" src="https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=900&q=80" alt="Community relief kitchen">
+                <span class="story-date-badge">December 2023</span>
+              </div>
+              <div class="story-content">
+                <h3 class="story-subtitle">The Kitchens That Never Slept</h3>
+                <p class="story-paragraph">
+                  Volunteer teams transformed community centers into 24/7 relief kitchens, preparing thousands of nutritious meal packets daily for response crews and citizens.
+                </p>
+                <a href="HTML/map.html" class="story-action-btn">
+                  <span>Open Live Map</span>
+                  <i data-lucide="arrow-right"></i>
+                </a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Emergency Reporting Window Popup ── -->
+      <div class="emergency-popup" id="emergencyPopup">
+        <div class="hazard-card" role="dialog" aria-modal="false" aria-labelledby="emergencyPopupTitle">
+          <div class="hazard-header">
+            <div class="hazard-icon-warning">
+              <i data-lucide="siren"></i>
+            </div>
+            <div>
+              <h4 class="hazard-title" id="emergencyPopupTitle">Emergency Reporting Window</h4>
+              <p class="hazard-message">See smoke, flash flooding, structural failure, or shoreline hazard? File a report now to broadcast to the network.</p>
+            </div>
+          </div>
+          <div class="hazard-actions">
+            <a class="hazard-cta-btn" href="HTML/hazard.html">
+              <i data-lucide="arrow-up-right"></i>
+              <span>Report Hazard</span>
+            </a>
+            <div style="display:flex;align-items:center;gap:.6rem;">
+              <span class="hazard-timer" id="emergencyPopupTimer">10</span>
+              <button class="hazard-close-btn" id="emergencyPopupClose" type="button" aria-label="Close emergency notification">
+                <i data-lucide="x"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- Official Shared Footer (Hydrated by script.js) -->
+    <div class="geonetra-footer-container"></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GeoNetra - Reporter Verification Console (Admin)</title>
+  <link rel="stylesheet" href="../CSS/style.css?v=8.0">
+  <link rel="stylesheet" href="../CSS/admin.css?v=8.0">
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script type="module" src="../script.js?v=8.0"></script>
+</head>
+
+<body data-page="verification" data-admin-required="true">
+  <div class="app-container">
+    <!-- Shared Top Navigation Header -->
+    <header class="geonetra-header" id="mainHeader"></header>
+
+    <main class="main-content">
+      <div class="admin-console-wrap">
+        <!-- Top Kicker & Navigation -->
+        <div class="admin-header-row">
+          <div>
+            <div class="admin-badge-pill">
+              <i data-lucide="shield-check" style="width:14px;height:14px;"></i>
+              <span>National Operations Control · Credentialing Authority</span>
+            </div>
+            <h1 class="admin-header-title">Citizen Reporter Verification</h1>
+            <p class="admin-header-desc">
+              Empower trusted field observers and coastal citizens with verified credential badges. Verified reporters are granted elevated reporting status and prioritized field triage across national command feeds.
+            </p>
+          </div>
+
+          <div class="admin-quick-nav">
+            <a href="admin-dashboard.html" class="admin-nav-btn">
+              <i data-lucide="layout-dashboard"></i>
+              <span>Overview</span>
+            </a>
+            <a href="manage-reports.html" class="admin-nav-btn">
+              <i data-lucide="list-checks"></i>
+              <span>Manage Reports</span>
+            </a>
+            <a href="pinned-hazards.html" class="admin-nav-btn">
+              <i data-lucide="pin"></i>
+              <span>Pinned Board</span>
+            </a>
+            <a href="verification.html" class="admin-nav-btn active">
+              <i data-lucide="user-check"></i>
+              <span>Verification</span>
+            </a>
+            <a href="map.html" class="admin-nav-btn">
+              <i data-lucide="map-pin"></i>
+              <span>Live Map</span>
+            </a>
+            <a href="shelters.html" class="admin-nav-btn">
+              <i data-lucide="shield-plus"></i>
+              <span>Nearby Shelters</span>
+            </a>
+            <a href="globe.html" class="admin-nav-btn">
+              <i data-lucide="orbit"></i>
+              <span>3D Globe</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- 4 KPI Stat Tiles -->
+        <section class="admin-stat-grid" style="grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));">
+          <article class="admin-stat-card">
+            <div class="stat-card-head"><i data-lucide="shield-check"></i><span>Verified Reporters</span></div>
+            <strong class="stat-card-value" id="kpi-verified-count" style="color: #10b981;">0</strong>
+            <p class="stat-card-copy">Citizens authorized with Verified Reporter green status badges.</p>
+          </article>
+          <article class="admin-stat-card">
+            <div class="stat-card-head"><i data-lucide="shield-alert"></i><span>Unverified Default</span></div>
+            <strong class="stat-card-value" id="kpi-unverified-desc" style="color: #ef4444; font-size: 1.5rem;">Standard</strong>
+            <p class="stat-card-copy">All unverified citizen users display red Unverified Reporter badges.</p>
+          </article>
+          <article class="admin-stat-card">
+            <div class="stat-card-head"><i data-lucide="user-check"></i><span>Credentialing Admin</span></div>
+            <strong class="stat-card-value" style="color: #818cf8; font-size: 1.5rem;">Active</strong>
+            <p class="stat-card-copy">Administrator authorized to grant or revoke observer credentials.</p>
+          </article>
+          <article class="admin-stat-card">
+            <div class="stat-card-head"><i data-lucide="database"></i><span>Persistence Sync</span></div>
+            <strong class="stat-card-value" style="color: #38bdf8; font-size: 1.5rem;">Realtime</strong>
+            <p class="stat-card-copy">Verified status synchronized across database and user interfaces.</p>
+          </article>
+        </section>
+
+        <!-- Form Card: Add Verified Reporter -->
+        <section class="verification-card">
+          <div class="verification-card-head">
+            <div class="verification-card-icon">
+              <i data-lucide="user-plus"></i>
+            </div>
+            <div>
+              <h2 class="verification-card-title">Authorize New Verified Reporter</h2>
+            </div>
+          </div>
+          <p class="verification-card-desc">
+            Enter a user's registered email address to authorize them. Upon authorization, their account badge immediately changes from <span style="color:#ef4444;font-weight:700;">Unverified Reporter</span> (Red) to <span style="color:#10b981;font-weight:700;">Verified Reporter</span> (Green) across the entire platform.
+          </p>
+
+          <form class="verification-form" id="formVerifyReporter" novalidate>
+            <div class="verification-input-wrap">
+              <i data-lucide="mail"></i>
+              <input 
+                type="email" 
+                id="inputVerifyEmail" 
+                class="verification-input" 
+                placeholder="Enter reporter email address (e.g., observer@gmail.com)" 
+                required 
+                autocomplete="email"
+              />
+            </div>
+            <button type="submit" class="btn-verify-submit" id="btnVerifySubmit">
+              <i data-lucide="shield-check"></i>
+              <span>Verify Reporter</span>
+            </button>
+          </form>
+
+          <div class="verification-alert" id="alertVerifyReporter"></div>
+        </section>
+
+        <!-- Roster Table Card -->
+        <section class="verification-table-wrap">
+          <div class="verification-table-topbar">
+            <div>
+              <h3 style="font-size: 1.2rem; font-weight: 700; color: #ffffff; margin: 0 0 0.25rem;">
+                Authorized Verified Reporters Roster
+              </h3>
+              <p style="font-size: 0.88rem; color: #94a3b8; margin: 0;">
+                List of citizen reporters granted verified status by Operations Command.
+              </p>
+            </div>
+
+            <div class="verification-search-wrap">
+              <i data-lucide="search"></i>
+              <input 
+                type="text" 
+                id="inputSearchVerified" 
+                class="verification-search-input" 
+                placeholder="Filter by email address..." 
+              />
+            </div>
+          </div>
+
+          <div style="overflow-x: auto;">
+            <table class="admin-table" id="tableVerifiedReporters">
+              <thead>
+                <tr>
+                  <th>Reporter Email</th>
+                  <th>Status Badge</th>
+                  <th>Authorized At</th>
+                  <th>Authorized By</th>
+                  <th style="text-align: right;">Action</th>
+                </tr>
+              </thead>
+              <tbody id="tbodyVerifiedReporters">
+                <tr>
+                  <td colspan="5" style="text-align: center; padding: 2.5rem; color: #64748b;">
+                    Loading verified reporters...
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <!-- Shared Footer -->
+    <div class="geonetra-footer-container"></div>
+  </div>
+</body>
+</html>

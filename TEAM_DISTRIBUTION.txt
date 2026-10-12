@@ -1,0 +1,302 @@
+================================================================================
+GEONETRA · TEAM WORKSTREAM DISTRIBUTION & GITHUB COLLABORATION GUIDE
+National Intelligent Hazard Monitoring Network
+================================================================================
+
+Total Team Members: 4 Collaborators
+Project Working Directory: Geo Netra/
+Branch Strategy: Trunk-based with isolated feature branches (main/master)
+
+--------------------------------------------------------------------------------
+TABLE OF CONTENTS
+--------------------------------------------------------------------------------
+1. Core Principles & Collaboration Rules
+2. Member 1: Frontend & User Experience
+3. Member 2: AI/ML & Planetary Meteorological Analysis
+4. Member 3: Backend, Database & External Telemetry Integrations
+5. Member 4: Testing, DevOps, Documentation & Deployment Staging
+6. Proposed GitHub Collaboration Workflow (Step-by-Step)
+7. How to Avoid Merge Conflicts on Shared Files
+8. Work Status Matrix: Already Completed vs. Remaining Tasks
+
+================================================================================
+1. CORE PRINCIPLES & COLLABORATION RULES
+================================================================================
+1. SINGLE OWNERSHIP PER MODULE: Each module and file has one designated primary
+   owner. Collaborators may review or integrate, but must not make uncoordinated
+   commits directly to another member's files.
+2. NO REBUILDING WORKING FEATURES: All core features (3D Globe, Shelters, Map,
+   Reporting, Gemini AI, MongoDB Atlas, Auth) are already implemented and working.
+   Members are tasked with enhancements, hardening, testing, and presentation.
+3. ISOLATE FEATURE BRANCHES: Never commit directly to 'main' or 'master'. Always
+   work on a descriptive feature branch (e.g., 'feat/member1-frontend-polish').
+4. SYNCHRONIZE SHARED FILES: Shared files ('combined/script.js', 'backend/server.js')
+   require explicit verbal/chat communication before editing to prevent race conditions.
+5. ZERO SECRETS IN GIT: Never commit '.env' or active API keys. Use '.env.example'
+   with safe placeholder variables.
+
+================================================================================
+2. MEMBER 1 — FRONTEND & USER EXPERIENCE
+================================================================================
+ROLE SUMMARY:
+Owns the citizen-facing interface, visual hierarchy, responsive typography,
+navigation flow, modal dialogs, and accessibility compliance.
+
+PRIMARY ASSIGNED FILES:
+- combined/index.html (National Home Portal & Recent Reports live matrix)
+- combined/HTML/dashboard.html (Operations Desk & module service cards)
+- combined/HTML/login.html (Authentication portal, OTP simulation, password strength)
+- combined/HTML/profile.html (Citizen Observer callsign, settings & credentials)
+- combined/HTML/advisories.html (Level-4 disaster safety SOPs & 24/7 hotlines)
+- combined/CSS/style.css, index.css, dashboard.css, login.css, profile.css, advisories.css
+- Shared coordination: combined/script.js (Header command bar & mobile drawer)
+
+SUGGESTED GIT BRANCH:
+feat/member1-ui-ux-enhancements
+
+ALREADY COMPLETED WORK (DO NOT REBUILD):
+- Single-tier unified header command bar with circular eye logo and responsive clamp.
+- Bklit UI Obsidian/Indigo palette with WCAG 2.1 AA accessible color contrast.
+- Slide-in mobile drawer for viewports under 860px.
+- Working login portal with interactive password rules validator.
+- Emergency alert popups and live pulsing beacons on recent reports.
+
+REMAINING TASKS & CONCRETE DELIVERABLES:
+Task 1.1: Mobile Ergonomics Audit — Test all forms, modals, and tables on mobile
+          screen widths (375px to 768px). Eliminate any horizontal scrollbar overflow.
+Task 1.2: Offline Notification Pill — Add a visual UI toast notification when the
+          browser detects 'window.navigator.onLine === false'.
+Task 1.3: Advisories Print Stylesheet — Implement '@media print' styling on
+          'advisories.html' so field citizens can print clean offline emergency SOP checklists.
+Task 1.4: Micro-Interactions — Add smooth active hover states and accessible ARIA
+          labels to all interactive buttons and dropdown menus.
+
+ACCEPTANCE CRITERIA:
+- 100% responsive rendering across desktop (1920x1080), laptop (1366x768), tablet, and mobile.
+- Zero horizontal layout shift (CLS < 0.1) on page load.
+- Lighthouse Accessibility score >= 90 on Home, Dashboard, and Advisories.
+
+================================================================================
+3. MEMBER 2 — AI/ML & PLANETARY METEOROLOGICAL ANALYSIS
+================================================================================
+ROLE SUMMARY:
+Owns the Google Gemini 2.5 Flash generative AI integrations, the 3D MapTiler
+spherical Earth projection, Open-Meteo wind stream dynamics, and RainViewer Doppler radar.
+
+PRIMARY ASSIGNED FILES:
+- combined/globe.js (MapTiler 3D projection, Eulerian wind particles, forecast grid)
+- combined/HTML/globe.html (Dedicated 3D Planetary Meteorological Globe stage)
+- combined/CSS/globe.css (3D Globe HUD, layer toggle toolbar, 96h timeline scrubber)
+- backend/server.js (Lines 1-246: Gemini 2.5 Flash summary, translate & radar endpoints)
+- backend/mock-reddit.json (Emergency social media text dataset)
+- combined/hazard-submit.js (Client-side Gemini summary review, approve/discard flow)
+
+SUGGESTED GIT BRANCH:
+feat/member2-ai-meteorological-pipeline
+
+ALREADY COMPLETED WORK (DO NOT REBUILD):
+- MapTiler 3D spherical globe projection with dataviz dark basemap tiles.
+- Open-Meteo 96-hour multi-layer wind dynamics and RainViewer satellite radar tiles.
+- Gemini 2.5 Flash bilingual structured JSON summary generation with language auto-detection.
+- Resilient local heuristic fallback for Gemini 429 quota exhaustion.
+- Social Media Radar demo integration parsing Jaipur emergency posts.
+
+REMAINING TASKS & CONCRETE DELIVERABLES:
+Task 2.1: Additional Weather Layers — Integrate barometric pressure contour lines
+          (isobars) and sea surface temperature (SST) overlays in 'globe.js'.
+Task 2.2: Vernacular Language Expansion — Expand Gemini summary schema to support
+          Marathi (mr), Tamil (ta), and Bengali (bn) for coastal disaster regions.
+Task 2.3: Live Reddit Webhook / RSS Ingestion — Enhance 'server.js' to ingest live
+          emergency subreddits (e.g., r/mumbai, r/chennai) with a configurable query limit.
+Task 2.4: Timeline Playback Smoothing — Optimize 'requestAnimationFrame' loop in
+          'globe.js' for high-framerate wind particle vector animations on 60Hz/120Hz displays.
+
+ACCEPTANCE CRITERIA:
+- 3D Globe renders smoothly without WebGL context loss or memory leaks.
+- Gemini API correctly falls back to heuristic summaries when quota or internet is unavailable.
+- Layer toggle toolbar toggles Wind, Precipitation, Radar, and Temperature independently.
+
+================================================================================
+4. MEMBER 3 — BACKEND, DATABASE & EXTERNAL TELEMETRY INTEGRATIONS
+================================================================================
+ROLE SUMMARY:
+Owns the Express.js API routes, MongoDB Atlas data modeling, JWT authentication,
+the Emergency Shelters Haversine proximity dispatcher, and the 2D Leaflet GIS canvas.
+
+PRIMARY ASSIGNED FILES:
+- backend/db.js (MongoDB Atlas Mongoose connection, collection schemas & local fallback)
+- backend/server.js (Lines 247-693: JWT Auth, Hazards CRUD, Verified Reporters, Health)
+- backend/data/hazards.json, users.json, verified_reporters.json
+- combined/reports-store.js (Central reactive data store subscribing to /api/hazards)
+- combined/shelters.js (Master relief camp dataset, Haversine proximity routing, Leaflet binding)
+- combined/HTML/shelters.html & combined/CSS/shelters.css
+- combined/HTML/map.html & combined/CSS/map.css (Tactical 2D Leaflet incident map)
+
+SUGGESTED GIT BRANCH:
+feat/member3-backend-db-telemetry
+
+ALREADY COMPLETED WORK (DO NOT REBUILD):
+- MongoDB Atlas cloud connection with automatic migration and zero-downtime local JSON fallback.
+- Express REST API with full CRUD endpoints for hazards, users, and verified reporters.
+- Haversine spherical distance calculation dispatching nearest emergency shelters.
+- Leaflet 2D GIS map with severity clustering, filtering, and side drawer.
+- ImgBB photo CDN upload with client-side image compression.
+
+REMAINING TASKS & CONCRETE DELIVERABLES:
+Task 3.1: Geospatial Indexing — Add MongoDB 2dsphere spatial index on 'HazardModel'
+          ('latitude', 'longitude') for fast bounding-box query support ($geoWithin).
+Task 3.2: Rate Limiting & Input Sanitization — Add 'express-rate-limit' middleware on
+          auth endpoints to prevent credential brute-force attacks.
+Task 3.3: GeoJSON Export Endpoint — Implement 'GET /api/hazards/export/geojson' allowing
+          incident data export directly into QGIS, ArcGIS, or emergency GIS tools.
+Task 3.4: Dynamic Shelters API — Move hardcoded 'SHELTERS_DATA' in 'shelters.js' into a
+          dedicated MongoDB collection with 'GET /api/shelters' endpoint.
+
+ACCEPTANCE CRITERIA:
+- Backend passes all syntax and unit checks with zero unhandled promise rejections.
+- MongoDB Atlas operations gracefully fall back to local JSON if offline.
+- Haversine distance computations accurate within 0.1% of geodesic true distance.
+
+================================================================================
+5. MEMBER 4 — TESTING, DEVOPS, DOCUMENTATION & DEPLOYMENT STAGING
+================================================================================
+ROLE SUMMARY:
+Owns end-to-end integration testing, administrative command console workflows,
+Git repository maintenance, deployment scripts, technical documentation, and demo staging.
+
+PRIMARY ASSIGNED FILES:
+- combined/HTML/admin-dashboard.html, manage-reports.html, pinned-hazards.html, verification.html
+- combined/CSS/admin.css
+- backend/package.json (Scripts, syntax validation, tests)
+- Root .gitignore, backend/.gitignore, .env.example, backend/.env.example
+- README.md (Official technical project guide)
+- CLEANUP_REPORT.md (Engineering audit and cleanup report)
+- TEAM_DISTRIBUTION.txt (This document)
+- PRESENTATION_CONTENT.txt (Technical viva / hackathon presentation script)
+
+SUGGESTED GIT BRANCH:
+feat/member4-testing-devops-docs
+
+ALREADY COMPLETED WORK (DO NOT REBUILD):
+- Complete architectural audit and safe project cleanup.
+- Fixed 3D Globe loading bug, Admin navigation links, and Gemini quota error handling.
+- Formal CLEANUP_REPORT.md and comprehensive README.md created.
+- Verification tests executed against all active endpoints with passing status.
+
+REMAINING TASKS & CONCRETE DELIVERABLES:
+Task 4.1: Automated Test Script — Add automated endpoint testing script
+          ('backend/test-api.js') runnable via 'npm test'.
+Task 4.2: Docker Containerization — Author 'Dockerfile' and 'docker-compose.yml'
+          packaging backend and static frontend for one-command evaluator deployment.
+Task 4.3: Demo Data Seed Script — Create 'backend/seed.js' to instantly reset or seed
+          demo hazard incidents before college or hackathon jury evaluation.
+Task 4.4: Presentation Slide Deck — Review and rehearse the 6-slide presentation script
+          in 'PRESENTATION_CONTENT.txt' to guarantee smooth team coordination during viva.
+
+ACCEPTANCE CRITERIA:
+- 'npm test' in backend exits with code 0.
+- Repository is completely clean of temporary, editor, or credentials files.
+- Presentation slides cover problem, solution, architecture, impact, and research.
+
+================================================================================
+6. PROPOSED GITHUB COLLABORATION WORKFLOW (STEP-BY-STEP)
+================================================================================
+
+Step 1: Synchronize with the Latest Main Branch
+Before beginning any new work, update your local repository:
+$ git checkout main
+$ git pull origin main
+
+Step 2: Create a Feature Branch
+Never work directly on main. Create and switch to your assigned feature branch:
+$ git checkout -b feat/member1-ui-ux-enhancements
+(or your respective branch name)
+
+Step 3: Make Focused, Modular Changes
+Work only on your assigned files. Test your changes locally before staging:
+# Check which files have been modified:
+$ git status
+
+Step 4: Commit with Standardized Commit Messages
+Stage only the files you intentionally modified:
+$ git add combined/index.html combined/CSS/index.css
+$ git commit -m "feat(ui): optimize home hero typography and responsive metrics"
+
+Use conventional commit prefixes:
+- feat: New feature or capability
+- fix: Bug fix
+- docs: Documentation changes
+- style: Formatting, CSS polish
+- test: Adding or updating tests
+- refactor: Code cleanup without logic change
+
+Step 5: Rebase on Latest Main Prior to Push
+Ensure your branch is up to date with teammates' merged work:
+$ git fetch origin
+$ git rebase origin/main
+(Resolve any merge conflicts if they occur, then 'git rebase --continue')
+
+Step 6: Push Your Feature Branch to GitHub
+$ git push -u origin feat/member1-ui-ux-enhancements
+
+Step 7: Open a Pull Request (PR)
+1. Go to your repository on GitHub.
+2. Click "Compare & pull request".
+3. Title your PR clearly: "[FEAT] Member 1: Mobile UI/UX polish".
+4. Add a concise description of what was changed and how to test it.
+5. Request review from at least one teammate (e.g., Member 4 or Member 3).
+
+Step 8: Review, Approve, and Merge
+1. Reviewer checks code diff for accidental changes, syntax errors, or secrets.
+2. Once approved, use "Squash and Merge" or standard Merge.
+3. Delete the remote feature branch after successful merge.
+
+================================================================================
+7. HOW TO AVOID MERGE CONFLICTS ON SHARED FILES
+================================================================================
+Certain files are inherently shared across disciplines:
+- 'combined/script.js' (Global router, auth guards, header builder)
+- 'backend/server.js' (Express route registry)
+- 'combined/reports-store.js' (Central data store)
+
+TO PREVENT CONFLICTS:
+1. INFORM FIRST: Before editing a shared file, post a message in your team chat:
+   "Member 2 editing server.js lines 120-170 for Gemini prompts. Please avoid server.js for 30m."
+2. MODULAR EXTENSIONS: When adding a new capability, prefer creating a dedicated
+   sub-module (e.g. 'combined/shelters.js', 'combined/globe.js') and importing it
+   into the main script with a single line, rather than appending hundreds of lines.
+3. SECTION ISOLATION: Keep clear line boundaries:
+   - Lines 1-246 in server.js: AI & Meteorological proxies (Member 2)
+   - Lines 247-693 in server.js: Database & Auth endpoints (Member 3)
+   - Do not reformat or auto-indent code blocks outside your assigned section.
+4. PULL FREQUENTLY: Run 'git pull origin main' regularly so your local branch never
+   strays more than a few commits behind the team.
+
+================================================================================
+8. WORK STATUS MATRIX: ALREADY COMPLETED VS. REMAINING
+================================================================================
+
++------------------------------------------+-------------+---------------------+
+| Module / Capability                      | Status      | Assigned Owner      |
++------------------------------------------+-------------+---------------------+
+| 3D Planetary Meteorological Globe        | COMPLETED   | Member 2            |
+| Open-Meteo & RainViewer Tile Pipelines   | COMPLETED   | Member 2            |
+| Gemini 2.5 Flash Bilingual Summaries     | COMPLETED   | Member 2            |
+| Emergency Shelters Proximity Directory   | COMPLETED   | Member 3            |
+| Tactical 2D Leaflet Incident Map         | COMPLETED   | Member 3            |
+| Field Hazard Form & JPEG Compression     | COMPLETED   | Member 1 & Member 3 |
+| MongoDB Atlas & Local JSON Fallback      | COMPLETED   | Member 3            |
+| JWT Authentication & Role-Based Access   | COMPLETED   | Member 3            |
+| Bklit UI Modular Design System & Colors  | COMPLETED   | Member 1            |
+| Admin Command Center & Moderation Queue  | COMPLETED   | Member 4            |
+| Project Audit & Safe Codebase Cleanup    | COMPLETED   | Member 4            |
+| Professional Documentation & Presentation| COMPLETED   | Member 4            |
+| Mobile Ergonomics & Offline Toast        | REMAINING   | Member 1            |
+| Multi-vernacular Prompts (mr, ta, bn)    | REMAINING   | Member 2            |
+| MongoDB 2dsphere Spatial Indexing        | REMAINING   | Member 3            |
+| Automated Test Script & Dockerfile       | REMAINING   | Member 4            |
++------------------------------------------+-------------+---------------------+
+
+================================================================================
+END OF TEAM WORKSTREAM DISTRIBUTION
+================================================================================

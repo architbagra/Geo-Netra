@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GeoNetra - Submit Hazard Incident Report</title>
+  <link rel="stylesheet" href="../CSS/style.css?v=2.0">
+  <link rel="stylesheet" href="../CSS/hazard.css?v=2.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <!-- Hazard submission & AI summary controller; script.js handles GPS + auth guard -->
+  <script type="module" src="../hazard-submit.js?v=3.0"></script>
+  <script type="module" src="../script.js?v=3.0"></script>
+</head>
+
+<body data-page="report">
+  <div class="app-container">
+    <!-- Redesigned Top Horizontal Navigation Shell -->
+    <header class="geonetra-header" id="mainHeader"></header>
+
+    <main class="main-content">
+      <section class="hazard-report-section">
+        <div class="container-wide">
+          <div class="section-header-block">
+            <span class="section-kicker"><i data-lucide="shield-alert"></i> Citizen &amp; Observer Incident Desk</span>
+            <h1 class="section-title">Submit Field Hazard Report</h1>
+            <p class="section-subtitle">Your rapid dispatch alert is recorded on the national live spatial network and broadcasted to emergency responders.</p>
+          </div>
+
+          <div class="report-layout-grid">
+            <!-- ── Left Column: Report Details Form ── -->
+            <article class="report-card">
+              <form class="report-form" id="hazard-form">
+                <!-- Hazard Classification -->
+                <div class="form-group">
+                  <label for="h-type" class="form-label">Hazard Classification *</label>
+                  <select id="h-type" class="form-input" required>
+                    <option value="" disabled selected>Select emergency hazard category...</option>
+                    <option value="flood">Coastal / Flash Flood</option>
+                    <option value="cyclone">Severe Cyclone &amp; Gale Winds</option>
+                    <option value="landslide">Landslide &amp; Mudslide Debris</option>
+                    <option value="earthquake">Seismic Tremor &amp; Earthquake</option>
+                    <option value="fire">Wildfire &amp; Urban Fire Outbreak</option>
+                    <option value="storm">Severe Thunderstorm &amp; Hail</option>
+                    <option value="drought">Agricultural Drought Hazard</option>
+                    <option value="other">Other Hazardous Threat</option>
+                  </select>
+                </div>
+
+                <!-- Verified Phone Number with Country Prefix Selector -->
+                <div class="form-group">
+                  <label for="h-phone" class="form-label">Observer Contact Number *</label>
+                  <div class="phone-input-group">
+                    <div class="country-prefix-picker" id="hazard-country-picker">
+                      <button type="button" class="country-prefix-btn" id="hazard-country-btn" aria-haspopup="listbox" aria-expanded="false" title="Select Country Code">
+                        <span class="country-flag-icon" id="hazard-country-flag"><img src="https://flagcdn.com/20x15/in.png" srcset="https://flagcdn.com/40x30/in.png 2x" width="20" height="15" alt="India" class="country-flag-img"></span>
+                        <span class="country-dial-code" id="hazard-country-code">+91</span>
+                        <i data-lucide="chevron-down" class="country-chevron"></i>
+                      </button>
+                      
+                      <div class="country-dropdown-popover" id="hazard-country-dropdown" hidden style="display: none;">
+                        <div class="country-search-wrap">
+                          <i data-lucide="search" class="country-search-icon"></i>
+                          <input type="text" class="country-search-input" id="hazard-country-search" placeholder="Search country or code..." autocomplete="off">
+                        </div>
+                        <ul class="country-options-list" id="hazard-country-list" role="listbox"></ul>
+                      </div>
+                      <input type="hidden" id="hazard-country-val" value="+91">
+                    </div>
+                    <input type="tel" id="h-phone" class="form-input phone-number-input" placeholder="e.g. 9876543210" maxlength="15" required autocomplete="tel">
+                  </div>
+                  <p style="font-size:0.78rem;color:var(--text-muted);margin-top:0.25rem;">
+                    Mobile number for telemetry verification and emergency call-backs. Auto-populated from your verified profile.
+                  </p>
+                </div>
+
+                <!-- Severity Level (Tactile Accessible Selector) -->
+                <div class="form-group">
+                  <label class="form-label">Assessed Threat Severity *</label>
+                  <div class="severity-selector">
+                    <div>
+                      <input type="radio" name="severity" id="sev-low" value="low" checked>
+                      <label for="sev-low" class="severity-label">
+                        <i data-lucide="shield-check"></i>
+                        <span>Low Risk</span>
+                        <span style="font-size:0.72rem;font-weight:500;">Minor Impact</span>
+                      </label>
+                    </div>
+                    <div>
+                      <input type="radio" name="severity" id="sev-medium" value="medium">
+                      <label for="sev-medium" class="severity-label">
+                        <i data-lucide="alert-triangle"></i>
+                        <span>Medium Risk</span>
+                        <span style="font-size:0.72rem;font-weight:500;">Elevated Watch</span>
+                      </label>
+                    </div>
+                    <div>
+                      <input type="radio" name="severity" id="sev-high" value="high">
+                      <label for="sev-high" class="severity-label">
+                        <i data-lucide="siren"></i>
+                        <span>High Risk</span>
+                        <span style="font-size:0.72rem;font-weight:500;">Urgent Threat</span>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Incident Description -->
+                <div class="form-group">
+                  <label for="h-desc" class="form-label">Incident Narrative &amp; Field Observations *</label>
+                  <textarea id="h-desc" class="form-input" rows="4" style="resize:vertical;"
+                    placeholder="Provide specific details: visual observations, rising water level, road blockage, trapped civilians, or hazard direction..." required></textarea>
+                </div>
+
+                <!-- AI Summary Engine (Gemini 2.5 Flash) -->
+                <div class="form-group">
+                  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.4rem;">
+                    <label class="form-label" style="margin:0;">AI Bilingual Telemetry Summary</label>
+                    <span style="font-size:0.75rem;color:var(--brand-indigo);font-weight:700;">Powered by Gemini 2.5</span>
+                  </div>
+                  <button type="button" id="generateAiBtn" class="btn-secondary" style="width:100%;margin-bottom:0.6rem;">
+                    <i data-lucide="sparkles"></i>
+                    <span>Generate AI Summary</span>
+                  </button>
+
+                  <div id="summaryPreviewContainer" class="ai-summary-card" hidden>
+                    <div class="ai-summary-header">
+                      <i data-lucide="sparkles"></i>
+                      <span>AI Multi-Language Digest Preview</span>
+                    </div>
+                    <p id="summaryText" class="ai-summary-text"></p>
+                    <div class="ai-summary-actions">
+                      <button type="button" id="approveSummaryBtn" class="btn-primary" style="padding:0.5rem 1rem;font-size:0.84rem;">
+                        <i data-lucide="check"></i> Approve Summary
+                      </button>
+                      <button type="button" id="discardSummaryBtn" class="btn-secondary" style="padding:0.5rem 1rem;font-size:0.84rem;">
+                        <i data-lucide="trash-2"></i> Discard
+                      </button>
+                    </div>
+                  </div>
+                  <p id="aiSummaryStatus" class="ai-summary-status" hidden></p>
+                </div>
+
+                <!-- Photo Evidence Upload -->
+                <div class="form-group">
+                  <label class="form-label">Attach Visual Evidence (Optional)</label>
+                  <label for="photoInput" class="photo-upload-dropzone">
+                    <i data-lucide="camera" style="width:28px;height:28px;color:var(--brand-indigo);margin-bottom:0.4rem;"></i>
+                    <p style="font-weight:700;font-size:0.9rem;color:var(--text-head);">Click to select or capture photographic evidence</p>
+                    <p style="font-size:0.78rem;color:var(--text-muted);margin-top:0.2rem;">JPEG / PNG format automatically optimized</p>
+                  </label>
+                  <input type="file" id="photoInput" accept="image/*" style="display:none;">
+
+                  <div id="photoPreviewWrap" class="photo-preview-wrap" hidden>
+                    <img id="photoPreview" class="photo-preview" alt="Evidence snapshot">
+                    <div style="flex:1;min-width:0;">
+                      <p id="photoPreviewName" style="font-weight:700;font-size:0.84rem;color:var(--text-head);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;"></p>
+                      <span style="font-size:0.75rem;color:var(--severity-low-text);">✓ Attached for upload</span>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn-danger" id="submit-btn" disabled style="width:100%;padding:1rem;font-size:1.05rem;opacity:0.5;cursor:not-allowed;">
+                  <i data-lucide="send"></i>
+                  <span>Broadcast Report to Network</span>
+                </button>
+
+                <!-- Status Feedback -->
+                <div id="form-status" class="form-status" style="display:none;"></div>
+              </form>
+            </article>
+
+            <!-- ── Right Column: Interactive Map & Coordinate Pinning ── -->
+            <div class="hazard-map-panel">
+              <div>
+                <h3 style="font-family:'Plus Jakarta Sans',sans-serif;font-size:1.2rem;font-weight:800;color:var(--text-head);">
+                  Geospatial Incident Pinpoint
+                </h3>
+                <p style="font-size:0.88rem;color:var(--text-muted);margin-top:0.25rem;">
+                  Search location or drop a marker anywhere on the map to bind exact coordinates.
+                </p>
+              </div>
+
+              <!-- Location Search & GPS Detection Toolbar -->
+              <div class="location-search-row">
+                <input type="text" id="h-location" class="form-input" placeholder="Type city, street, or landmark..." required>
+                <button type="button" id="loc-btn-search" class="btn-secondary" style="white-space:nowrap;">
+                  <i data-lucide="search"></i>
+                  <span>Search</span>
+                </button>
+              </div>
+
+              <div class="map-tools-row">
+                <span style="font-size:0.82rem;font-weight:700;color:var(--text-muted);">
+                  Click map to adjust pin position
+                </span>
+                <button type="button" id="detect-location" class="btn-secondary" style="padding:0.4rem 0.85rem;font-size:0.82rem;">
+                  <i data-lucide="locate"></i>
+                  <span>Auto Detect GPS</span>
+                </button>
+              </div>
+
+              <!-- Map Container -->
+              <div id="hazard-map" class="hazard-map-stage"></div>
+
+              <!-- Hidden Coordinates for Firestore Payload -->
+              <input type="hidden" id="h-lat">
+              <input type="hidden" id="h-lng">
+
+              <!-- Location Confirmation Action -->
+              <div>
+                <button type="button" id="confirm-location-btn" class="confirm-location-btn" disabled>
+                  <i data-lucide="crosshair"></i>
+                  <span>Confirm Pinned Location</span>
+                </button>
+                <p style="font-size:0.78rem;color:var(--text-muted);text-align:center;margin-top:0.45rem;">
+                  Confirmation is required to unlock report broadcast.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Shared Footer -->
+    <div class="geonetra-footer-container"></div>
+  </div>
+</body>
+</html>

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GeoNetra - 3D Meteorological &amp; Threat Globe</title>
+  <meta name="description" content="Dedicated 3D Planetary Weather & Hazard Globe featuring spherical MapTiler projection, Open-Meteo atmospheric forecast models, RainViewer radar, wind vector particles, and real-time Firestore incident pins.">
+  <link rel="stylesheet" href="../CSS/style.css?v=2.1">
+  <link rel="stylesheet" href="../CSS/globe.css?v=1.0">
+  <link rel="stylesheet" href="https://cdn.maptiler.com/maptiler-sdk-js/v3.0.1/maptiler-sdk.css" />
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://cdn.maptiler.com/maptiler-sdk-js/v3.0.1/maptiler-sdk.umd.min.js"></script>
+  <script type="module" src="../script.js?v=2.5"></script>
+  <script type="module" src="../globe.js?v=2.5"></script>
+</head>
+
+<body class="page-globe" data-page="globe">
+  <div class="app-container">
+    <!-- Shared Official GeoNetra Header -->
+    <header class="geonetra-header" id="mainHeader"></header>
+
+    <main class="main-content globe-page-main">
+      <!-- ── Top Aerospace Telemetry Banner ── -->
+      <section class="globe-banner">
+        <div class="container-wide">
+          <div class="globe-banner-header">
+            <div class="globe-banner-info">
+              <div class="globe-shimmer-badge">
+                <span class="pulse-dot"></span>
+                <span>Planetary Telemetry &amp; Atmospheric Dynamics</span>
+              </div>
+              <h1 class="globe-page-title">Interactive 3D Meteorological &amp; Threat Globe</h1>
+              <p class="globe-page-subtitle">
+                Spherical planetary modeling integrating Open-Meteo 96-hour multi-layer atmospheric predictions, high-frequency RainViewer Doppler radar, and live ground observer hazard telemetry.
+              </p>
+            </div>
+            <div class="globe-telemetry-tags">
+              <span class="globe-telemetry-tag active">
+                <i data-lucide="orbit"></i> 3D Sphere Projection
+              </span>
+              <span class="globe-telemetry-tag">
+                <i data-lucide="radio"></i> RainViewer Doppler Sync
+              </span>
+              <span class="globe-telemetry-tag">
+                <i data-lucide="clock"></i> 96h Predictive Horizon
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Dedicated 3D Globe Fullstage ── -->
+      <section class="container-wide globe-stage-section">
+        <!-- 3D Globe Mount Point -->
+        <div id="geonetra-globe-container"></div>
+
+        <!-- ── Informational Architecture Cards ── -->
+        <div class="globe-features-grid">
+          <article class="globe-feature-card">
+            <div class="globe-feature-icon cyan">
+              <i data-lucide="wind"></i>
+            </div>
+            <h4>Eulerian Wind Dynamics</h4>
+            <p>Animated vector stream particles computed from Open-Meteo 10m velocity grids, modeling cyclone wind fields and coastal monsoon shears in real time.</p>
+          </article>
+
+          <article class="globe-feature-card">
+            <div class="globe-feature-icon blue">
+              <i data-lucide="cloud-rain"></i>
+            </div>
+            <h4>RainViewer Radar Composite</h4>
+            <p>Global radar mosaic synchronizing raw reflectivity feeds across national weather services, updating precipitation echoes every 10 minutes.</p>
+          </article>
+
+          <article class="globe-feature-card">
+            <div class="globe-feature-icon emerald">
+              <i data-lucide="shield-alert"></i>
+            </div>
+            <h4>Live Firestore Incidents</h4>
+            <p>Real-time citizen hazard warnings and priority emergency advisories mapped onto exact coordinates with dynamic severity markers.</p>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <!-- Shared Official Footer -->
+    <div class="geonetra-footer-container"></div>
+  </div>
+</body>
+</html>

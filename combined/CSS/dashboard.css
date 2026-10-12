@@ -1,0 +1,296 @@
+/* ═════════════════════════════════════════════════════════════════════
+   GEONETRA - DASHBOARD STYLES
+   Official Palette: Primary Black (#000000) | White (#FFFFFF) | Royal Indigo (#2C3480)
+   ═════════════════════════════════════════════════════════════════════ */
+
+.dashboard-hero-banner {
+  background: linear-gradient(135deg, var(--brand-black) 0%, #151a30 100%);
+  color: #ffffff;
+  padding: 3rem 0 3.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-hero-bg {
+  position: absolute;
+  inset: 0;
+  opacity: 0.22;
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  filter: contrast(1.15);
+}
+
+.dashboard-hero-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.dashboard-header-text h1 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: clamp(1.8rem, 3.2vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+.dashboard-header-text p {
+  color: #cbd5e1;
+  font-size: 1.05rem;
+  margin-top: 0.35rem;
+}
+
+/* Quick Metrics Row */
+.dashboard-kpi-bar {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1.25rem;
+  margin-top: 0.5rem;
+}
+
+.dashboard-kpi-item {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius-lg);
+  padding: 1.1rem 1.35rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.kpi-icon-pill {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: rgba(44, 52, 128, 0.4);
+  border: 1px solid rgba(165, 180, 252, 0.25);
+  color: #c7d2fe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.kpi-stat-number {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.kpi-stat-label {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  font-weight: 600;
+  margin-top: 0.25rem;
+}
+
+/* Services Grid */
+.dashboard-main-section {
+  padding: 4rem 0 5rem;
+  background-color: var(--bg-page);
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.service-card {
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  transition: all var(--transition);
+  position: relative;
+}
+
+.service-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lift);
+  border-color: var(--brand-indigo-border);
+}
+
+/* Clean Accent Stripe */
+.service-card::before {
+  content: "";
+  display: block;
+  height: 5px;
+  width: 100%;
+  background: var(--card-accent, var(--brand-indigo));
+}
+
+.service-card-body {
+  padding: 2.25rem;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.service-top-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.service-icon-box {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-lg);
+  background: var(--brand-indigo-subtle);
+  border: 1px solid var(--brand-indigo-border);
+  color: var(--brand-indigo);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.service-icon-box svg,
+.service-icon-box [data-lucide] {
+  width: 28px;
+  height: 28px;
+}
+
+.service-status-pill {
+  font-size: 0.75rem;
+  font-weight: 800;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-pill);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  background: var(--bg-surface-muted);
+  color: var(--text-muted);
+  border: 1px solid var(--border-subtle);
+}
+
+.service-status-pill.active {
+  background: var(--severity-low-bg);
+  color: var(--severity-low-text);
+  border-color: var(--severity-low-border);
+}
+
+.service-card h3 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--text-head);
+  margin-bottom: 0.65rem;
+}
+
+.service-card p {
+  font-size: 0.96rem;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: 1.75rem;
+  flex: 1;
+}
+
+.service-card-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  padding: 1rem 0;
+  border-top: 1px solid var(--border-subtle);
+  border-bottom: 1px solid var(--border-subtle);
+  margin-bottom: 1.5rem;
+  font-size: 0.84rem;
+  color: var(--text-secondary);
+}
+
+.meta-pill-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.service-action-btn {
+  width: 100%;
+}
+
+/* System Live Advisories Banner */
+.recent-notices-section {
+  margin-top: 3.5rem;
+  background: var(--card-bg);
+  border: 1px solid var(--card-border);
+  border-radius: var(--radius-xl);
+  padding: 2rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.notices-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+}
+
+.notices-title {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-head);
+}
+
+.notices-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.notice-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.95rem 1.2rem;
+  border-radius: var(--radius-md);
+  background: var(--bg-surface-subtle);
+  border: 1px solid var(--border-subtle);
+  gap: 1rem;
+}
+
+.notice-info {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.notice-text-main {
+  font-weight: 700;
+  color: var(--text-head);
+  font-size: 0.9rem;
+}
+
+.notice-text-sub {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+@media (max-width: 1024px) {
+  .dashboard-kpi-bar {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 800px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+  .notice-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

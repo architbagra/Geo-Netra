@@ -1,0 +1,443 @@
+/* ═════════════════════════════════════════════════════════════════════
+   GEONETRA - ACCOUNT SETTINGS & EDIT PROFILE (DARK THEME SIGNATURE UI)
+   Official Palette: Primary Black (#000000 / #080c14) | Crisp White (#FFFFFF) | Royal Indigo (#2C3480 / #4F46E5)
+   Reference: Full Page Account Settings (Image 1) & Update Modals (Images 2 & 3)
+   ═════════════════════════════════════════════════════════════════════ */
+
+/* ── Full Page Account Settings Wrapper ── */
+.account-settings-page-wrap {
+  padding: 3rem 1.5rem 6rem;
+  background-color: #080c14 !important;
+  background-image: 
+    radial-gradient(circle at 50% 12%, rgba(44, 52, 128, 0.22) 0%, transparent 65%),
+    radial-gradient(circle at 85% 85%, rgba(37, 99, 235, 0.08) 0%, transparent 50%) !important;
+  min-height: calc(100vh - var(--header-height, 68px));
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+
+/* ── Main Account Card (Full Page View - Image 1 Recreation) ── */
+.account-settings-card {
+  width: 100%;
+  max-width: 780px;
+  background: #111827 !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 20px;
+  padding: 2.75rem 2.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7),
+              0 0 0 1px rgba(255, 255, 255, 0.05);
+  position: relative;
+  box-sizing: border-box;
+  color: #ffffff !important;
+}
+
+/* Sections */
+.account-settings-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.account-settings-title {
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.025em;
+  margin: 0 0 1.5rem;
+}
+
+.account-info-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 1.4rem;
+}
+
+.account-info-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+}
+
+.account-row-label {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #cbd5e1;
+  letter-spacing: -0.01em;
+}
+
+.account-row-content {
+  display: flex;
+  align-items: center;
+  gap: 0.95rem;
+}
+
+.account-row-val {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #ffffff;
+  font-family: inherit;
+}
+
+/* Reveal / Hide Toggle */
+.btn-account-reveal {
+  background: none;
+  border: none;
+  padding: 0.2rem 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #60a5fa;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  user-select: none;
+}
+
+.btn-account-reveal:hover {
+  color: #93c5fd;
+  text-decoration: underline;
+}
+
+/* Edit Trigger Button */
+.btn-account-edit {
+  background: #1f293d;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  color: #ffffff;
+  padding: 0.45rem 1.25rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  user-select: none;
+}
+
+.btn-account-edit:hover {
+  background: #2b3952;
+  border-color: rgba(79, 70, 229, 0.5);
+  transform: translateY(-1px);
+}
+
+.account-divider {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin: 2.25rem 0 2rem;
+}
+
+/* ═════════════════════════════════════════════════════════════════════
+   MODALS OVERLAY & DIALOG (Images 2 & 3 Dark UI Recreation)
+   ═════════════════════════════════════════════════════════════════════ */
+.account-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10000;
+  padding: 1.25rem;
+  animation: modalBackdropFade 0.2s ease-out;
+}
+
+.account-modal-overlay[hidden] {
+  display: none !important;
+}
+
+@keyframes modalBackdropFade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.account-modal-card {
+  background: #141c2b;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 18px;
+  width: 100%;
+  max-width: 490px;
+  padding: 2.25rem 2rem;
+  box-shadow: 0 25px 65px rgba(0, 0, 0, 0.9),
+              0 0 0 1px rgba(255, 255, 255, 0.08);
+  position: relative;
+  color: #ffffff;
+  animation: modalPopIn 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+@keyframes modalPopIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.account-modal-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  gap: 1rem;
+}
+
+.account-modal-title {
+  font-family: 'Inter', -apple-system, sans-serif;
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #ffffff;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.35rem;
+}
+
+.account-modal-subtitle {
+  font-size: 0.88rem;
+  color: #94a3b8;
+  margin: 0;
+  line-height: 1.45;
+}
+
+.account-modal-close {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 0.35rem;
+  border-radius: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.account-modal-close:hover {
+  color: #ffffff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.account-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Form Fields & Full-Width Inputs (Fixes Image 2) */
+.auth-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.auth-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #e2e8f0;
+  letter-spacing: -0.01em;
+  display: block;
+}
+
+.auth-input {
+  width: 100%;
+  box-sizing: border-box;
+  background: #1c2536 !important;
+  border: 1.5px solid #2d3b52 !important;
+  border-radius: 10px !important;
+  padding: 0.8rem 1rem !important;
+  color: #ffffff !important;
+  font-size: 0.95rem !important;
+  font-family: inherit;
+  transition: all 0.18s ease;
+  outline: none;
+}
+
+.auth-input:focus {
+  border-color: #4f46e5 !important;
+  background: #1e283b !important;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.28) !important;
+}
+
+.auth-input::placeholder {
+  color: #64748b !important;
+}
+
+/* Password wrapper & White eye icon toggle */
+.password-input-wrap {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.password-input-wrap .auth-input {
+  padding-right: 2.85rem !important;
+}
+
+.password-toggle-btn {
+  position: absolute;
+  right: 0.85rem;
+  background: none;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  border-radius: 6px;
+  z-index: 2;
+  transition: color 0.15s ease;
+}
+
+.password-toggle-btn.visible {
+  display: flex !important;
+}
+
+.password-toggle-btn:hover {
+  color: #60a5fa;
+}
+
+.input-hint-subtext {
+  font-size: 0.78rem;
+  color: #94a3b8;
+  margin: 0.35rem 0 0;
+  line-height: 1.35;
+}
+
+/* Modal Alerts */
+.account-modal-alert {
+  padding: 0.7rem 0.95rem;
+  border-radius: 10px;
+  font-size: 0.84rem;
+  display: none;
+  line-height: 1.4;
+}
+
+.account-modal-alert.visible {
+  display: block;
+}
+
+.account-modal-alert.error {
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  color: #fca5a5;
+}
+
+.account-modal-alert.success {
+  background: rgba(16, 185, 129, 0.15);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #6ee7b7;
+}
+
+/* Modal Actions */
+.account-modal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.75rem;
+}
+
+.btn-modal-cancel {
+  background: #222b3d;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e2e8f0;
+  padding: 0.7rem 1.6rem;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  user-select: none;
+}
+
+.btn-modal-cancel:hover {
+  background: #2c374d;
+  color: #ffffff;
+}
+
+.btn-modal-done {
+  background: #4f46e5;
+  border: none;
+  color: #ffffff;
+  padding: 0.7rem 2rem;
+  border-radius: 10px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.18s ease;
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.4);
+  user-select: none;
+}
+
+.btn-modal-done:hover {
+  background: #4338ca;
+  box-shadow: 0 6px 18px rgba(79, 70, 229, 0.55);
+}
+
+.btn-modal-done:disabled,
+.btn-modal-cancel:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Phone Modal with Country Prefix */
+.phone-input-group {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+
+.phone-input-group .country-prefix-btn {
+  background: #1c2536;
+  border: 1.5px solid #2d3b52;
+  border-right: none;
+  border-radius: 10px 0 0 10px;
+  color: #ffffff;
+  padding: 0.75rem 0.85rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  cursor: pointer;
+}
+
+.phone-input-group .phone-main-input {
+  border-radius: 0 10px 10px 0 !important;
+  flex: 1;
+}
+
+/* Toast Notification */
+.account-toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: #10b981;
+  color: #ffffff;
+  padding: 0.85rem 1.35rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+  font-size: 0.92rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  z-index: 99999;
+  animation: toastSlideUp 0.25s ease-out;
+  pointer-events: none;
+}
+
+.account-toast.error {
+  background: #ef4444;
+}
+
+@keyframes toastSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}

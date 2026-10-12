@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GeoNetra - Natural Hazard Analytics &amp; 3D Meteorological Telemetry</title>
+  <meta name="description" content="Government-grade disaster analytics dashboard featuring 3D meteorological globe, predictive weather layers, Bklit UI telemetry charts, and spatial hazard clusters.">
+  <link rel="stylesheet" href="../CSS/style.css?v=2.0">
+  <link rel="stylesheet" href="../CSS/analytics.css?v=3.0">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link href="https://unpkg.com/maplibre-gl@5.6.1/dist/maplibre-gl.css" rel="stylesheet"/>
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script type="module" src="../script.js?v=2.5"></script>
+</head>
+
+<body class="page-analytics" data-page="analytics">
+  <div class="app-container">
+    <!-- Redesigned Top Horizontal Navigation Shell -->
+    <header class="geonetra-header" id="mainHeader"></header>
+
+    <main class="main-content">
+      <!-- ── Banner Section (Bklit UI Style) ── -->
+      <section class="analytics-banner">
+        <div class="container-wide">
+          <div class="section-header-block" style="margin-bottom:0;">
+            <div class="bklit-badge-pill">
+              <i data-lucide="line-chart" style="width:13px;height:13px;"></i>
+              <span class="shimmer-text">National Telemetry &amp; Geospatial Intelligence</span>
+            </div>
+            <h1 class="section-title">Natural Hazard Analytics &amp; Meteorological Radar</h1>
+            <p class="section-subtitle">
+              High-frequency multi-stream analytics correlating citizen field observations, Open-Meteo atmospheric forecast models, and real-time hazard severity metrics.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section class="container-wide analytics-container">
+        
+        <!-- ── 1. Standalone 3D Planetary Globe Portal Card ── -->
+        <article class="bklit-globe-portal-banner">
+          <div class="bklit-globe-portal-copy">
+            <div class="bklit-badge-pill" style="margin-bottom:0.4rem;">
+              <i data-lucide="orbit" style="width:13px;height:13px;"></i>
+              <span>Dedicated Planetary Visualizer</span>
+            </div>
+            <h3>Interactive 3D Meteorological &amp; Threat Globe</h3>
+            <p>
+              Experience high-resolution Open-Meteo wind stream dynamics, real-time RainViewer Doppler radar, and live Firestore incident telemetry on our dedicated fullstage spherical globe.
+            </p>
+          </div>
+          <a href="globe.html" class="btn-primary bklit-globe-launch-btn">
+            <i data-lucide="globe-2"></i>
+            <span>Launch 3D Globe</span>
+            <i data-lucide="arrow-right"></i>
+          </a>
+        </article>
+
+        <!-- ── 2. Bklit UI KPI Cards Grid (@bklit/shimmering-text accents) ── -->
+        <div class="kpi-grid">
+          <article class="bklit-kpi-card">
+            <div class="bklit-kpi-card-top">
+              <span class="bklit-kpi-label">Total Field Reports</span>
+              <div class="bklit-kpi-icon-wrap" style="color: #60a5fa;">
+                <i data-lucide="file-text"></i>
+              </div>
+            </div>
+            <div class="bklit-kpi-value"><span class="counter" data-target="21900">0</span></div>
+            <div class="bklit-kpi-footer">
+              <span class="bklit-trend-badge positive">
+                <i data-lucide="trending-up" style="width:11px;height:11px;"></i> +12.4%
+              </span>
+              <span class="bklit-kpi-subtext">vs. prior 30-day baseline</span>
+            </div>
+          </article>
+
+          <article class="bklit-kpi-card">
+            <div class="bklit-kpi-card-top">
+              <span class="bklit-kpi-label">Active Hazards</span>
+              <div class="bklit-kpi-icon-wrap" style="color: #f87171;">
+                <i data-lucide="flame"></i>
+              </div>
+            </div>
+            <div class="bklit-kpi-value"><span class="counter" data-target="342">0</span></div>
+            <div class="bklit-kpi-footer">
+              <span class="bklit-trend-badge warning">
+                <i data-lucide="alert-triangle" style="width:11px;height:11px;"></i> Critical Watch
+              </span>
+              <span class="bklit-kpi-subtext">Immediate field review</span>
+            </div>
+          </article>
+
+          <article class="bklit-kpi-card">
+            <div class="bklit-kpi-card-top">
+              <span class="bklit-kpi-label">Monitored Zones</span>
+              <div class="bklit-kpi-icon-wrap" style="color: #38bdf8;">
+                <i data-lucide="map"></i>
+              </div>
+            </div>
+            <div class="bklit-kpi-value"><span class="counter" data-target="86">0</span></div>
+            <div class="bklit-kpi-footer">
+              <span class="bklit-trend-badge info">
+                <i data-lucide="shield" style="width:11px;height:11px;"></i> 24/7 Radar
+              </span>
+              <span class="bklit-kpi-subtext">High-risk coastal corridors</span>
+            </div>
+          </article>
+
+          <article class="bklit-kpi-card">
+            <div class="bklit-kpi-card-top">
+              <span class="bklit-kpi-label">Verified Warnings</span>
+              <div class="bklit-kpi-icon-wrap" style="color: #34d399;">
+                <i data-lucide="shield-check"></i>
+              </div>
+            </div>
+            <div class="bklit-kpi-value"><span class="counter" data-target="1840">0</span></div>
+            <div class="bklit-kpi-footer">
+              <span class="bklit-trend-badge positive">
+                <i data-lucide="check-circle-2" style="width:11px;height:11px;"></i> 95.2%
+              </span>
+              <span class="bklit-kpi-subtext">Authority validation score</span>
+            </div>
+          </article>
+
+          <article class="bklit-kpi-card">
+            <div class="bklit-kpi-card-top">
+              <span class="bklit-kpi-label">Peak Threat Profile</span>
+              <div class="bklit-kpi-icon-wrap" style="color: #fbbf24;">
+                <i data-lucide="wind"></i>
+              </div>
+            </div>
+            <div class="bklit-kpi-value" style="font-size: 1.7rem; color: #fcd34d;">Cyclone Wave</div>
+            <div class="bklit-kpi-footer">
+              <span class="bklit-trend-badge warning">
+                Category 4 Watch
+              </span>
+              <span class="bklit-kpi-subtext">Western marine corridor</span>
+            </div>
+          </article>
+        </div>
+
+        <!-- ── 3. Charts Row 3: Daily Trends (@bklit/area-chart & line-chart aesthetics) ── -->
+        <div class="charts-row-3">
+          <div class="bklit-chart-panel">
+            <div class="bklit-panel-header">
+              <div class="bklit-panel-title-group">
+                <h3 class="bklit-panel-title"><i data-lucide="trending-up"></i> Reports Daily Inflow</h3>
+                <p class="bklit-panel-subtitle">Verified submissions over past 7 days</p>
+              </div>
+              <div class="bklit-timeframe-pills">
+                <button type="button" class="timeframe-pill-btn active">7D</button>
+                <button type="button" class="timeframe-pill-btn">30D</button>
+              </div>
+            </div>
+            <div class="chart-wrapper-sm"><canvas id="reportsTrendChart"></canvas></div>
+          </div>
+
+          <div class="bklit-chart-panel">
+            <div class="bklit-panel-header">
+              <div class="bklit-panel-title-group">
+                <h3 class="bklit-panel-title"><i data-lucide="activity" style="color:#f87171;"></i> Active Hazards Trend</h3>
+                <p class="bklit-panel-subtitle">Real-time open threats in queue</p>
+              </div>
+              <div class="bklit-timeframe-pills">
+                <button type="button" class="timeframe-pill-btn active">7D</button>
+                <button type="button" class="timeframe-pill-btn">30D</button>
+              </div>
+            </div>
+            <div class="chart-wrapper-sm"><canvas id="activeTrendChart"></canvas></div>
+          </div>
+
+          <div class="bklit-chart-panel">
+            <div class="bklit-panel-header">
+              <div class="bklit-panel-title-group">
+                <h3 class="bklit-panel-title"><i data-lucide="users" style="color:#34d399;"></i> Active Observers</h3>
+                <p class="bklit-panel-subtitle">Field reporters active by day</p>
+              </div>
+              <div class="bklit-timeframe-pills">
+                <button type="button" class="timeframe-pill-btn active">7D</button>
+                <button type="button" class="timeframe-pill-btn">30D</button>
+              </div>
+            </div>
+            <div class="chart-wrapper-sm"><canvas id="usersTrendChart"></canvas></div>
+          </div>
+        </div>
+
+        <!-- ── 4. Charts Row 2: Distribution Metrics ── -->
+        <div class="charts-row-2">
+          <div class="bklit-chart-panel">
+            <div class="bklit-panel-header">
+              <div class="bklit-panel-title-group">
+                <h3 class="bklit-panel-title"><i data-lucide="bar-chart-2"></i> Hazard Category Distribution</h3>
+                <p class="bklit-panel-subtitle">Volume distribution across monitored hazard classifications</p>
+              </div>
+            </div>
+            <div class="chart-wrapper-md"><canvas id="hazardTypesChart"></canvas></div>
+          </div>
+
+          <div class="bklit-chart-panel">
+            <div class="bklit-panel-header">
+              <div class="bklit-panel-title-group">
+                <h3 class="bklit-panel-title"><i data-lucide="pie-chart"></i> Threat Severity Breakdown</h3>
+                <p class="bklit-panel-subtitle">Risk proportion across active emergencies</p>
+              </div>
+            </div>
+            <div class="chart-wrapper-md chart-wrapper-centered"><canvas id="severityChart"></canvas></div>
+          </div>
+        </div>
+
+        <!-- ── 5. Bottom Row: Hazard Hotspot Heatmap & Geographic Clusters ── -->
+        <div class="bottom-row">
+          <!-- Bklit UI Heatmap Matrix -->
+          <div class="bklit-chart-panel">
+            <div class="bklit-panel-header">
+              <div class="bklit-panel-title-group">
+                <h3 class="bklit-panel-title"><i data-lucide="grid"></i> Hazard Hotspot Matrix</h3>
+                <p class="bklit-panel-subtitle">Cross-correlation of disaster categories across major geographic zones</p>
+              </div>
+              <div class="geo-heatmap-legend">
+                <span style="font-size:0.72rem;color:#94a3b8;">Frequency:</span>
+                <span style="font-size:0.72rem;color:#60a5fa;">Low</span>
+                <div style="width:60px;height:6px;border-radius:4px;background:linear-gradient(90deg, rgba(37,99,235,0.2), #2563eb);"></div>
+                <span style="font-size:0.72rem;color:#93c5fd;">High</span>
+              </div>
+            </div>
+
+            <div style="overflow-x:auto;">
+              <table class="bklit-heatmap-table">
+                <thead>
+                  <tr>
+                    <th style="text-align:left;">Hazard Category</th>
+                    <th>Mumbai Coast</th>
+                    <th>Chennai Belt</th>
+                    <th>Kerala Coast</th>
+                    <th>NE Hills</th>
+                    <th>Industrial</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="bklit-row-label-cell">🌊 Coastal Flooding</td>
+                    <td class="heat-strong-blue">42</td>
+                    <td class="heat-med-blue">28</td>
+                    <td class="heat-strong-blue">51</td>
+                    <td class="heat-low-blue">14</td>
+                    <td class="heat-low-blue">10</td>
+                  </tr>
+                  <tr>
+                    <td class="bklit-row-label-cell">🌪️ Cyclone &amp; Surge</td>
+                    <td class="heat-med-crimson">18</td>
+                    <td class="heat-strong-crimson">54</td>
+                    <td class="heat-low-crimson">9</td>
+                    <td class="heat-low-crimson">4</td>
+                    <td class="heat-low-crimson">3</td>
+                  </tr>
+                  <tr>
+                    <td class="bklit-row-label-cell">⛰️ Hill Landslide</td>
+                    <td class="heat-low-amber">6</td>
+                    <td class="heat-low-amber">12</td>
+                    <td class="heat-med-amber">22</td>
+                    <td class="heat-strong-amber">47</td>
+                    <td class="heat-low-amber">7</td>
+                  </tr>
+                  <tr>
+                    <td class="bklit-row-label-cell">🌋 Seismic / Quake</td>
+                    <td class="heat-low-violet">5</td>
+                    <td class="heat-low-violet">3</td>
+                    <td class="heat-low-violet">8</td>
+                    <td class="heat-strong-violet">31</td>
+                    <td class="heat-low-violet">2</td>
+                  </tr>
+                  <tr>
+                    <td class="bklit-row-label-cell">🔥 Wildfire / Heat</td>
+                    <td class="heat-low-crimson">7</td>
+                    <td class="heat-med-crimson">16</td>
+                    <td class="heat-low-crimson">11</td>
+                    <td class="heat-low-crimson">5</td>
+                    <td class="heat-strong-crimson">39</td>
+                  </tr>
+                  <tr>
+                    <td class="bklit-row-label-cell">🧪 Chemical Spill</td>
+                    <td class="heat-low-emerald">4</td>
+                    <td class="heat-low-emerald">6</td>
+                    <td class="heat-low-emerald">5</td>
+                    <td class="heat-low-emerald">3</td>
+                    <td class="heat-strong-emerald">27</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Geographic Heatmap Card -->
+          <div class="bklit-chart-panel">
+            <div class="bklit-panel-header">
+              <div class="bklit-panel-title-group">
+                <h3 class="bklit-panel-title"><i data-lucide="map-pinned"></i> Geographic Cluster Density</h3>
+                <p class="bklit-panel-subtitle">High-frequency emergency hotspots</p>
+              </div>
+            </div>
+            <div class="geo-heatmap-card">
+              <div id="analytics-heatmap" class="geo-heatmap-stage" aria-label="Hazard hotspot map"></div>
+              <div class="geo-heatmap-legend">
+                <div class="geo-legend-item"><span class="geo-legend-dot flood"></span><span>Flood</span></div>
+                <div class="geo-legend-item"><span class="geo-legend-dot cyclone"></span><span>Cyclone</span></div>
+                <div class="geo-legend-item"><span class="geo-legend-dot landslide"></span><span>Landslide</span></div>
+                <div class="geo-legend-item"><span class="geo-legend-dot earthquake"></span><span>Earthquake</span></div>
+                <div class="geo-legend-item"><span class="geo-legend-dot spill"></span><span>Chemical Spill</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </section>
+    </main>
+
+    <!-- Shared Official Footer -->
+    <div class="geonetra-footer-container"></div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      if (typeof Chart === "undefined") return;
+
+      const textColor = "#94a3b8";
+      const headColor = "#f8fafc";
+      const borderColor = "rgba(255, 255, 255, 0.08)";
+
+      Chart.defaults.color = textColor;
+      Chart.defaults.font.family = "'Inter', -apple-system, sans-serif";
+
+      // Common Bklit UI Options for Charts
+      const bklitAreaOptions = {
+        responsive: true,
+        maintainAspectRatio: false,
+        layout: {
+          padding: { top: 12, right: 12, bottom: 4, left: 4 }
+        },
+        plugins: {
+          legend: { display: false },
+          tooltip: {
+            backgroundColor: "rgba(9, 9, 11, 0.92)",
+            titleColor: "#ffffff",
+            bodyColor: "#cbd5e1",
+            borderColor: "rgba(255, 255, 255, 0.14)",
+            borderWidth: 1,
+            padding: 12,
+            boxPadding: 6,
+            usePointStyle: true,
+            cornerRadius: 8,
+            titleFont: { size: 13, weight: "700" },
+            bodyFont: { size: 12, weight: "500" }
+          }
+        },
+        scales: {
+          x: {
+            grid: { display: false, drawBorder: false },
+            ticks: { color: textColor, font: { size: 11, weight: "600" }, padding: 8 }
+          },
+          y: {
+            grid: { color: borderColor, drawBorder: false },
+            ticks: { color: textColor, font: { size: 11 }, padding: 8 },
+            beginAtZero: true
+          }
+        },
+        elements: {
+          line: { tension: 0.38, borderWidth: 2.5 },
+          point: { radius: 0, hitRadius: 10, hoverRadius: 5 }
+        }
+      };
+
+      const createAreaGradient = (ctx, startColor, endColor = "rgba(0,0,0,0)") => {
+        const gradient = ctx.createLinearGradient(0, 0, 0, 240);
+        gradient.addColorStop(0, startColor);
+        gradient.addColorStop(1, endColor);
+        return gradient;
+      };
+
+      // 1. Reports Daily Inflow (@bklit/area-chart in Cyan/Blue)
+      const reportsCtx = document.getElementById("reportsTrendChart").getContext("2d");
+      new Chart(reportsCtx, {
+        type: "line",
+        data: {
+          labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+          datasets: [{
+            data: [120, 190, 150, 220, 180, 280, 250],
+            borderColor: "#38bdf8",
+            backgroundColor: createAreaGradient(reportsCtx, "rgba(56, 189, 248, 0.28)", "rgba(56, 189, 248, 0.00)"),
+            fill: true
+          }]
+        },
+        options: bklitAreaOptions
+      });
+
+      // 2. Active Hazards Trend (Crimson/Rose)
+      const activeCtx = document.getElementById("activeTrendChart").getContext("2d");
+      new Chart(activeCtx, {
+        type: "line",
+        data: {
+          labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+          datasets: [{
+            data: [40, 50, 45, 60, 55, 75, 65],
+            borderColor: "#f43f5e",
+            backgroundColor: createAreaGradient(activeCtx, "rgba(244, 63, 94, 0.25)", "rgba(244, 63, 94, 0.00)"),
+            fill: true
+          }]
+        },
+        options: bklitAreaOptions
+      });
+
+      // 3. Observers Trend (Emerald)
+      const usersCtx = document.getElementById("usersTrendChart").getContext("2d");
+      new Chart(usersCtx, {
+        type: "line",
+        data: {
+          labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+          datasets: [{
+            data: [500, 600, 550, 800, 750, 950, 1100],
+            borderColor: "#10b981",
+            backgroundColor: createAreaGradient(usersCtx, "rgba(16, 185, 129, 0.25)", "rgba(16, 185, 129, 0.00)"),
+            fill: true
+          }]
+        },
+        options: bklitAreaOptions
+      });
+
+      // 4. Hazard Types Distribution (Bklit Bar Chart)
+      new Chart(document.getElementById("hazardTypesChart").getContext("2d"), {
+        type: "bar",
+        data: {
+          labels: ["Floods", "Cyclones", "Landslides", "Quakes", "Oil Spills", "Coral Bleach"],
+          datasets: [{
+            data: [350, 280, 150, 100, 80, 60],
+            backgroundColor: ["#3b82f6", "#06b6d4", "#f59e0b", "#8b5cf6", "#10b981", "#64748b"],
+            borderRadius: 8,
+            borderSkipped: false
+          }]
+        },
+        options: {
+          ...bklitAreaOptions,
+          scales: {
+            x: { grid: { display: false }, ticks: { color: textColor, font: { size: 11, weight: "600" } } },
+            y: { grid: { color: borderColor }, ticks: { color: textColor }, beginAtZero: true }
+          }
+        }
+      });
+
+      // 5. Severity Distribution (Bklit Donut)
+      new Chart(document.getElementById("severityChart").getContext("2d"), {
+        type: "doughnut",
+        data: {
+          labels: ["High Risk", "Medium Risk", "Low Risk"],
+          datasets: [{
+            data: [25, 45, 30],
+            backgroundColor: ["#f43f5e", "#f59e0b", "#10b981"],
+            borderWidth: 0,
+            hoverOffset: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          cutout: "75%",
+          plugins: {
+            legend: {
+              display: true,
+              position: "right",
+              labels: { color: headColor, boxWidth: 12, padding: 16, font: { size: 12, weight: "600" } }
+            }
+          }
+        }
+      });
+
+      // 6. Geographic Heat Map (Leaflet)
+      const analyticsMapEl = document.getElementById("analytics-heatmap");
+      if (analyticsMapEl && typeof L !== "undefined" && typeof L.heatLayer === "function") {
+        const analyticsMap = L.map("analytics-heatmap", {
+          zoomControl: false,
+          attributionControl: false,
+          scrollWheelZoom: false
+        }).setView([21.2, 80.6], 5);
+
+        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { maxZoom: 18 }).addTo(analyticsMap);
+        analyticsMap.fitBounds([[8.5, 68.0], [30.5, 95.5]], { padding: [15, 15] });
+
+        const heatLayers = [
+          {
+            points: [[19.076, 72.8777, 0.95], [18.96, 72.82, 0.78], [19.22, 72.97, 0.62], [22.57, 88.36, 0.44]],
+            gradient: { 0.2: "rgba(37,99,235,0.1)", 0.6: "rgba(37,99,235,0.4)", 1.0: "rgba(56,189,248,0.8)" }
+          },
+          {
+            points: [[13.0827, 80.2707, 1.0], [12.95, 80.18, 0.82], [16.5062, 80.648, 0.46]],
+            gradient: { 0.2: "rgba(6,182,212,0.1)", 0.6: "rgba(6,182,212,0.4)", 1.0: "rgba(34,211,238,0.8)" }
+          },
+          {
+            points: [[10.8505, 76.2711, 0.88], [11.0168, 76.9558, 0.68], [9.9312, 76.2673, 0.52]],
+            gradient: { 0.2: "rgba(245,158,11,0.1)", 0.6: "rgba(245,158,11,0.4)", 1.0: "rgba(251,191,36,0.8)" }
+          }
+        ];
+
+        heatLayers.forEach((layerConfig) => {
+          L.heatLayer(layerConfig.points, { radius: 32, blur: 26, maxZoom: 7, minOpacity: 0.2, gradient: layerConfig.gradient }).addTo(analyticsMap);
+        });
+      }
+    });
+  </script>
+</body>
+</html>

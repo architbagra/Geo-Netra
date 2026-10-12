@@ -1,0 +1,35 @@
+[
+  {
+    "id": "usr_root_admin_001",
+    "username": "admin",
+    "email": "admin@geonetra.com",
+    "phone": "9999999999",
+    "countryCode": "+91",
+    "passwordHash": "$2b$10$Q1oa90jQp8Nj6Tj0oj2iZOrwQYKLIbkaK8AXp5r3d7MJX1HbJbYzq",
+    "role": "admin",
+    "createdAt": "2026-10-11T12:00:00.000Z",
+    "updatedAt": "2026-10-11T12:00:00.000Z"
+  },
+  {
+    "id": "usr_default_admin_001",
+    "username": "observeradmin",
+    "email": "observer@geonetra.gov.in",
+    "phone": "9876543210",
+    "countryCode": "+91",
+    "passwordHash": "$2b$10$f0qzY/GTKZOUf8ws1zWHhumN3UG84sw0wQoLYXed55oGPt3Ta2mwS",
+    "role": "Field Monitor",
+    "createdAt": "2026-10-11T10:31:07.239Z",
+    "updatedAt": "2026-10-11T10:31:07.239Z"
+  },
+  {
+    "id": "usr_1791715045699_a6ejxu",
+    "username": "anuj",
+    "email": "anuj102004@gmail.com",
+    "phone": "9079202308",
+    "countryCode": "+91",
+    "passwordHash": "$2b$10$RLfon/eYY.KDUWTEQenCGO2Eujj6yufSbJWP9FU6b5945RA6SNpeq",
+    "role": "Field Monitor",
+    "createdAt": "2026-10-11T10:37:25.699Z",
+    "updatedAt": "2026-10-11T10:53:58.883Z"
+  }
+]

@@ -1,0 +1,561 @@
+/* ═════════════════════════════════════════════════════════════════════
+   GEONETRA - AUTHENTICATION STYLES (SIGN IN & CREATE ACCOUNT)
+   Official Palette: Primary Black (#000000 / #080c14) | White (#FFFFFF) | Royal Indigo (#2C3480)
+   Reference: Image 1 (Sign In) & Image 2 (Create Account)
+   Permanent Dark UI: Immune to light theme override
+   ═════════════════════════════════════════════════════════════════════ */
+
+.auth-page-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2.5rem 1.25rem;
+  background-color: #0b0f19 !important;
+  background-image: 
+    radial-gradient(circle at 50% 18%, rgba(44, 52, 128, 0.28) 0%, transparent 60%),
+    radial-gradient(circle at 85% 85%, rgba(37, 99, 235, 0.12) 0%, transparent 50%) !important;
+  position: relative;
+  overflow-x: hidden;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  box-sizing: border-box;
+}
+
+/* Subtle background telemetry grid */
+.auth-page-wrapper::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
+                    linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
+  background-size: 36px 36px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.auth-container {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 440px;
+}
+
+/* Top Institutional Gov Pill */
+.auth-top-kicker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.auth-kicker-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.38rem 0.9rem;
+  border-radius: 9999px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: #93c5fd;
+  background: rgba(44, 52, 128, 0.3);
+  border: 1px solid rgba(59, 130, 246, 0.35);
+  backdrop-filter: blur(8px);
+}
+
+/* Card Box (Signature GeoNetra Dark UI) */
+.auth-card {
+  background: #111827 !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 20px;
+  padding: 2.25rem 2rem 2rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7),
+              0 0 0 1px rgba(255, 255, 255, 0.06);
+  position: relative;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+/* Circular Logo Badge (Image 1 & 2 Reference) */
+.auth-badge-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.2rem;
+}
+
+.auth-badge-circle {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: #2563eb;
+  background: linear-gradient(135deg, #3b82f6 0%, #2c3480 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 24px -4px rgba(37, 99, 235, 0.6),
+              0 0 0 4px rgba(59, 130, 246, 0.2);
+  position: relative;
+  padding: 6px;
+}
+
+.auth-badge-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.auth-badge-icon {
+  color: #ffffff;
+  width: 26px;
+  height: 26px;
+}
+
+/* Header Text */
+.auth-header-block {
+  text-align: center;
+  margin-bottom: 1.75rem;
+}
+
+.auth-title {
+  font-size: 1.55rem;
+  font-weight: 800;
+  color: #ffffff !important;
+  letter-spacing: -0.025em;
+  margin: 0 0 0.45rem;
+}
+
+.auth-subtitle {
+  font-size: 0.88rem;
+  color: #94a3b8 !important;
+  margin: 0;
+  line-height: 1.45;
+}
+
+/* Alert / Toast banner */
+.auth-alert {
+  display: none;
+  align-items: flex-start;
+  gap: 0.65rem;
+  padding: 0.75rem 0.95rem;
+  border-radius: 10px;
+  font-size: 0.84rem;
+  line-height: 1.4;
+  margin-bottom: 1.25rem;
+  animation: slideInDown 0.25s ease-out;
+}
+
+.auth-alert.visible {
+  display: flex;
+}
+
+.auth-alert.error {
+  background: rgba(239, 68, 68, 0.16);
+  border: 1px solid rgba(239, 68, 68, 0.4);
+  color: #fca5a5;
+}
+
+.auth-alert.success {
+  background: rgba(16, 185, 129, 0.16);
+  border: 1px solid rgba(16, 185, 129, 0.4);
+  color: #6ee7b7;
+}
+
+/* Form Layout */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.15rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  text-align: left;
+}
+
+.form-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.form-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #e2e8f0 !important;
+  letter-spacing: -0.01em;
+}
+
+.forgot-password-link {
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #60a5fa;
+  text-decoration: none;
+  transition: color 0.2s;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+}
+
+.forgot-password-link:hover {
+  color: #93c5fd;
+  text-decoration: underline;
+}
+
+/* Inputs */
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.78rem 0.95rem;
+  background: #1f2937 !important;
+  border: 1.5px solid #374151 !important;
+  border-radius: 10px;
+  color: #ffffff !important;
+  font-size: 0.92rem;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
+}
+
+.input-with-action {
+  padding-right: 2.85rem;
+}
+
+.form-input:focus {
+  outline: none;
+  border-color: #3b82f6 !important;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3) !important;
+  background: #161e2e !important;
+}
+
+.form-input::placeholder {
+  color: #64748b !important;
+  font-weight: 400;
+}
+
+/* Disable native browser password reveal and clear buttons (Microsoft Edge, IE, WebKit) */
+input[type="password"]::-ms-reveal,
+input[type="password"]::-ms-clear,
+input::-ms-reveal,
+input::-ms-clear {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+  pointer-events: none !important;
+  visibility: hidden !important;
+}
+
+input::-webkit-credentials-auto-fill-button {
+  visibility: hidden !important;
+  position: absolute !important;
+  right: 0 !important;
+}
+
+/* Custom Password Toggle Icon (White eye, visible ONLY when text is written) */
+.input-toggle-btn {
+  position: absolute;
+  right: 0.75rem;
+  background: none;
+  border: none;
+  color: #ffffff !important;
+  cursor: pointer;
+  padding: 0.3rem;
+  display: none; /* Hidden by default when empty */
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  z-index: 2;
+  border-radius: 6px;
+}
+
+.input-toggle-btn.visible {
+  display: flex !important;
+}
+
+/* CSS fallback: display eye when input has content */
+.input-wrapper input:not(:placeholder-shown) ~ .input-toggle-btn {
+  display: flex;
+}
+
+.input-toggle-btn:hover {
+  color: #ffffff !important;
+  filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Password Requirements Box (Exact Image 2 Recreation) */
+.password-requirements-card {
+  background: rgba(17, 24, 39, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  border-radius: 10px;
+  padding: 0.85rem 0.95rem;
+  margin-top: -0.25rem;
+}
+
+.password-requirements-title {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #94a3b8 !important;
+  margin: 0 0 0.55rem;
+}
+
+.password-requirements-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.45rem 0.75rem;
+}
+
+.req-item {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.76rem;
+  color: #94a3b8 !important;
+  transition: all 0.2s ease;
+}
+
+.req-circle {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 1.5px solid #6b7280;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 9px;
+  transition: all 0.2s ease;
+}
+
+.req-item.valid {
+  color: #34d399 !important;
+  font-weight: 600;
+}
+
+.req-item.valid .req-circle {
+  border-color: #10b981;
+  background-color: #10b981;
+  color: #ffffff;
+}
+
+.req-item.valid .req-circle::after {
+  content: "✓";
+}
+
+/* Primary Action Buttons */
+.btn-auth-primary {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.82rem 1.25rem;
+  background: linear-gradient(135deg, #3b82f6 0%, #2c3480 100%) !important;
+  color: #ffffff !important;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.96rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 6px 18px -3px rgba(37, 99, 235, 0.45);
+  margin-top: 0.35rem;
+}
+
+.btn-auth-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px -3px rgba(37, 99, 235, 0.6);
+  filter: brightness(1.08);
+}
+
+.btn-auth-primary:active {
+  transform: translateY(0);
+}
+
+.btn-auth-primary:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Bottom Switcher Text */
+.auth-footer-block {
+  text-align: center;
+  margin-top: 1.5rem;
+  font-size: 0.86rem;
+  color: #94a3b8 !important;
+}
+
+.auth-switch-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #60a5fa !important;
+  font-size: 0.86rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color 0.2s;
+  text-decoration: none;
+}
+
+.auth-switch-btn:hover {
+  color: #93c5fd !important;
+  text-decoration: underline;
+}
+
+/* Security Seal Footer */
+.auth-security-footer {
+  margin-top: 1.5rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  font-size: 0.74rem;
+  color: #64748b !important;
+}
+
+/* Spinner */
+.auth-spinner {
+  width: 18px;
+  height: 18px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #ffffff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes slideInDown {
+  from { opacity: 0; transform: translateY(-8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 1.85rem 1.35rem 1.5rem;
+    border-radius: 16px;
+  }
+  .password-requirements-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Country Prefix Picker */
+.phone-input-group {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+}
+
+.country-prefix-picker {
+  position: relative;
+  display: flex;
+}
+
+.country-prefix-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.78rem 0.85rem;
+  background: #1f2937 !important;
+  border: 1.5px solid #374151 !important;
+  border-right: none !important;
+  border-radius: 10px 0 0 10px;
+  color: #ffffff !important;
+  font-family: inherit;
+  font-size: 0.92rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+  user-select: none;
+}
+
+.country-prefix-btn:hover {
+  background: #283548 !important;
+  border-color: #4b5563 !important;
+}
+
+.country-prefix-btn:focus-visible {
+  outline: none;
+  border-color: #3b82f6 !important;
+  z-index: 2;
+}
+
+.country-prefix-btn .country-flag-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.country-prefix-btn .country-dial-code {
+  font-weight: 700;
+  font-size: 0.9rem;
+  letter-spacing: -0.01em;
+}
+
+.country-prefix-btn .country-chevron {
+  width: 15px;
+  height: 15px;
+  color: #94a3b8;
+  transition: transform 0.2s ease;
+  flex-shrink: 0;
+}
+
+.country-prefix-picker.open .country-chevron {
+  transform: rotate(180deg);
+}
+
+.country-prefix-picker.open .country-prefix-btn {
+  border-color: #3b82f6 !important;
+}
+
+.phone-input-group .phone-number-input {
+  border-radius: 0 10px 10px 0 !important;
+  border-left: 1px solid rgba(255, 255, 255, 0.1) !important;
+  flex: 1;
+  min-width: 0;
+}
+
+.phone-input-group .phone-number-input:focus {
+  z-index: 1;
+}
+
+.country-dropdown-popover {
+  display: none !important;
+}
+
+.country-prefix-picker.open .country-dropdown-popover,
+.country-dropdown-popover.open {
+  display: flex !important;
+}
+
+.country-dropdown-popover[hidden] {
+  display: none !important;
+}
+
+.country-flag-img {
+  width: 20px;
+  height: 15px;
+  border-radius: 2px;
+  object-fit: cover;
+  display: inline-block;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.35);
+  flex-shrink: 0;
+  vertical-align: middle;
+}
