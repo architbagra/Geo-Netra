@@ -2635,5 +2635,170 @@ button.profile-menu-link {
   border-color: #6366f1 !important;
 }
 
+/* ═════════════════════════════════════════════════════════════════════
+   MEMBER 1 DELIVERABLE: OFFLINE NOTIFICATION TOAST PILL (TASK 1.2)
+   ═════════════════════════════════════════════════════════════════════ */
+.offline-toast-pill {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  max-width: 440px;
+  background: rgba(15, 23, 42, 0.94);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: var(--radius-xl, 18px);
+  padding: 0.9rem 1.35rem;
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  gap: 0.95rem;
+  z-index: 999999;
+  opacity: 0;
+  transform: translateY(20px) scale(0.96);
+  transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1), transform 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.offline-toast-pill.active {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+  pointer-events: auto;
+}
+
+.offline-toast-pill.is-offline {
+  border-color: rgba(245, 158, 11, 0.5);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65), 0 0 24px rgba(245, 158, 11, 0.22);
+}
+
+.offline-toast-pill.is-offline .offline-pill-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #f59e0b;
+  box-shadow: 0 0 12px #f59e0b;
+  animation: offlineDotBlink 1.4s infinite ease-in-out;
+  flex-shrink: 0;
+}
+
+.offline-toast-pill.is-offline .offline-pill-icon {
+  width: 22px;
+  height: 22px;
+  color: #fbbf24;
+  flex-shrink: 0;
+}
+
+.offline-toast-pill.is-online {
+  border-color: rgba(16, 185, 129, 0.5);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.65), 0 0 24px rgba(16, 185, 129, 0.22);
+}
+
+.offline-toast-pill.is-online .offline-pill-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #10b981;
+  box-shadow: 0 0 12px #10b981;
+  flex-shrink: 0;
+}
+
+.offline-toast-pill.is-online .offline-pill-icon {
+  width: 22px;
+  height: 22px;
+  color: #34d399;
+  flex-shrink: 0;
+}
+
+.offline-pill-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.offline-pill-title {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.92rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.offline-pill-sub {
+  font-size: 0.78rem;
+  color: #cbd5e1;
+  line-height: 1.35;
+}
+
+@keyframes offlineDotBlink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.35; transform: scale(0.85); }
+}
+
+@media (max-width: 640px) {
+  .offline-toast-pill {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+    max-width: none;
+    padding: 0.8rem 1.1rem;
+  }
+}
+
+/* ═════════════════════════════════════════════════════════════════════
+   MEMBER 1 DELIVERABLE: GLOBAL MICRO-INTERACTIONS & ACCESSIBILITY (TASK 1.4)
+   ═════════════════════════════════════════════════════════════════════ */
+button, 
+.btn-primary, 
+.btn-secondary, 
+.btn-danger,
+.hero-btn-primary,
+.hero-btn-secondary,
+.service-action-btn,
+.nav-text-link,
+.icon-utility-btn,
+.user-profile-btn {
+  transition: transform 0.14s ease, box-shadow 0.18s ease, background-color 0.18s ease, border-color 0.18s ease, color 0.18s ease !important;
+}
+
+button:active,
+.btn-primary:active,
+.btn-secondary:active,
+.btn-danger:active,
+.hero-btn-primary:active,
+.hero-btn-secondary:active,
+.service-action-btn:active {
+  transform: scale(0.975) !important;
+}
+
+:focus-visible {
+  outline: 2px solid #6366f1 !important;
+  outline-offset: 2px !important;
+}
+
+/* ═════════════════════════════════════════════════════════════════════
+   MEMBER 1 DELIVERABLE: MOBILE ERGONOMICS BASELINE (TASK 1.1)
+   ═════════════════════════════════════════════════════════════════════ */
+html, body {
+  overflow-x: hidden;
+  touch-action: manipulation;
+}
+
+.reports-table-wrapper,
+.table-responsive,
+.analytics-table-wrap {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.reports-table-wrapper::-webkit-scrollbar,
+.table-responsive::-webkit-scrollbar {
+  height: 5px;
+}
+
+.reports-table-wrapper::-webkit-scrollbar-thumb,
+.table-responsive::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 999px;
+}
+
 
 
