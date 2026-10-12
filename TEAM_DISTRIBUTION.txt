@@ -294,7 +294,7 @@ TO PREVENT CONFLICTS:
 | Mobile Ergonomics & Offline Toast        | COMPLETED   | Member 1            |
 | Multi-vernacular Prompts (mr, ta, bn)    | COMPLETED   | Member 2            |
 | MongoDB 2dsphere Spatial Indexing        | COMPLETED   | Member 3            |
-| Automated Test Script & Dockerfile       | REMAINING   | Member 4            |
+| Automated Test Script & Dockerfile       | COMPLETED   | Member 4            |
 +------------------------------------------+-------------+---------------------+
 
 ================================================================================

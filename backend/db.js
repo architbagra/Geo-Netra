@@ -43,7 +43,7 @@ const hazardSchema = new mongoose.Schema(
       type: { type: String, enum: ["Point"], default: "Point" },
       coordinates: { type: [Number], default: [78.9629, 20.5937] } // [longitude, latitude] GeoJSON
     },
-    severity: { type: String, enum: ["low", "medium", "high", "severe"], default: "medium" },
+    severity: { type: String, enum: ["low", "medium", "high", "severe", "critical"], default: "medium" },
     status: { type: String, enum: ["open", "resolved"], default: "open" },
     pinned: { type: Boolean, default: false },
     votes: { type: Number, default: 1 },
@@ -77,7 +77,7 @@ const shelterSchema = new mongoose.Schema(
     id: { type: String, required: true, unique: true, index: true },
     name: { type: String, required: true },
     type: { type: String, default: "Emergency Relief Shelter" },
-    region: { type: String, required: true, index: true },
+    region: { type: String, required: true },
     regionLabel: { type: String, default: "" },
     lat: { type: Number, required: true },
     lng: { type: Number, required: true },
@@ -365,14 +365,15 @@ async function findUserById(id) {
   return users.find((u) => u.id === id) || null;
 }
 
-async function createUser({ username, email, phone, countryCode = "+91", passwordHash, role = "Field Monitor" }) {
+async function createUser({ username, email, phone, countryCode = "+91", password, passwordHash, role = "Field Monitor" }) {
+  const finalHash = passwordHash || (password ? await bcrypt.hash(password, 10) : "");
   const newUser = {
     id: `usr_${Date.now()}_${Math.random().toString(36).substring(2, 8)}`,
     username: username.trim().toLowerCase(),
     email: email.trim().toLowerCase(),
     phone: phone.replace(/[\s-]/g, ""),
     countryCode,
-    passwordHash,
+    passwordHash: finalHash,
     role
   };
 

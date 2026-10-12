@@ -232,5 +232,82 @@ VERIFIABLE CLAIMS & EVIDENCE:
 - Design system implements WCAG 2.1 AA verified contrast ratios in 'CSS/style.css'.
 
 ================================================================================
-END OF PRESENTATION SCRIPT
+SECTION 7: LIVE DEMO CONTINGENCY PROTOCOLS & ZERO-DOWNTIME JURY PLAYBOOK
+================================================================================
+
+1. CONTINGENCY SCENARIO A: VENUE WI-FI / INTERNET DEGRADATION
+   - Trigger: Jury room Wi-Fi drops, high latency, or captive portal disconnects.
+   - Fallback System Behavior:
+     * GeoNetra backend automatically detects MongoDB Atlas timeout and switches to
+       'backend/data/*.json' local persistence without throwing 500 errors.
+     * All incident submissions and queries execute locally on the host machine.
+   - Speaker Defense Line:
+     "Notice that even under total network isolation in this testing room, GeoNetra's
+     local JSON fallback keeps our disaster command loop 100% operational. This is by design:
+     disaster zones cannot depend on fragile remote infrastructure."
+
+2. CONTINGENCY SCENARIO B: GOOGLE GEMINI 2.5 FLASH RATE LIMIT (HTTP 429)
+   - Trigger: Free-tier Gemini API quota exceeded or upstream Google AI timeout.
+   - Fallback System Behavior:
+     * 'server.js' catches HTTP 429 / network errors across 3 exponential backoff retries.
+     * Automatically triggers the deterministic extractive heuristic summarizer, returning
+       bilingual 2-sentence summaries and setting 'fallbackNotice' in the telemetry packet.
+   - Speaker Defense Line:
+     "If the upstream LLM API experiences rate-limiting, GeoNetra gracefully falls back
+     to local extractive heuristics, ensuring citizen intake is never blocked by cloud quotas."
+
+3. CONTINGENCY SCENARIO C: QUICK DATABASE FIXTURE RESET FOR THE JURY
+   - Action: If the jury asks to see a clean, multi-hazard slate, run in terminal:
+     'npm run seed' (or 'node backend/seed.js')
+   - Result: Instantly resets and populates 6 high-priority disaster scenarios across
+     Odisha (Cyclone), Chennai (Floods), Mumbai (Storm Surge), Wayanad (Landslide),
+     Chamoli (Earthquake), and Vizag (Chemical Leak) along with 17 verified relief shelters.
+
+4. STEP-BY-STEP LIVE DEMO NARRATIVE (3-MINUTE SCRIPT):
+   * Step 1 (0:00 - 0:45): Open 'index.html'. Show live KPI indicators, emergency alert
+     banner, and active recent reports matrix with pulsing threat beacons.
+   * Step 2 (0:45 - 1:30): Open 'hazard.html'. Demonstrate client-side photo intake,
+     automatic coordinate pin confirmation, and Gemini 2.5 Flash multilingual summarization.
+   * Step 3 (1:30 - 2:15): Open 'globe.html'. Demonstrate the 3D spherical projection,
+     layer toolbar (Wind, Doppler Radar, Sea Surface Temp), and 96-hour storm timeline scrubber.
+   * Step 4 (2:15 - 3:00): Open 'shelters.html'. Demonstrate the Haversine GPS proximity
+     sorting, live bed occupancy meter, and 1-click turn-by-turn evacuation routing.
+
+================================================================================
+SECTION 8: TECHNICAL VIVA QUESTIONS & DEFENSE MATRIX (FAQ)
+================================================================================
+
+Q1: "Why did you build GeoNetra with Vanilla ES Modules instead of React or Next.js?"
+A1: "In emergency and disaster situations, frontend build complexity and heavy bundles
+     are critical liabilities. Vanilla ES Modules load instantly on constrained 2G/3G
+     field devices with zero build-step overhead, zero Webpack bloat, and 100% native
+     browser auditability, while strictly complying with WCAG 2.1 AA accessibility standards."
+
+Q2: "How does your system prevent false reports and trolling during crises?"
+A2: "We employ a four-tier verification architecture:
+     1. Client-Side Integrity: Mandatory GPS location verification and compressed photographic evidence.
+     2. Community Consensus: Real-time upvoting/downvoting verification mechanism.
+     3. Official Credentialing: Institutional observer verification system (/api/verified-reporters).
+     4. Administrative Triage: Dedicated Operations Desk for report moderation and severity pinning."
+
+Q3: "Why use the Haversine trigonometric formula over the Google Maps Directions API?"
+A3: "Google Directions API incurs per-query monetary costs and requires stable external
+     internet connectivity. The Haversine formula operates locally in client JavaScript in
+     less than 1 millisecond per shelter, calculating great-circle distance on the WGS-84
+     Earth sphere (R = 6,371 km) with zero API costs, zero rate limits, and 100% offline autonomy."
+
+Q4: "Why perform image compression on the client before upload?"
+A4: "Modern smartphone cameras produce 5 to 12 MB raw photographs. In disaster areas
+     where cellular towers operate on battery power or 2G/3G speeds, uploading 5 MB fails.
+     Our HTML5 Canvas pipeline scales and compresses images to under 400 KB directly in the
+     browser, reducing cellular bandwidth usage by over 75% before transmission."
+
+Q5: "How does the backend maintain data consistency between MongoDB Atlas and local disk?"
+A5: "We implemented an active hybrid persistence layer in 'backend/db.js'. During normal
+     operation, Mongoose writes to MongoDB Atlas with secondary indexes and 2dsphere spatial
+     indexes. On cloud connectivity loss, the storage driver seamlessly reroutes read/write
+     operations to atomic local JSON files, maintaining zero downtime for field operators."
+
+================================================================================
+END OF PRESENTATION SCRIPT & TECHNICAL VIVA GUIDE
 ================================================================================

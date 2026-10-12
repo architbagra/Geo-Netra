@@ -31,5 +31,104 @@
     "role": "Field Monitor",
     "createdAt": "2026-10-11T10:37:25.699Z",
     "updatedAt": "2026-10-11T10:53:58.883Z"
+  },
+  {
+    "id": "usr_1791782798678_70ped0",
+    "username": "testuser_1791782798585",
+    "email": "test_1791782798585@geonetra.org",
+    "phone": "9331945659",
+    "countryCode": "+91",
+    "role": "Field Monitor"
+  },
+  {
+    "id": "usr_1791782798706_oqp8fo",
+    "username": "sanitized_1791782798703",
+    "email": "sanitized_1791782798703@geonetra.org",
+    "phone": "9786851469",
+    "countryCode": "+91",
+    "role": "Field Monitor"
+  },
+  {
+    "id": "usr_1791782880547_9fjw6z",
+    "username": "testuser_1791782880363",
+    "email": "test_1791782880363@geonetra.org",
+    "phone": "9473590815",
+    "countryCode": "+91",
+    "passwordHash": "$2b$10$57okMmjvXRr3IcOf3BCtqOagJWNMvWUAFwq58wJFRYa.fY86eBLjK",
+    "role": "Field Monitor"
+  },
+  {
+    "id": "usr_1791782880728_z4oi83",
+    "username": "sanitized_1791782880642",
+    "email": "sanitized_1791782880642@geonetra.org",
+    "phone": "9761138942",
+    "countryCode": "+91",
+    "passwordHash": "$2b$10$G6R0BGdZQtu92PwQwQRgFeztub1ngZWm5B96cKNUgOaiFzR1gm9Wm",
+    "role": "Field Monitor"
+  },
+  {
+    "id": "usr_1791782903094_irwpt3",
+    "username": "testuser_1791782902915",
+    "email": "test_1791782902915@geonetra.org",
+    "phone": "9292605993",
+    "countryCode": "+91",
+    "passwordHash": "$2b$10$iUFW19v/OGQ4RkXxDc.1WOvQQX22T66s7gRKH5uVGvfAzsCl8ylG6",
+    "role": "Field Monitor"
+  },
+  {
+    "id": "usr_1791782903290_optcd6",
+    "username": "sanitized_1791782903192",
+    "email": "sanitized_1791782903192@geonetra.org",
+    "phone": "9406479704",
+    "countryCode": "+91",
+    "passwordHash": "$2b$10$t1PL12xOFbAjzq5t4rVKJuvFb0D35DybTB4f71u7z0Q6XEqQkg9aq",
+    "role": "Field Monitor"
+  },
+  {
+    "id": "usr_1791782984574_w8zsrq",
+    "username": "field_commander",
+    "email": "commander@geonetra.gov.in",
+    "phone": "9118765432",
+    "countryCode": "+91",
+    "passwordHash": "$2b$10$gzPBpt93wAKlZpAwuM85PeRt1HBAw.55auAFBKFWd9i8WckzbE4JK",
+    "role": "Field Monitor",
+    "createdAt": "2026-10-12T05:29:44.574Z",
+    "updatedAt": "2026-10-12T05:29:44.574Z"
+  },
+  {
+    "id": "usr_1791783024477_0lhwsb",
+    "username": "testuser_1791783024227",
+    "email": "test_1791783024227@geonetra.org",
+    "phone": "9562584269",
+    "countryCode": "+91",
+    "passwordHash": "$2b$10$MYUxwSNNJ9bPP9CkkdBcBu5SyRnRmG8tBZ/v.K5A8mtvKIPEhc0ZO",
+    "role": "Field Monitor"
+  },
+  {
+    "id": "usr_1791783024729_nv9xe5",
+    "username": "sanitized_1791783024627",
+    "email": "sanitized_1791783024627@geonetra.org",
+    "phone": "9544458875",
+    "countryCode": "+91",
+    "passwordHash": "$2b$10$O7ne0U5.gQZo3JuDjgy3ye8qIye0iMCc8ffHMByKf4kH/1/OT/i8m",
+    "role": "Field Monitor"
+  },
+  {
+    "id": "usr_1791783112565_yz0yy0",
+    "username": "testuser_1791783112332",
+    "email": "test_1791783112332@geonetra.org",
+    "phone": "9712322755",
+    "countryCode": "+91",
+    "passwordHash": "$2b$10$fRmBTZCWX5dEPcoVa7wQyOeXw6KRIQIxEGLaMIjnYWRNQRw4P5.SW",
+    "role": "Field Monitor"
+  },
+  {
+    "id": "usr_1791783112771_wqg4sa",
+    "username": "sanitized_1791783112681",
+    "email": "sanitized_1791783112681@geonetra.org",
+    "phone": "9109136604",
+    "countryCode": "+91",
+    "passwordHash": "$2b$10$Wjl7fM9qi19RDml/Er.8EONBiesGJmf.avvZR8p/8CAmiSWbAOEMa",
+    "role": "Field Monitor"
   }
 ]

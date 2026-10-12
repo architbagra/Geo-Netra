@@ -124,6 +124,10 @@ app.use(cors());
 app.use(express.json({ limit: "10mb" }));
 app.use(sanitizeInput);
 
+// Static frontend delivery for single-container Docker & integrated deployments
+const combinedPath = path.resolve(__dirname, "../combined");
+app.use(express.static(combinedPath));
+
 function ensureGeminiApiKey(res) {
   if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY === "your_api_key_here") {
     res.status(500).json({ error: "GEMINI_API_KEY is missing in backend/.env." });
@@ -399,9 +403,15 @@ function authenticateToken(req, res, next) {
   });
 }
 
-// Health check
-app.get("/api/health", (req, res) => {
-  res.json({ status: "healthy", service: "GeoNetra Central Backend", time: new Date().toISOString() });
+// Health check (supports both /health and /api/health probes)
+app.get(["/health", "/api/health"], (req, res) => {
+  res.json({
+    status: "healthy",
+    service: "GeoNetra Central Backend",
+    version: "2.0.0",
+    uptime: Math.floor(process.uptime()),
+    time: new Date().toISOString()
+  });
 });
 
 // 1. Register Account (Protected by authRateLimiter)
@@ -523,7 +533,8 @@ app.get("/api/auth/me", authenticateToken, async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User profile not found." });
     }
-    return res.json({ user: db.sanitizeUser(user) });
+    const sanitized = db.sanitizeUser(user);
+    return res.json({ user: sanitized, ...sanitized });
   } catch (error) {
     console.error("Get user error:", error);
     return res.status(500).json({ error: "Internal server error retrieving user profile." });
@@ -931,7 +942,7 @@ app.delete("/api/verified-reporters/:email", async (req, res) => {
   }
 });
 
-async function startServer() {
+async function startServer(customPort = port) {
   const mongoUri = process.env.MONGODB_URI;
   if (mongoUri) {
     await db.connectMongoDB(mongoUri);
@@ -939,10 +950,17 @@ async function startServer() {
     console.log("No MONGODB_URI specified in environment. Running with local database.");
   }
 
-  app.listen(port, () => {
-    console.log(`GeoNetra backend is running at http://localhost:${port}`);
+  return new Promise((resolve) => {
+    const serverInstance = app.listen(customPort, () => {
+      console.log(`GeoNetra backend is running at http://localhost:${customPort}`);
+      resolve(serverInstance);
+    });
   });
 }
 
-startServer();
+if (require.main === module) {
+  startServer();
+}
+
+module.exports = { app, startServer };
 
