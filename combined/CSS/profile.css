@@ -441,3 +441,72 @@
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
 }
+
+/* ═════════════════════════════════════════════════════════════════════
+   MEMBER 1 DELIVERABLE: MOBILE ERGONOMICS FOR PROFILE & SETTINGS (TASK 1.1)
+   ═════════════════════════════════════════════════════════════════════ */
+@media (max-width: 680px) {
+  .account-settings-page-wrap {
+    padding: 1.5rem 1rem 4rem;
+  }
+
+  .account-settings-card {
+    padding: 1.75rem 1.25rem;
+    border-radius: 16px;
+  }
+
+  .account-info-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.6rem;
+  }
+
+  .account-row-content {
+    width: 100%;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .account-modal-overlay {
+    padding: 0.75rem;
+  }
+
+  .account-modal-card {
+    padding: 1.5rem 1.2rem;
+    border-radius: 16px;
+  }
+
+  .account-modal-footer {
+    flex-direction: column-reverse;
+    gap: 0.65rem;
+  }
+
+  .btn-modal-cancel,
+  .btn-modal-done {
+    width: 100%;
+    text-align: center;
+  }
+
+  .account-toast {
+    left: 1rem;
+    right: 1rem;
+    bottom: 1rem;
+    padding: 0.75rem 1rem;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 400px) {
+  .account-settings-card {
+    padding: 1.35rem 0.95rem;
+  }
+
+  .account-settings-title {
+    font-size: 1.2rem;
+  }
+
+  .account-row-val {
+    word-break: break-all;
+  }
+}

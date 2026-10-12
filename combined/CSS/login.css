@@ -113,3 +113,13 @@
   height: 14px;
   color: var(--severity-low);
 }
+
+@media (max-width: 480px) {
+  .login-page-section {
+    padding: 1.5rem 1rem;
+  }
+  .login-card-box {
+    padding: 1.75rem 1.25rem;
+    border-radius: 16px;
+  }
+}
