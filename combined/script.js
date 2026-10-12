@@ -1591,6 +1591,27 @@ function initializeMapPage() {
       return;
     }
 
+    if (language === "marathi" && currentSummary?.marathi) {
+      summaryText.textContent = currentSummary.marathi;
+      summaryText.style.fontStyle = "normal";
+      summaryText.style.opacity = "1";
+      return;
+    }
+
+    if (language === "tamil" && currentSummary?.tamil) {
+      summaryText.textContent = currentSummary.tamil;
+      summaryText.style.fontStyle = "normal";
+      summaryText.style.opacity = "1";
+      return;
+    }
+
+    if (language === "bengali" && currentSummary?.bengali) {
+      summaryText.textContent = currentSummary.bengali;
+      summaryText.style.fontStyle = "normal";
+      summaryText.style.opacity = "1";
+      return;
+    }
+
     if (language === "original" && currentSummary?.original) {
       summaryText.textContent = currentSummary.original;
       summaryText.style.fontStyle = "normal";
@@ -2023,6 +2044,9 @@ function initializeMapPage() {
             original: report.summaryOriginal || report.aiSummaryOriginal || null,
             english: report.summaryEnglish || report.aiSummaryEnglish || null,
             hindi: report.summaryHindi || report.aiSummaryHindi || null,
+            marathi: report.summaryMarathi || report.aiSummaryMarathi || null,
+            tamil: report.summaryTamil || report.aiSummaryTamil || null,
+            bengali: report.summaryBengali || report.aiSummaryBengali || null,
             sourceLanguage: report.sourceLanguage || null
           }
         };

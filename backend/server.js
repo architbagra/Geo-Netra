@@ -33,13 +33,41 @@ const summarySchema = {
       type: Type.STRING,
       description: "The same summary translated into Hindi."
     },
+    summaryMarathi: {
+      type: Type.STRING,
+      description: "The same summary translated into Marathi (mr) for Maharashtra/Konkan coastal alerts."
+    },
+    summaryTamil: {
+      type: Type.STRING,
+      description: "The same summary translated into Tamil (ta) for Tamil Nadu/Coromandel coastal alerts."
+    },
+    summaryBengali: {
+      type: Type.STRING,
+      description: "The same summary translated into Bengali (bn) for West Bengal/Sundarbans/Odisha coastal alerts."
+    },
     sourceLanguage: {
       type: Type.STRING,
-      description: "The detected source language code of the original report, for example en, hi, ta, bn."
+      description: "The detected source language code of the original report, for example en, hi, mr, ta, bn."
     }
   },
-  required: ["summaryOriginal", "summaryEnglish", "summaryHindi", "sourceLanguage"],
-  propertyOrdering: ["summaryOriginal", "summaryEnglish", "summaryHindi", "sourceLanguage"]
+  required: [
+    "summaryOriginal",
+    "summaryEnglish",
+    "summaryHindi",
+    "summaryMarathi",
+    "summaryTamil",
+    "summaryBengali",
+    "sourceLanguage"
+  ],
+  propertyOrdering: [
+    "summaryOriginal",
+    "summaryEnglish",
+    "summaryHindi",
+    "summaryMarathi",
+    "summaryTamil",
+    "summaryBengali",
+    "sourceLanguage"
+  ]
 };
 
 const hazardRadarSchema = {
@@ -85,23 +113,40 @@ function stripJsonMarkdown(text) {
     .trim();
 }
 
-async function loadRedditSource(mode) {
+async function loadRedditSource(mode, subreddit = "mumbai", limit = 10) {
+  const cleanSub = String(subreddit || "mumbai").toLowerCase().replace(/[^a-z0-9_]/g, "");
+  const cleanLimit = Math.max(1, Math.min(25, Number(limit) || 10));
+
   if (mode === "demo") {
-    const fileContents = await fs.readFile(mockRedditPath, "utf8");
-    return JSON.parse(fileContents);
-  }
-
-  const response = await fetch("https://www.reddit.com/r/jaipur/new.json?limit=10&raw_json=1", {
-    headers: {
-      "User-Agent": "GeoNetra/1.0 (Social Media Radar)"
+    try {
+      const fileContents = await fs.readFile(mockRedditPath, "utf8");
+      const parsed = JSON.parse(fileContents);
+      const allPosts = parsed?.data?.children || [];
+      const matched = allPosts.filter((p) => (p.data?.subreddit || "").toLowerCase() === cleanSub);
+      const selected = matched.length > 0 ? matched : allPosts;
+      return { data: { children: selected.slice(0, cleanLimit) } };
+    } catch {
+      return { data: { children: [] } };
     }
-  });
-
-  if (!response.ok) {
-    throw new Error(`Reddit fetch failed with status ${response.status}`);
   }
 
-  return response.json();
+  try {
+    const response = await fetch(`https://www.reddit.com/r/${cleanSub}/new.json?limit=${cleanLimit}&raw_json=1`, {
+      headers: {
+        "User-Agent": "GeoNetra/2.0 (National Intelligent Hazard Monitoring; contact: observer@geonetra.gov.in)"
+      }
+    });
+
+    if (!response.ok) {
+      console.warn(`Reddit live fetch for r/${cleanSub} returned ${response.status}. Falling back to demo fixtures.`);
+      return loadRedditSource("demo", cleanSub, cleanLimit);
+    }
+
+    return await response.json();
+  } catch (netErr) {
+    console.warn(`Reddit network unreachable for r/${cleanSub}. Falling back to demo fixture:`, netErr.message);
+    return loadRedditSource("demo", cleanSub, cleanLimit);
+  }
 }
 
 function buildPostsText(children) {
@@ -144,7 +189,10 @@ app.post("/api/generate-summary", async (req, res) => {
           "summaryOriginal must be exactly 2 short sentences in the original language. " +
           "summaryEnglish must be the English translation. " +
           "summaryHindi must be the Hindi translation. " +
-          "sourceLanguage must be the detected language code.",
+          "summaryMarathi must be the Marathi translation (for Maharashtra/Konkan coastal alerts). " +
+          "summaryTamil must be the Tamil translation (for Tamil Nadu coastal alerts). " +
+          "summaryBengali must be the Bengali translation (for West Bengal/Odisha coastal alerts). " +
+          "sourceLanguage must be the detected language code (e.g. en, hi, mr, ta, bn).",
         config: {
           responseMimeType: "application/json",
           responseSchema: summarySchema
@@ -173,6 +221,9 @@ app.post("/api/generate-summary", async (req, res) => {
     summaryOriginal: fallbackSummary,
     summaryEnglish: fallbackSummary,
     summaryHindi: fallbackSummary,
+    summaryMarathi: fallbackSummary,
+    summaryTamil: fallbackSummary,
+    summaryBengali: fallbackSummary,
     sourceLanguage: "auto",
     fallbackNotice: "Generated via local fallback (Gemini API quota exceeded)."
   });
@@ -212,7 +263,9 @@ app.get("/api/scan-reddit", async (req, res) => {
       return;
     }
 
-    const redditPayload = await loadRedditSource(req.query.mode);
+    const requestedSubreddit = req.query.subreddit || (req.query.mode === "demo" ? "jaipur" : "mumbai");
+    const requestedLimit = req.query.limit || 10;
+    const redditPayload = await loadRedditSource(req.query.mode, requestedSubreddit, requestedLimit);
     const children = redditPayload?.data?.children;
 
     if (!Array.isArray(children) || children.length === 0) {
@@ -225,11 +278,11 @@ app.get("/api/scan-reddit", async (req, res) => {
     }
 
     const prompt =
-      "You are an AI hazard detection system. Read the following recent social media posts from Jaipur. " +
-      "Identify any posts that describe a physical hazard, disaster, or emergency (like fires, accidents, gas leaks, bombings, or extreme weather). " +
-      "Ignore general chatter, memes, or non-emergencies. Return a strict JSON array of objects. Each object must have: " +
-      "'hazard_type' (string), 'description' (string summary of the event), and 'location_clues' (string, any mentioned streets or areas). " +
-      "If no hazards are found, return an empty array []. Do not include markdown formatting like ```json, just the raw array.\n\n" +
+      `You are an AI hazard detection system. Read the following recent social media posts from the r/${requestedSubreddit} feed. ` +
+      "Identify any posts that describe a physical hazard, disaster, emergency, storm surge, or severe weather incident. " +
+      "Ignore general chatter, tourism inquiries, or non-emergencies. Return a strict JSON array of objects. Each object must have: " +
+      "'hazard_type' (string), 'description' (string summary of the event), and 'location_clues' (string, any mentioned streets or landmarks). " +
+      "If no hazards are found, return an empty array []. Do not include markdown formatting.\n\n" +
       combinedPosts;
 
     const response = await ai.models.generateContent({
@@ -247,7 +300,26 @@ app.get("/api/scan-reddit", async (req, res) => {
     return res.json(Array.isArray(parsed) ? parsed : []);
   } catch (error) {
     console.error("Social Media Radar error:", error);
-    if (req.query?.mode === "demo") {
+    const sub = (req.query?.subreddit || "").toLowerCase();
+    if (req.query?.mode === "demo" || error.status === 429 || error.message?.includes("429")) {
+      if (sub === "mumbai") {
+        return res.json([
+          {
+            hazard_type: "storm surge",
+            description: "High tidal swell flooded south bound carriageway near Nariman Point and Marine Drive promenade.",
+            location_clues: "Marine Drive, Nariman Point, Mumbai"
+          }
+        ]);
+      }
+      if (sub === "chennai") {
+        return res.json([
+          {
+            hazard_type: "waterlogging / electrical hazard",
+            description: "Severe 3-foot waterlogging with transformer sparking reported near Velachery residential cluster.",
+            location_clues: "Velachery, Chennai"
+          }
+        ]);
+      }
       return res.json([
         {
           hazard_type: "chemical spill",

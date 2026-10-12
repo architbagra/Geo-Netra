@@ -3,6 +3,7 @@
     "children": [
       {
         "data": {
+          "subreddit": "jaipur",
           "title": "Best cafe suggestions in Malviya Nagar?",
           "selftext": "Need a quiet spot to work from this evening. Any recommendations with good coffee and Wi-Fi?",
           "url": "https://www.reddit.com/r/jaipur/comments/mock001/best_cafe_suggestions_in_malviya_nagar/"
@@ -10,6 +11,7 @@
       },
       {
         "data": {
+          "subreddit": "jaipur",
           "title": "Urgent: severe chemical spill near Sitapura Industrial Area",
           "selftext": "People around the factory lane are coughing badly and saying the air burns to breathe. Please avoid the area and call emergency services immediately.",
           "url": "https://www.reddit.com/r/jaipur/comments/mock002/urgent_severe_chemical_spill_near_sitapura/"
@@ -17,6 +19,7 @@
       },
       {
         "data": {
+          "subreddit": "jaipur",
           "title": "Why is Jio internet so slow again in Jaipur?",
           "selftext": "Streaming keeps buffering all day. Is anyone else getting terrible speeds tonight?",
           "url": "https://www.reddit.com/r/jaipur/comments/mock003/why_is_jio_internet_so_slow_again/"
@@ -24,9 +27,34 @@
       },
       {
         "data": {
+          "subreddit": "jaipur",
           "title": "Building collapse on MI Road blocking emergency vehicles",
           "selftext": "Part of an old building has come down near MI Road and traffic is jammed. Ambulances are struggling to get through, please avoid the stretch.",
           "url": "https://www.reddit.com/r/jaipur/comments/mock004/building_collapse_on_mi_road_blocking_emergency/"
+        }
+      },
+      {
+        "data": {
+          "subreddit": "mumbai",
+          "title": "Severe flash storm surge and sea wall breach at Marine Drive promenade",
+          "selftext": "High tidal swell has flooded the south bound carriageway near Nariman Point. Police are diverting traffic away from coastal promenade.",
+          "url": "https://www.reddit.com/r/mumbai/comments/mock005/severe_flash_storm_surge_marine_drive/"
+        }
+      },
+      {
+        "data": {
+          "subreddit": "mumbai",
+          "title": "Dad, mom and kids weekend getaway suggestions near Lonavala?",
+          "selftext": "Looking for family resort recommendations for this upcoming long weekend.",
+          "url": "https://www.reddit.com/r/mumbai/comments/mock006/weekend_getaway_suggestions/"
+        }
+      },
+      {
+        "data": {
+          "subreddit": "chennai",
+          "title": "Severe waterlogging and electrical transformer sparks in Velachery",
+          "selftext": "Water levels reaching 3 feet in low lying areas of Velachery. Sparks visible on main distribution transformer, please alert disaster desk.",
+          "url": "https://www.reddit.com/r/chennai/comments/mock007/waterlogging_velachery_sparks/"
         }
       }
     ]

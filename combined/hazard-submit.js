@@ -44,7 +44,25 @@ function renderAiSummaryPreview(summaryObject) {
   if (!summaryPreviewContainer || !summaryText) return;
 
   summaryPreviewContainer.hidden = false;
-  summaryText.textContent = summaryObject.summaryOriginal || "";
+
+  const langs = [
+    { code: "en", label: "English", text: summaryObject.summaryEnglish },
+    { code: "hi", label: "Hindi (हिन्दी)", text: summaryObject.summaryHindi },
+    { code: "mr", label: "Marathi (मराठी)", text: summaryObject.summaryMarathi },
+    { code: "ta", label: "Tamil (தமிழ்)", text: summaryObject.summaryTamil },
+    { code: "bn", label: "Bengali (বাংলা)", text: summaryObject.summaryBengali }
+  ].filter((l) => Boolean(l.text));
+
+  const mainSummary = summaryObject.summaryOriginal || summaryObject.summaryEnglish || "";
+  let html = `<div style="font-weight:600;color:var(--text-head);margin-bottom:0.45rem;">${mainSummary}</div>`;
+
+  if (langs.length > 0) {
+    html += `<div style="display:flex;flex-wrap:wrap;gap:0.35rem;margin-top:0.4rem;">` +
+      langs.map((l) => `<span style="font-size:0.75rem;padding:0.2rem 0.5rem;border-radius:4px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);color:var(--text-muted);"><strong style="color:var(--brand-indigo);">${l.label}:</strong> ${l.text}</span>`).join("") +
+      `</div>`;
+  }
+
+  summaryText.innerHTML = html;
 }
 
 function setGenerateButtonLoading(isLoading) {
@@ -74,7 +92,7 @@ async function fetchGeminiSummary(rawText) {
     throw new Error(message);
   }
 
-  if (!result?.summaryOriginal || !result?.summaryEnglish || !result?.summaryHindi) {
+  if (!result?.summaryOriginal || !result?.summaryEnglish) {
     throw new Error("The backend returned an incomplete summary response.");
   }
 
@@ -308,6 +326,9 @@ if (hazardForm) {
         summaryOriginal: approvedSummaries?.summaryOriginal || null,
         summaryEnglish: approvedSummaries?.summaryEnglish || null,
         summaryHindi: approvedSummaries?.summaryHindi || null,
+        summaryMarathi: approvedSummaries?.summaryMarathi || null,
+        summaryTamil: approvedSummaries?.summaryTamil || null,
+        summaryBengali: approvedSummaries?.summaryBengali || null,
         sourceLanguage: approvedSummaries?.sourceLanguage || null,
         photoUrl: finalPhotoUrl,
         timestamp: new Date().toISOString()
