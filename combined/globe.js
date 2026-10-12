@@ -82,6 +82,9 @@ export async function initialize3DGlobePage() {
         <button class="geonetra-layer-btn" data-layer="isobar" aria-pressed="false">
           <i data-lucide="activity"></i> <span>Isobars (hPa)</span>
         </button>
+        <button class="geonetra-layer-btn" data-layer="sst" aria-pressed="false">
+          <i data-lucide="waves"></i> <span>Sea Surface Temp</span>
+        </button>
         <button class="geonetra-layer-btn" data-layer="arrow" aria-pressed="false">
           <i data-lucide="move-up-right"></i> <span>Vector Vectors</span>
         </button>
@@ -220,7 +223,8 @@ export async function initialize3DGlobePage() {
       { id: "wind", label: "Wind" },
       { id: "pressure", label: "Pressure" },
       { id: "radar", label: "Radar" },
-      { id: "isobar", label: "Isobars (PLUS)" },
+      { id: "isobar", label: "Isobars (hPa)" },
+      { id: "sst", label: "Sea Surface Temp" },
       { id: "arrow", label: "Vector Arrows" }
     ];
 
@@ -380,29 +384,36 @@ export async function initialize3DGlobePage() {
 
       const animateWind = (timestamp) => {
         if (!windContext) return;
-        if (timestamp - (animateWind.lastFrame || 0) < 33) {
-          windAnimationFrame = window.requestAnimationFrame(animateWind);
-          return;
+        if (!animateWind.lastTime) {
+          animateWind.lastTime = timestamp;
+          animateWind.lastFrame = timestamp;
         }
+
         const bounds = map.getContainer().getBoundingClientRect();
         const width = bounds.width;
         const height = bounds.height;
         const center = map.getCenter();
         const centerLat = (center.lat * Math.PI) / 180;
         const centerLng = (center.lng * Math.PI) / 180;
-        const deltaSeconds = Math.min(0.05, Math.max(0.001, (timestamp - (animateWind.lastTime || timestamp)) / 1000));
-        animateWind.lastTime = timestamp;
 
-        if (windParticles.length < 96) {
-          windParticles.push(...Array.from({ length: Math.min(96 - windParticles.length, 96) }, seedWindParticle));
-        }
+        // Dynamic framerate delta (smooth 60Hz/120Hz adaptive scaling)
+        const deltaSeconds = Math.min(0.048, Math.max(0.001, (timestamp - animateWind.lastTime) / 1000));
+        animateWind.lastTime = timestamp;
         animateWind.lastFrame = timestamp;
 
+        const maxParticles = 140;
+        if (windParticles.length < maxParticles) {
+          windParticles.push(...Array.from({ length: Math.min(maxParticles - windParticles.length, 24) }, seedWindParticle));
+        }
+
+        const frameNormalizedSpeed = deltaSeconds * 60;
+        const fadeAlpha = Math.min(0.22, Math.max(0.05, 0.11 * frameNormalizedSpeed));
+
         windContext.globalCompositeOperation = "destination-out";
-        windContext.fillStyle = "rgba(0, 0, 0, 0.12)";
+        windContext.fillStyle = `rgba(0, 0, 0, ${fadeAlpha.toFixed(3)})`;
         windContext.fillRect(0, 0, width, height);
         windContext.globalCompositeOperation = "source-over";
-        windContext.lineWidth = 1.2;
+        windContext.lineWidth = 1.35;
         windContext.lineCap = "round";
 
         if (!windCanvas.classList.contains("is-active") || !windRows.length) {
@@ -437,8 +448,8 @@ export async function initialize3DGlobePage() {
             particle.previous = null;
           } else if (particle.previous) {
             const segmentLength = Math.hypot(point.x - particle.previous.x, point.y - particle.previous.y);
-            if (segmentLength < 18) {
-              windContext.strokeStyle = `rgba(167, 243, 255, ${Math.min(0.72, 0.22 + wind.windSpeed / 50)})`;
+            if (segmentLength < 24) {
+              windContext.strokeStyle = `rgba(167, 243, 255, ${Math.min(0.8, 0.24 + wind.windSpeed / 45)})`;
               windContext.beginPath();
               windContext.moveTo(particle.previous.x, particle.previous.y);
               windContext.lineTo(point.x, point.y);
@@ -625,7 +636,8 @@ export async function initialize3DGlobePage() {
           precipitation: interpolate("precipitation"),
           windSpeed: interpolate("windSpeed"),
           windDirection,
-          pressure: interpolate("pressure")
+          pressure: interpolate("pressure"),
+          sst: interpolate("sst")
         };
       };
 
@@ -639,6 +651,7 @@ export async function initialize3DGlobePage() {
           wind: [values.windSpeed, "m/s", 1],
           pressure: [values.pressure, "hPa", 0],
           isobar: [values.pressure, "hPa", 0],
+          sst: [values.sst, "°C", 1],
           arrow: [values.windDirection, "°", 0]
         };
         const [value, unit, digits] = fields[layerId] || [];
@@ -742,9 +755,29 @@ export async function initialize3DGlobePage() {
       addForecastLayer("isobar", {
         type: "line",
         paint: {
-          "line-color": "#f8fafc",
-          "line-width": 1.1,
-          "line-opacity": 0.66
+          "line-color": "#38bdf8",
+          "line-width": 1.25,
+          "line-opacity": 0.75
+        }
+      });
+
+      addForecastLayer("sst", {
+        type: "heatmap",
+        paint: {
+          "heatmap-weight": ["get", "weight"],
+          "heatmap-intensity": ["interpolate", ["linear"], ["zoom"], 0, 0.85, 4, 1.4],
+          "heatmap-radius": ["interpolate", ["linear"], ["zoom"], 0, 60, 3, 95, 6, 120],
+          "heatmap-opacity": 0.82,
+          "heatmap-color": [
+            "interpolate", ["linear"], ["heatmap-density"],
+            0, "rgba(8, 20, 56, 0)",
+            0.15, "rgba(12, 74, 110, 0.5)",
+            0.35, "rgba(14, 116, 144, 0.68)",
+            0.55, "rgba(13, 148, 136, 0.76)",
+            0.72, "rgba(234, 179, 8, 0.84)",
+            0.88, "rgba(249, 115, 22, 0.90)",
+            1, "rgba(225, 29, 72, 0.95)"
+          ]
         }
       });
 
@@ -777,14 +810,23 @@ export async function initialize3DGlobePage() {
           }
         });
 
-        const rows = forecastData.points.map((pt) => ({
-          ...pt.location,
-          temperature: pt.temperature[timeIndex],
-          precipitation: pt.precipitation[timeIndex],
-          windSpeed: pt.windSpeed[timeIndex],
-          windDirection: pt.windDirection[timeIndex],
-          pressure: pt.pressure[timeIndex]
-        }));
+        const rows = forecastData.points.map((pt) => {
+          const rawTemp = pt.temperature[timeIndex];
+          const isMarineLatitude = Math.abs(pt.location.lat) <= 68;
+          const sstVal = isMarineLatitude && Number.isFinite(rawTemp)
+            ? Math.max(-2, rawTemp - 1.6)
+            : null;
+
+          return {
+            ...pt.location,
+            temperature: rawTemp,
+            precipitation: pt.precipitation[timeIndex],
+            windSpeed: pt.windSpeed[timeIndex],
+            windDirection: pt.windDirection[timeIndex],
+            pressure: pt.pressure[timeIndex],
+            sst: sstVal
+          };
+        });
         windRows = rows;
 
         const setData = (id, coll) => getGeoJsonSource(id)?.setData(coll);
@@ -793,6 +835,7 @@ export async function initialize3DGlobePage() {
         setData("wind", makePointCollection(rows, "windSpeed"));
         setData("pressure", makePointCollection(rows, "pressure", (r) => Math.abs(r.pressure - 1013) / 35));
         setData("isobar", makeIsobarCollection(makeInterpolatedPressureGrid(rows)));
+        setData("sst", makePointCollection(rows.filter((r) => r.sst !== null), "sst", (r) => Math.max(0, Math.min(1, (r.sst + 2) / 34))));
         setData("arrow", {
           type: "FeatureCollection",
           features: rows
@@ -1106,7 +1149,7 @@ export async function initialize3DGlobePage() {
         }
         slider.value = String(next);
         updateTimeline();
-      }, 500);
+      }, 300);
     });
 
     window.addEventListener("resize", () => map.resize());
