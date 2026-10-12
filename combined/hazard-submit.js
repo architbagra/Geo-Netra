@@ -1,7 +1,9 @@
 // hazard-submit.js - Hazard form submission, photo compression & Gemini AI summary (Backed by MongoDB Atlas)
+import { getBackendBaseUrl } from "./config.js";
 const imgbbApiKey = "9d23bff63185b7f0510ec68c8ee13b54";
-const summaryApiEndpoint = "http://localhost:3000/api/generate-summary";
-const backendHazardEndpoint = "http://localhost:3000/api/hazards";
+const backendBase = getBackendBaseUrl();
+const summaryApiEndpoint = `${backendBase}/api/generate-summary`;
+const backendHazardEndpoint = `${backendBase}/api/hazards`;
 
 const hazardForm = document.getElementById("hazard-form");
 const submitBtn = document.getElementById("submit-btn");

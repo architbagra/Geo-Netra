@@ -340,7 +340,9 @@ class SheltersManager {
 
   async loadSheltersFromApi() {
     try {
-      const res = await fetch("http://localhost:3000/api/shelters");
+      const isLocal = typeof window !== "undefined" && (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1");
+      const backendBase = isLocal ? "http://localhost:3000" : "https://geo-netra-backend.onrender.com";
+      const res = await fetch(`${backendBase}/api/shelters`);
       if (res.ok) {
         const liveData = await res.json();
         if (Array.isArray(liveData) && liveData.length > 0) {

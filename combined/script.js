@@ -7,6 +7,7 @@ import {
   setVoteDelta,
   setDeleted
 } from "./reports-store.js";
+import { getBackendBaseUrl } from "./config.js";
 
 const BRAND_NAME = "GeoNetra";
 const BRAND_TAGLINE = "Intelligent Hazard Monitoring Network";
@@ -153,7 +154,7 @@ function isAuthenticated() {
 }
 
 const AUTH_TOKEN_KEY = "geonetra_auth_token";
-const BACKEND_BASE_URL = "http://localhost:3000";
+const BACKEND_BASE_URL = getBackendBaseUrl();
 
 function getAuthToken() {
   return localStorage.getItem(AUTH_TOKEN_KEY) || "";
@@ -1643,7 +1644,7 @@ function initializeMapPage() {
     summaryText.style.opacity = "0.8";
 
     try {
-      const res = await fetch("http://localhost:3000/api/translate", {
+      const res = await fetch(`${BACKEND_BASE_URL}/api/translate`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -1932,7 +1933,7 @@ function initializeMapPage() {
     socialRadarLayer.clearLayers();
     setSocialRadarStatus("Scanning social posts for emergency signals via Gemini AI...");
     try {
-      const response = await fetch("http://localhost:3000/api/scan-reddit?mode=demo");
+      const response = await fetch(`${BACKEND_BASE_URL}/api/scan-reddit?mode=demo`);
       const hazards = await response.json();
       if (!response.ok) {
         throw new Error(hazards?.error || "Social radar scan failed.");
@@ -2195,7 +2196,7 @@ function initializeAuthPage() {
     const lengthValid = pwd.length >= 8;
     const upperValid = /[A-Z]/.test(pwd);
     const lowerValid = /[a-z]/.test(pwd);
-    const numSymValid = /[0-9]/.test(pwd) && /[^A-Za-z0-9]/.test(pwd);
+    const numSymValid = /[0-9]/.test(pwd) || /[^A-Za-z0-9]/.test(pwd);
 
     if (reqLength) reqLength.classList.toggle("valid", lengthValid);
     if (reqUpper) reqUpper.classList.toggle("valid", upperValid);
@@ -2359,6 +2360,28 @@ function initializeAuthPage() {
         window.location.replace(getPagePath("index.html"));
       }, 600);
     } catch (err) {
+      // If server is offline / unreachable, fallback to local storage so user is never blocked
+      if (err.message && (err.message.includes("Failed to fetch") || err.message.includes("NetworkError") || err.message.includes("status 500") || err.message.includes("Network"))) {
+        const localUser = {
+          id: `usr_offline_${Date.now()}`,
+          username,
+          email,
+          phone: cleanPhone,
+          countryCode,
+          password,
+          role: "Field Monitor"
+        };
+        const users = getRegisteredUsers();
+        users.push(localUser);
+        localStorage.setItem(REGISTERED_USERS_KEY, JSON.stringify(users));
+        setAuthSession(localUser);
+        showAlert("Account created (Offline Mode)! Loading portal...", "success");
+        window.setTimeout(() => {
+          window.location.replace(getPagePath("index.html"));
+        }, 600);
+        return;
+      }
+
       showAlert(err.message || "Failed to create account. Please try again.");
       if (btnSubmit) {
         btnSubmit.disabled = false;

@@ -1,5 +1,6 @@
 // reports-store.js - Central Data Store backed by MongoDB Atlas (with local caching & real-time sync)
-const BACKEND_API_BASE = "http://localhost:3000/api/hazards";
+import { getBackendBaseUrl } from "./config.js";
+const BACKEND_API_BASE = `${getBackendBaseUrl()}/api/hazards`;
 const REPORT_OVERRIDES_STORAGE_KEY = "geonetra_report_overrides_v2";
 const CACHED_HAZARDS_STORAGE_KEY = "geonetra_atlas_hazards_cache";
 const LOCAL_HAZARDS_STORAGE_KEY = "geonetra_local_hazards";
