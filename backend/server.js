@@ -5,6 +5,7 @@ const path = require("path");
 const fs = require("fs/promises");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const rateLimit = require("express-rate-limit");
 const { GoogleGenAI, Type } = require("@google/genai");
 const db = require("./db");
 
@@ -13,6 +14,17 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 const JWT_SECRET = process.env.JWT_SECRET || "geonetra-secure-jwt-key-2026-secret";
+
+// Task 3.2: Rate Limiting & Brute Force Prevention
+const authRateLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes window
+  max: 20, // 20 attempts per window per IP
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: {
+    error: "Too many authentication attempts from this IP address. Please try again after 15 minutes."
+  }
+});
 
 const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const mockRedditPath = path.join(__dirname, "mock-reddit.json");
@@ -93,8 +105,24 @@ const hazardRadarSchema = {
   }
 };
 
+// Task 3.2: Input Sanitization Middleware to prevent XSS and null-byte injection
+function sanitizeInput(req, res, next) {
+  if (req.body && typeof req.body === "object") {
+    for (const key of Object.keys(req.body)) {
+      if (typeof req.body[key] === "string") {
+        req.body[key] = req.body[key]
+          .replace(/\0/g, "")
+          .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, "")
+          .trim();
+      }
+    }
+  }
+  next();
+}
+
 app.use(cors());
-app.use(express.json());
+app.use(express.json({ limit: "10mb" }));
+app.use(sanitizeInput);
 
 function ensureGeminiApiKey(res) {
   if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY === "your_api_key_here") {
@@ -376,8 +404,8 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "healthy", service: "GeoNetra Central Backend", time: new Date().toISOString() });
 });
 
-// 1. Register Account
-app.post("/api/auth/register", async (req, res) => {
+// 1. Register Account (Protected by authRateLimiter)
+app.post("/api/auth/register", authRateLimiter, async (req, res) => {
   try {
     const { username, email, phone, countryCode = "+91", password } = req.body || {};
 
@@ -457,8 +485,8 @@ app.post("/api/auth/register", async (req, res) => {
   }
 });
 
-// 2. Login (via email, phone, or username)
-app.post("/api/auth/login", async (req, res) => {
+// 2. Login (via email, phone, or username - Protected by authRateLimiter)
+app.post("/api/auth/login", authRateLimiter, async (req, res) => {
   try {
     const { identifier, password } = req.body || {};
 
@@ -614,10 +642,80 @@ app.put("/api/auth/profile", authenticateToken, async (req, res) => {
 // HAZARD REPORTING & CENTRAL DISPATCH APIs
 // ═════════════════════════════════════════════════════════════════════
 
-// List hazards
-app.get("/api/hazards", async (req, res) => {
+// Task 3.3: GeoJSON Export Endpoint (for QGIS, ArcGIS, and GIS dispatch telemetry)
+app.get("/api/hazards/export/geojson", async (req, res) => {
   try {
     const hazards = await db.readHazards();
+    const active = hazards.filter((h) => !h.deleted);
+
+    const featureCollection = {
+      type: "FeatureCollection",
+      metadata: {
+        title: "GeoNetra National Hazard Incident Network Feed",
+        generated: new Date().toISOString(),
+        count: active.length,
+        projection: "urn:ogc:def:crs:OGC:1.3:CRS84"
+      },
+      features: active.map((h) => ({
+        type: "Feature",
+        id: h.id,
+        geometry: {
+          type: "Point",
+          coordinates: [
+            typeof h.longitude === "number" ? h.longitude : parseFloat(h.longitude) || 78.9629,
+            typeof h.latitude === "number" ? h.latitude : parseFloat(h.latitude) || 20.5937
+          ]
+        },
+        properties: {
+          id: h.id,
+          type: h.type,
+          location: h.location,
+          severity: h.severity,
+          status: h.status,
+          pinned: Boolean(h.pinned),
+          votes: h.votes || 1,
+          rawText: h.rawText || "",
+          summaryEnglish: h.summaryEnglish || "",
+          summaryHindi: h.summaryHindi || "",
+          summaryMarathi: h.summaryMarathi || "",
+          summaryTamil: h.summaryTamil || "",
+          summaryBengali: h.summaryBengali || "",
+          sourceLanguage: h.sourceLanguage || "en",
+          photoUrl: h.photoUrl || null,
+          verified: Boolean(h.verified || h.isVerifiedReporter),
+          timestamp: h.timestamp || h.createdAt
+        }
+      }))
+    };
+
+    res.setHeader("Content-Disposition", 'attachment; filename="geonetra-hazards.geojson"');
+    res.setHeader("Content-Type", "application/geo+json; charset=utf-8");
+    return res.json(featureCollection);
+  } catch (error) {
+    console.error("GeoJSON export error:", error);
+    return res.status(500).json({ error: "Failed to generate GeoJSON export stream." });
+  }
+});
+
+// List hazards (Task 3.1: Supports 2dsphere spatial queries: ?bbox=minLng,minLat,maxLng,maxLat OR ?lat=..&lng=..&radius=..)
+app.get("/api/hazards", async (req, res) => {
+  try {
+    const filters = {};
+    if (req.query.bbox) {
+      filters.bbox = req.query.bbox.split(",").map(Number);
+    }
+    if (req.query.lat && req.query.lng) {
+      filters.near = {
+        lat: parseFloat(req.query.lat),
+        lng: parseFloat(req.query.lng),
+        maxDistance: parseFloat(req.query.radius) || 50000
+      };
+    }
+    if (req.query.type) filters.type = req.query.type;
+    if (req.query.severity) filters.severity = req.query.severity;
+    if (req.query.status) filters.status = req.query.status;
+
+    const hazards = await db.readHazards(filters);
     const active = hazards.filter((h) => !h.deleted);
     return res.json(active);
   } catch (error) {
@@ -642,8 +740,15 @@ app.post("/api/hazards", async (req, res) => {
       summaryOriginal,
       summaryEnglish,
       summaryHindi,
+      summaryMarathi,
+      summaryTamil,
+      summaryBengali,
       sourceLanguage,
-      photoUrl
+      photoUrl,
+      userEmail,
+      userName,
+      verified,
+      isVerifiedReporter
     } = req.body || {};
 
     if (!type || !location || !rawText) {
@@ -663,8 +768,14 @@ app.post("/api/hazards", async (req, res) => {
       summaryOriginal,
       summaryEnglish,
       summaryHindi,
+      summaryMarathi,
+      summaryTamil,
+      summaryBengali,
       sourceLanguage,
-      photoUrl
+      photoUrl,
+      userEmail,
+      userName,
+      verified: Boolean(verified || isVerifiedReporter)
     });
 
     return res.status(201).json({
@@ -705,6 +816,79 @@ app.delete("/api/hazards/:id", async (req, res) => {
   } catch (error) {
     console.error("Delete hazard error:", error);
     return res.status(500).json({ error: "Failed to delete hazard report." });
+  }
+});
+
+// ═════════════════════════════════════════════════════════════════════
+// EMERGENCY SHELTERS & RELIEF CAMPS APIs (Task 3.4)
+// ═════════════════════════════════════════════════════════════════════
+
+// List emergency shelters with optional region filter or proximity
+app.get("/api/shelters", async (req, res) => {
+  try {
+    const filters = {};
+    if (req.query.region) filters.region = req.query.region;
+    if (req.query.verified !== undefined) filters.verified = req.query.verified === "true";
+    if (req.query.lat && req.query.lng) {
+      filters.near = {
+        lat: parseFloat(req.query.lat),
+        lng: parseFloat(req.query.lng),
+        maxDistance: parseFloat(req.query.radius) || 100000
+      };
+    }
+
+    const shelters = await db.readShelters(filters);
+    return res.json(shelters);
+  } catch (error) {
+    console.error("Fetch shelters error:", error);
+    return res.status(500).json({ error: "Failed to fetch relief shelters directory." });
+  }
+});
+
+// Add new shelter (Admin/Emergency Dispatch)
+app.post("/api/shelters", async (req, res) => {
+  try {
+    const { name, region, lat, lng, totalCapacity } = req.body || {};
+    if (!name || !region || lat === undefined || lng === undefined) {
+      return res.status(400).json({ error: "name, region, lat, and lng are required." });
+    }
+
+    const created = await db.createShelter(req.body);
+    return res.status(201).json({
+      message: "Emergency shelter registered into central network.",
+      shelter: created
+    });
+  } catch (error) {
+    console.error("Create shelter error:", error);
+    return res.status(500).json({ error: "Failed to register shelter." });
+  }
+});
+
+// Update live occupied capacity / beds in relief camp
+app.patch("/api/shelters/:id/occupancy", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { delta, occupied } = req.body || {};
+
+    if (delta === undefined && occupied === undefined) {
+      return res.status(400).json({ error: "Must provide either delta or occupied count." });
+    }
+
+    const isAbsolute = occupied !== undefined;
+    const val = isAbsolute ? occupied : delta;
+    const updated = await db.updateShelterOccupancy(id, val, isAbsolute);
+
+    if (!updated) {
+      return res.status(404).json({ error: "Shelter not found." });
+    }
+
+    return res.json({
+      message: "Shelter occupancy updated successfully.",
+      shelter: updated
+    });
+  } catch (error) {
+    console.error("Update shelter occupancy error:", error);
+    return res.status(500).json({ error: "Failed to update shelter occupancy." });
   }
 });
 

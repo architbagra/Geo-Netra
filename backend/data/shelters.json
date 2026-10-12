@@ -1,0 +1,496 @@
+[
+  {
+    "id": "mum-01",
+    "name": "Bandra West Municipal Relief Centre & High School",
+    "type": "School Evacuation Shelter",
+    "region": "mumbai",
+    "regionLabel": "Mumbai Coastal Belt",
+    "lat": 19.0596,
+    "lng": 72.8295,
+    "address": "St. Martin Road, Bandra West, Mumbai 400050",
+    "totalCapacity": 650,
+    "occupied": 280,
+    "authority": "Brihanmumbai Municipal Corp (BMC) & NDRF",
+    "phone": "+91 22 2642 2255",
+    "amenities": [
+      "24/7 Medical Post",
+      "Clean Drinking Water",
+      "Backup Generator",
+      "Hot Meals Kitchen",
+      "Wheelchair Accessible",
+      "Sanitation Kits"
+    ],
+    "verified": true,
+    "locationPoint": {
+      "type": "Point",
+      "coordinates": [
+        72.8295,
+        19.0596
+      ]
+    }
+  },
+  {
+    "id": "mum-02",
+    "name": "Versova Koliwada Cyclone & Surge Evacuation Camp",
+    "type": "Cyclone Evacuation Center",
+    "region": "mumbai",
+    "regionLabel": "Mumbai Coastal Belt",
+    "lat": 19.1351,
+    "lng": 72.8143,
+    "address": "Fish Market Road, Versova Village, Andheri West, Mumbai",
+    "totalCapacity": 450,
+    "occupied": 395,
+    "authority": "Maharashtra State Disaster Management Authority",
+    "phone": "+91 22 2631 8720",
+    "amenities": [
+      "Emergency Food Ration",
+      "Clean Drinking Water",
+      "Life Jackets & Dinghies",
+      "First Aid Kit",
+      "Backup Generator"
+    ],
+    "verified": true,
+    "locationPoint": {
+      "type": "Point",
+      "coordinates": [
+        72.8143,
+        19.1351
+      ]
+    }
+  },
+  {
+    "id": "mum-03",
+    "name": "Marine Lines Community Relief & Evacuation Hall",
+    "type": "Community Hall Shelter",
+    "region": "mumbai",
+    "regionLabel": "Mumbai Coastal Belt",
+    "lat": 18.9438,
+    "lng": 72.8288,
+    "address": "Maharshi Karve Road, Churchgate / Marine Lines, Mumbai",
+    "totalCapacity": 500,
+    "occupied": 140,
+    "authority": "South Mumbai Ward Disaster Operations",
+    "phone": "+91 22 2201 4433",
+    "amenities": [
+      "Clean Drinking Water",
+      "24/7 Medical Post",
+      "Hot Meals Kitchen",
+      "Sanitation Kits",
+      "Mobile Charging Desk"
+    ],
+    "verified": true,
+    "locationPoint": {
+      "type": "Point",
+      "coordinates": [
+        72.8288,
+        18.9438
+      ]
+    }
+  },
+  {
+    "id": "mum-04",
+    "name": "Kurla Central Flood Emergency Refuge",
+    "type": "Flood Relief Camp",
+    "region": "mumbai",
+    "regionLabel": "Mumbai Coastal Belt",
+    "lat": 19.0726,
+    "lng": 72.8845,
+    "address": "LBS Marg near Mithi River Outfall, Kurla West, Mumbai",
+    "totalCapacity": 800,
+    "occupied": 780,
+    "authority": "NDRF 5th Battalion Field Unit",
+    "phone": "+91 22 2650 9100",
+    "amenities": [
+      "Inflatable Rafts",
+      "High-Water Pumping Unit",
+      "24/7 Medical Post",
+      "Clean Drinking Water",
+      "Hot Meals Kitchen"
+    ],
+    "verified": true,
+    "locationPoint": {
+      "type": "Point",
+      "coordinates": [
+        72.8845,
+        19.0726
+      ]
+    }
+  },
+  {
+    "id": "mum-05",
+    "name": "Dadar Shivaji Park Multi-Purpose Sports Pavilion",
+    "type": "Multi-Purpose Safehouse",
+    "region": "mumbai",
+    "regionLabel": "Mumbai Coastal Belt",
+    "lat": 19.0269,
+    "lng": 72.8378,
+    "address": "Keluskar Road, Shivaji Park, Dadar West, Mumbai",
+    "totalCapacity": 950,
+    "occupied": 310,
+    "authority": "BMC Zone 2 Emergency Cell",
+    "phone": "+91 22 2445 1200",
+    "amenities": [
+      "Clean Drinking Water",
+      "24/7 Medical Post",
+      "Baby Care Station",
+      "Backup Generator",
+      "Wheelchair Accessible"
+    ],
+    "verified": true,
+    "locationPoint": {
+      "type": "Point",
+      "coordinates": [
+        72.8378,
+        19.0269
+      ]
+    }
+  },
+  {
+    "id": "od-01",
+    "name": "Puri Marine Drive Multi-Purpose Cyclone Shelter #4",
+    "type": "Cyclone Evacuation Center",
+    "region": "odisha",
+    "regionLabel": "Odisha Cyclone Belt",
+    "lat": 19.7983,
+    "lng": 85.8249,
+    "address": "Chakratirtha Road, Puri Coastal Zone, Odisha",
+    "totalCapacity": 1200,
+    "occupied": 420,
+    "authority": "ODRAF & District Collectorate Puri",
+    "phone": "+91 6752 222 034",
+    "amenities": [
+      "Reinforced Storm Bunker",
+      "Clean Drinking Water",
+      "24/7 Medical Post",
+      "Backup Generator",
+      "Community Kitchen",
+      "Satellite Phone Desk"
+    ],
+    "verified": true,
+    "locationPoint": {
+      "type": "Point",
+      "coordinates": [
+        85.8249,
+        19.7983
+      ]
+    }
+  },
+  {
+    "id": "od-02",
+    "name": "Paradip Port High-Tide Emergency Evacuation Depot",
+    "type": "Maritime Emergency Center",
+    "region": "odisha",
+    "regionLabel": "Odisha Cyclone Belt",
+    "lat": 20.3165,
+    "lng": 86.6114,
+    "address": "Port Township, Paradip, Jagatsinghpur, Odisha",
+    "totalCapacity": 900,
+    "occupied": 580,
+    "authority": "Paradip Port Disaster Management Wing & Coast Guard",
+    "phone": "+91 6722 222 144",
+    "amenities": [
+      "24/7 Medical Post",
+      "Clean Drinking Water",
+      "Backup Generator",
+      "Emergency Blankets",
+      "Rescue Boats Base"
+    ],
+    "verified": true,
+    "locationPoint": {
+      "type": "Point",
+      "coordinates": [
+        86.6114,
+        20.3165
+      ]
+    }
+  },
+  {
+    "id": "od-03",
+    "name": "Cuttack Netaji Indoor Emergency Flood Sanctuary",
+    "type": "Flood Relief Camp",
+    "region": "odisha",
+    "regionLabel": "Odisha Cyclone Belt",
+    "lat": 20.4625,
+    "lng": 85.883,
+    "address": "Near Barabati Fort, Cuttack, Odisha",
+    "totalCapacity": 1500,
+    "occupied": 620,
+    "authority": "Cuttack Municipal Corp & State Relief Commissioner",
+    "phone": "+91 671 230 4455",
+    "amenities": [
+      "Clean Drinking Water",
+      "24/7 Medical Post",
+      "Family Dormitories",
+      "Hot Meals Kitchen",
+      "Wheelchair Accessible"
+    ],
+    "verified": true,
+    "locationPoint": {
+      "type": "Point",
+      "coordinates": [
+        85.883,
+        20.4625
+      ]
+    }
+  },
+  {
+    "id": "ker-01",
+    "name": "Aluva Municipal Flood Relief Camp & Town Hall",
+    "type": "Flood Relief Camp",
+    "region": "kerala",
+    "regionLabel": "Kerala Waterways",
+    "lat": 10.1076,
+    "lng": 76.3516,
+    "address": "Near Periyar River Embankment, Aluva, Ernakulam, Kerala",
+    "totalCapacity": 750,
+    "occupied": 230,
+    "authority": "Kerala Disaster Management Authority (KSDMA) & Fire Force",
+    "phone": "+91 484 262 3344",
+    "amenities": [
+      "24/7 Medical Post",
+      "Water Purification Units",
+      "Hot Meals Kitchen",
+      "Inflatable Rescue Dinghies",
+      "Sanitation Kits"
+    ],
+    "verified": true,
+    "locationPoint": {
+      "type": "Point",
+      "coordinates": [
+        76.3516,
+        10.1076
+      ]
+    }
+  },
+  {
+    "id": "ker-02",
+    "name": "Kochi Willingdon Island Coastal Relief Safehouse",
+    "type": "Coastal Refuge",
+    "region": "kerala",
+    "regionLabel": "Kerala Waterways",
+    "lat": 9.9602,
+    "lng": 76.2731,
+    "address": "Bristow Road, Willingdon Island, Kochi, Kerala",
+    "totalCapacity": 600,
+    "occupied": 180,
+    "authority": "Cochin Port Trust Emergency Cell & Indian Navy Liaison",
+    "phone": "+91 484 258 2000",
+    "amenities": [
+      "Clean Drinking Water",
+      "Backup Generator",
+      "First Aid Kit",
+      "Emergency Blankets",
+      "Satellite Comms"
+    ],
+    "verified": true,
+    "locationPoint": {
+      "type": "Point",
+      "coordinates": [
+        76.2731,
+        9.9602
+      ]
+    }
+  },
+  {
+    "id": "ker-03",
+    "name": "Chengannur Central Kuttanad Water Evacuation Hub",
+    "type": "Flood Relief Camp",
+    "region": "kerala",
+    "regionLabel": "Kerala Waterways",
+    "lat": 9.3175,
+    "lng": 76.6148,
+    "address": "Government Boys Higher Secondary Campus, Chengannur, Alappuzha",
+    "totalCapacity": 1100,
+    "occupied": 850,
+    "authority": "NDRF 4th Battalion & Local Fishermen Rescue Fleet",
+    "phone": "+91 479 245 2200",
+    "amenities": [
+      "24/7 Medical Post",
+      "Clean Drinking Water",
+      "Hot Meals Kitchen",
+      "Water Ambulance Dock",
+      "Backup Generator"
+    ],
+    "verified": true,
+    "locationPoint": {
+      "type": "Point",
+      "coordinates": [
+        76.6148,
+        9.3175
+      ]
+    }
+  },
+  {
+    "id": "chn-01",
+    "name": "Marina Beach Coastal Safety & Cyclone Safehouse",
+    "type": "Cyclone Evacuation Center",
+    "region": "chennai",
+    "regionLabel": "Chennai Coastal Belt",
+    "lat": 13.05,
+    "lng": 80.2824,
+    "address": "Kamarajar Salai near Marina Lighthouse, Chennai 600004",
+    "totalCapacity": 850,
+    "occupied": 310,
+    "authority": "Greater Chennai Corporation (GCC) Disaster Wing",
+    "phone": "+91 44 2538 4520",
+    "amenities": [
+      "24/7 Medical Post",
+      "Clean Drinking Water",
+      "Backup Generator",
+      "Hot Meals Kitchen",
+      "Lifebuoys & Rescue Ropes"
+    ],
+    "verified": true,
+    "locationPoint": {
+      "type": "Point",
+      "coordinates": [
+        80.2824,
+        13.05
+      ]
+    }
+  },
+  {
+    "id": "chn-02",
+    "name": "Ennore Creek Industrial & Coastal Emergency Hub",
+    "type": "Multi-Purpose Safehouse",
+    "region": "chennai",
+    "regionLabel": "Chennai Coastal Belt",
+    "lat": 13.2125,
+    "lng": 80.3235,
+    "address": "Ennore High Road, Thiruvottiyur / Ennore, Chennai",
+    "totalCapacity": 600,
+    "occupied": 220,
+    "authority": "Tamil Nadu State Emergency Operations Centre",
+    "phone": "+91 44 2573 1188",
+    "amenities": [
+      "Chemical Incident Respirators",
+      "Clean Drinking Water",
+      "24/7 Medical Post",
+      "Backup Generator"
+    ],
+    "verified": true,
+    "locationPoint": {
+      "type": "Point",
+      "coordinates": [
+        80.3235,
+        13.2125
+      ]
+    }
+  },
+  {
+    "id": "guj-01",
+    "name": "Surat Hazira Coastal Community Cyclone Shelter",
+    "type": "Cyclone Evacuation Center",
+    "region": "gujarat",
+    "regionLabel": "Gujarat Shore & Gulf",
+    "lat": 21.1167,
+    "lng": 72.6333,
+    "address": "Hazira Port Coastal Road, Surat, Gujarat",
+    "totalCapacity": 800,
+    "occupied": 350,
+    "authority": "Gujarat State Disaster Management Authority (GSDMA)",
+    "phone": "+91 261 242 3751",
+    "amenities": [
+      "Clean Drinking Water",
+      "24/7 Medical Post",
+      "Backup Generator",
+      "Heavy-Duty Food Storage",
+      "Wheelchair Accessible"
+    ],
+    "verified": true,
+    "locationPoint": {
+      "type": "Point",
+      "coordinates": [
+        72.6333,
+        21.1167
+      ]
+    }
+  },
+  {
+    "id": "guj-02",
+    "name": "Dwarka Coastal Storm Refuge & Pilgrim Relief Centre",
+    "type": "Multi-Purpose Safehouse",
+    "region": "gujarat",
+    "regionLabel": "Gujarat Shore & Gulf",
+    "lat": 22.2442,
+    "lng": 68.9685,
+    "address": "Near Gomti Ghat, Dwarka, Devbhumi Dwarka, Gujarat",
+    "totalCapacity": 700,
+    "occupied": 290,
+    "authority": "District Collectorate & Indian Coast Guard Station Dwarka",
+    "phone": "+91 2892 234 244",
+    "amenities": [
+      "Clean Drinking Water",
+      "First Aid Kit",
+      "Community Kitchen",
+      "Backup Generator",
+      "Emergency Blankets"
+    ],
+    "verified": true,
+    "locationPoint": {
+      "type": "Point",
+      "coordinates": [
+        68.9685,
+        22.2442
+      ]
+    }
+  },
+  {
+    "id": "wb-01",
+    "name": "Diamond Harbour Gangasagar Evacuation Safe Zone",
+    "type": "Cyclone Evacuation Center",
+    "region": "bengal",
+    "regionLabel": "Bengal & Sundarbans",
+    "lat": 22.1896,
+    "lng": 88.2014,
+    "address": "Riverfront Road, Diamond Harbour, South 24 Parganas, West Bengal",
+    "totalCapacity": 1300,
+    "occupied": 540,
+    "authority": "West Bengal Disaster Management & Civil Defence",
+    "phone": "+91 3174 255 221",
+    "amenities": [
+      "Elevated Flood Stilt Structure",
+      "24/7 Medical Post",
+      "Clean Drinking Water",
+      "Hot Meals Kitchen",
+      "Solar Battery Banks"
+    ],
+    "verified": true,
+    "locationPoint": {
+      "type": "Point",
+      "coordinates": [
+        88.2014,
+        22.1896
+      ]
+    }
+  },
+  {
+    "id": "wb-02",
+    "name": "Digha Sea Beach Multi-Tier Storm Sanctuary",
+    "type": "Cyclone Evacuation Center",
+    "region": "bengal",
+    "regionLabel": "Bengal & Sundarbans",
+    "lat": 21.6266,
+    "lng": 87.5074,
+    "address": "New Digha Coastal Ring, Purba Medinipur, West Bengal",
+    "totalCapacity": 950,
+    "occupied": 410,
+    "authority": "Digha Sankarpur Development Authority & NDRF Unit",
+    "phone": "+91 3220 266 222",
+    "amenities": [
+      "Reinforced Storm Bunker",
+      "Clean Drinking Water",
+      "24/7 Medical Post",
+      "Backup Generator",
+      "Rescue Dinghies"
+    ],
+    "verified": true,
+    "locationPoint": {
+      "type": "Point",
+      "coordinates": [
+        87.5074,
+        21.6266
+      ]
+    }
+  }
+]

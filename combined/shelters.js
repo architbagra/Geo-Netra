@@ -332,9 +332,28 @@ class SheltersManager {
     this.updateKpis();
     this.renderSheltersList();
     this.renderMapMarkers();
-
-    // Trigger initial refresh of Lucide icons
     this.refreshIcons();
+
+    // Task 3.4: Dynamic Shelters API Synchronization from MongoDB Atlas
+    this.loadSheltersFromApi();
+  }
+
+  async loadSheltersFromApi() {
+    try {
+      const res = await fetch("http://localhost:3000/api/shelters");
+      if (res.ok) {
+        const liveData = await res.json();
+        if (Array.isArray(liveData) && liveData.length > 0) {
+          this.shelters = liveData;
+          this.updateKpis();
+          this.renderSheltersList();
+          this.renderMapMarkers();
+          this.refreshIcons();
+        }
+      }
+    } catch (err) {
+      console.warn("Dynamic shelters fetch notice (operating with local master fallback):", err.message || err);
+    }
   }
 
   // Ensures "Shelters" appears on the right of Map Events in header if script.js didn't inject it

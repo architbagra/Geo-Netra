@@ -7,6 +7,7 @@ const DATA_DIR = path.join(__dirname, "data");
 const USERS_FILE = path.join(DATA_DIR, "users.json");
 const HAZARDS_FILE = path.join(DATA_DIR, "hazards.json");
 const VERIFIED_FILE = path.join(DATA_DIR, "verified_reporters.json");
+const SHELTERS_FILE = path.join(DATA_DIR, "shelters.json");
 
 let isMongoConnected = false;
 let isLocalInitialized = false;
@@ -38,6 +39,10 @@ const hazardSchema = new mongoose.Schema(
     countryCode: { type: String, default: "+91" },
     latitude: { type: Number, default: 20.5937 },
     longitude: { type: Number, default: 78.9629 },
+    locationPoint: {
+      type: { type: String, enum: ["Point"], default: "Point" },
+      coordinates: { type: [Number], default: [78.9629, 20.5937] } // [longitude, latitude] GeoJSON
+    },
     severity: { type: String, enum: ["low", "medium", "high", "severe"], default: "medium" },
     status: { type: String, enum: ["open", "resolved"], default: "open" },
     pinned: { type: Boolean, default: false },
@@ -61,8 +66,42 @@ const hazardSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
+// Task 3.1: 2dsphere Geospatial Indexes for fast bounding-box & proximity queries
+hazardSchema.index({ locationPoint: "2dsphere" });
+hazardSchema.index({ latitude: 1, longitude: 1 });
+hazardSchema.index({ type: 1, severity: 1, status: 1 });
+
+// Task 3.4: Dynamic Shelters Mongoose Schema
+const shelterSchema = new mongoose.Schema(
+  {
+    id: { type: String, required: true, unique: true, index: true },
+    name: { type: String, required: true },
+    type: { type: String, default: "Emergency Relief Shelter" },
+    region: { type: String, required: true, index: true },
+    regionLabel: { type: String, default: "" },
+    lat: { type: Number, required: true },
+    lng: { type: Number, required: true },
+    locationPoint: {
+      type: { type: String, enum: ["Point"], default: "Point" },
+      coordinates: { type: [Number], default: [72.8295, 19.0596] }
+    },
+    address: { type: String, default: "" },
+    totalCapacity: { type: Number, default: 500 },
+    occupied: { type: Number, default: 0 },
+    authority: { type: String, default: "" },
+    phone: { type: String, default: "" },
+    amenities: { type: [String], default: [] },
+    verified: { type: Boolean, default: true }
+  },
+  { timestamps: true }
+);
+
+shelterSchema.index({ locationPoint: "2dsphere" });
+shelterSchema.index({ region: 1 });
+
 const UserModel = mongoose.models.User || mongoose.model("User", userSchema);
 const HazardModel = mongoose.models.Hazard || mongoose.model("Hazard", hazardSchema);
+const ShelterModel = mongoose.models.Shelter || mongoose.model("Shelter", shelterSchema);
 
 function cleanMongoDoc(doc) {
   if (!doc) return null;
@@ -185,6 +224,23 @@ async function writeLocalHazards(hazards) {
   await fs.rename(tempFile, HAZARDS_FILE);
 }
 
+async function readLocalShelters() {
+  await ensureLocalDatabase();
+  try {
+    const raw = await fs.readFile(SHELTERS_FILE, "utf8");
+    return JSON.parse(raw);
+  } catch {
+    return [];
+  }
+}
+
+async function writeLocalShelters(shelters) {
+  await ensureLocalDatabase();
+  const tempFile = `${SHELTERS_FILE}.tmp`;
+  await fs.writeFile(tempFile, JSON.stringify(shelters, null, 2), "utf8");
+  await fs.rename(tempFile, SHELTERS_FILE);
+}
+
 // ═════════════════════════════════════════════════════════════════════
 // MIGRATION TO MONGODB ATLAS
 // ═════════════════════════════════════════════════════════════════════
@@ -213,6 +269,17 @@ async function migrateToMongo() {
         await HazardModel.findOneAndUpdate({ id: h.id }, h, { upsert: true, new: true });
       }
       console.log(`Migrated ${localHazards.length} hazards into MongoDB Atlas.`);
+    }
+
+    // 3. Migrate Shelters
+    const shelterCount = await ShelterModel.countDocuments();
+    if (shelterCount === 0) {
+      console.log("Migrating shelters from local JSON to MongoDB Atlas...");
+      const localShelters = await readLocalShelters();
+      for (const s of localShelters) {
+        await ShelterModel.findOneAndUpdate({ id: s.id }, s, { upsert: true, new: true });
+      }
+      console.log(`Migrated ${localShelters.length} shelters into MongoDB Atlas.`);
     }
   } catch (err) {
     console.warn("MongoDB migration notice:", err.message || err);
@@ -378,10 +445,40 @@ function sanitizeUser(user) {
 // HAZARD SERVICE OPERATIONS
 // ═════════════════════════════════════════════════════════════════════
 
-async function readHazards() {
+async function readHazards(filters = {}) {
+  const { bbox, near, type, severity, status } = filters;
+  const mongoQuery = { deleted: { $ne: true } };
+
+  if (type) mongoQuery.type = type;
+  if (severity) mongoQuery.severity = severity;
+  if (status) mongoQuery.status = status;
+
+  // Task 3.1: 2dsphere Geospatial Indexing query ($geoWithin / $nearSphere)
+  if (bbox && Array.isArray(bbox) && bbox.length === 4) {
+    const [minLng, minLat, maxLng, maxLat] = bbox.map(Number);
+    mongoQuery.locationPoint = {
+      $geoWithin: {
+        $box: [
+          [minLng, minLat],
+          [maxLng, maxLat]
+        ]
+      }
+    };
+  } else if (near && Number.isFinite(Number(near.lng)) && Number.isFinite(Number(near.lat))) {
+    mongoQuery.locationPoint = {
+      $nearSphere: {
+        $geometry: {
+          type: "Point",
+          coordinates: [Number(near.lng), Number(near.lat)]
+        },
+        $maxDistance: Number(near.maxDistance || 50000)
+      }
+    };
+  }
+
   if (isMongoConnected) {
     try {
-      const hazards = await HazardModel.find({ deleted: { $ne: true } })
+      const hazards = await HazardModel.find(mongoQuery)
         .sort({ timestamp: -1 })
         .lean();
       return hazards.map(cleanMongoDoc);
@@ -389,11 +486,29 @@ async function readHazards() {
       console.warn("MongoDB readHazards error, falling back to local:", err.message);
     }
   }
+
+  // Local fallback with bbox and field filters
   const local = await readLocalHazards();
-  return local.filter((h) => !h.deleted);
+  let filtered = local.filter((h) => !h.deleted);
+
+  if (type) filtered = filtered.filter((h) => h.type === type);
+  if (severity) filtered = filtered.filter((h) => h.severity === severity);
+  if (status) filtered = filtered.filter((h) => h.status === status);
+
+  if (bbox && Array.isArray(bbox) && bbox.length === 4) {
+    const [minLng, minLat, maxLng, maxLat] = bbox.map(Number);
+    filtered = filtered.filter(
+      (h) => h.longitude >= minLng && h.longitude <= maxLng && h.latitude >= minLat && h.latitude <= maxLat
+    );
+  }
+
+  return filtered;
 }
 
 async function createHazard(hazardData) {
+  const latNum = typeof hazardData.latitude === "number" ? hazardData.latitude : parseFloat(hazardData.latitude) || 20.5937;
+  const lngNum = typeof hazardData.longitude === "number" ? hazardData.longitude : parseFloat(hazardData.longitude) || 78.9629;
+
   const newHazard = {
     id: `haz_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`,
     type: hazardData.type || "other",
@@ -401,8 +516,12 @@ async function createHazard(hazardData) {
     phone: hazardData.phone || "+91 9999999999",
     observerPhone: hazardData.observerPhone || "9999999999",
     countryCode: hazardData.countryCode || "+91",
-    latitude: typeof hazardData.latitude === "number" ? hazardData.latitude : parseFloat(hazardData.latitude) || 20.5937,
-    longitude: typeof hazardData.longitude === "number" ? hazardData.longitude : parseFloat(hazardData.longitude) || 78.9629,
+    latitude: latNum,
+    longitude: lngNum,
+    locationPoint: {
+      type: "Point",
+      coordinates: [lngNum, latNum]
+    },
     severity: hazardData.severity || "medium",
     status: hazardData.status || "open",
     pinned: Boolean(hazardData.pinned),
@@ -550,6 +669,130 @@ async function removeVerifiedReporter(email) {
   return true;
 }
 
+// ═════════════════════════════════════════════════════════════════════
+// EMERGENCY SHELTERS & RELIEF CAMPS SERVICE OPERATIONS (Task 3.4)
+// ═════════════════════════════════════════════════════════════════════
+
+async function readShelters(filters = {}) {
+  const { region, verified, near } = filters;
+  const mongoQuery = {};
+  if (region && region !== "all") mongoQuery.region = region;
+  if (verified !== undefined) mongoQuery.verified = Boolean(verified);
+
+  if (near && Number.isFinite(Number(near.lng)) && Number.isFinite(Number(near.lat))) {
+    mongoQuery.locationPoint = {
+      $nearSphere: {
+        $geometry: {
+          type: "Point",
+          coordinates: [Number(near.lng), Number(near.lat)]
+        },
+        $maxDistance: Number(near.maxDistance || 100000)
+      }
+    };
+  }
+
+  if (isMongoConnected) {
+    try {
+      const shelters = await ShelterModel.find(mongoQuery).lean();
+      return shelters.map(cleanMongoDoc);
+    } catch (err) {
+      console.warn("MongoDB readShelters error, falling back to local:", err.message);
+    }
+  }
+
+  const local = await readLocalShelters();
+  let filtered = local;
+  if (region && region !== "all") {
+    filtered = filtered.filter((s) => s.region?.toLowerCase() === region.toLowerCase());
+  }
+  if (verified !== undefined) {
+    filtered = filtered.filter((s) => Boolean(s.verified) === Boolean(verified));
+  }
+  return filtered;
+}
+
+async function createShelter(shelterData) {
+  const latNum = parseFloat(shelterData.lat) || 0;
+  const lngNum = parseFloat(shelterData.lng) || 0;
+  const newShelter = {
+    id: shelterData.id || `shl_${Date.now()}_${Math.random().toString(36).substring(2, 6)}`,
+    name: shelterData.name || "Emergency Evacuation Shelter",
+    type: shelterData.type || "Community Evacuation Safehouse",
+    region: shelterData.region || "national",
+    regionLabel: shelterData.regionLabel || "National Emergency Zone",
+    lat: latNum,
+    lng: lngNum,
+    locationPoint: {
+      type: "Point",
+      coordinates: [lngNum, latNum]
+    },
+    address: shelterData.address || "",
+    totalCapacity: Number(shelterData.totalCapacity) || 500,
+    occupied: Number(shelterData.occupied) || 0,
+    authority: shelterData.authority || "Disaster Management Authority",
+    phone: shelterData.phone || "+91 11 2670 1700",
+    amenities: Array.isArray(shelterData.amenities)
+      ? shelterData.amenities
+      : ["Clean Drinking Water", "Medical Post", "Backup Generator"],
+    verified: shelterData.verified !== false
+  };
+
+  if (isMongoConnected) {
+    try {
+      const created = await ShelterModel.create(newShelter);
+      try {
+        const local = await readLocalShelters();
+        local.push(cleanMongoDoc(created.toObject()));
+        await writeLocalShelters(local);
+      } catch {}
+      return cleanMongoDoc(created.toObject());
+    } catch (err) {
+      console.warn("MongoDB createShelter error, falling back to local:", err.message);
+    }
+  }
+
+  const shelters = await readLocalShelters();
+  shelters.push(newShelter);
+  await writeLocalShelters(shelters);
+  return newShelter;
+}
+
+async function updateShelterOccupancy(id, deltaOrOccupied, isAbsolute = false) {
+  if (isMongoConnected) {
+    try {
+      const update = isAbsolute
+        ? { $set: { occupied: Math.max(0, Number(deltaOrOccupied)) } }
+        : { $inc: { occupied: Number(deltaOrOccupied) } };
+      const updated = await ShelterModel.findOneAndUpdate({ id }, update, { new: true });
+      if (updated) {
+        try {
+          const local = await readLocalShelters();
+          const idx = local.findIndex((s) => s.id === id);
+          if (idx !== -1) {
+            local[idx].occupied = updated.occupied;
+            await writeLocalShelters(local);
+          }
+        } catch {}
+        return cleanMongoDoc(updated.toObject());
+      }
+    } catch (err) {
+      console.warn("MongoDB updateShelter error, falling back to local:", err.message);
+    }
+  }
+
+  const shelters = await readLocalShelters();
+  const idx = shelters.findIndex((s) => s.id === id);
+  if (idx === -1) return null;
+
+  if (isAbsolute) {
+    shelters[idx].occupied = Math.max(0, Number(deltaOrOccupied));
+  } else {
+    shelters[idx].occupied = Math.max(0, shelters[idx].occupied + Number(deltaOrOccupied));
+  }
+  await writeLocalShelters(shelters);
+  return shelters[idx];
+}
+
 module.exports = {
   connectMongoDB,
   isMongoConnected: () => isMongoConnected,
@@ -565,5 +808,8 @@ module.exports = {
   deleteHazard,
   readVerifiedReporters,
   addVerifiedReporter,
-  removeVerifiedReporter
+  removeVerifiedReporter,
+  readShelters,
+  createShelter,
+  updateShelterOccupancy
 };
