@@ -620,3 +620,38 @@
   color: #34d399;
 }
 
+/* ═════════════════════════════════════════════════════════════════════
+   MEMBER 1 DELIVERABLE: MOBILE ERGONOMICS FOR HOME PORTAL (TASK 1.1)
+   ═════════════════════════════════════════════ */
+@media (max-width: 520px) {
+  .hero-section {
+    padding: 2.5rem 0 3rem;
+  }
+  .hero-description {
+    font-size: 0.98rem;
+  }
+  .hero-glass-card {
+    padding: 1.15rem 1rem;
+    border-radius: 16px;
+  }
+  .home-recent-reports {
+    padding: 1rem 0.75rem;
+    border-radius: 16px;
+  }
+  .home-reports-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  .reports-table-wrapper {
+    position: relative;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+  .analytics-table.home-reports-table th,
+  .analytics-table.home-reports-table td {
+    padding: 0.6rem 0.55rem;
+    font-size: 0.8rem;
+    white-space: nowrap;
+  }
+}
+

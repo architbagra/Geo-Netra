@@ -18,6 +18,16 @@
     <main class="main-content">
       <section class="advisories-main-section">
         <div class="container-wide">
+          <!-- ── Print-Only Official Document Header ── -->
+          <div class="print-official-header" aria-hidden="true">
+            <div class="print-header-top">
+              <h2>GeoNetra · National Intelligent Hazard Monitoring Network</h2>
+              <span class="print-meta-badge">OFFICIAL DISASTER MANAGEMENT SOP · FIELD EMERGENCY REFERENCE</span>
+            </div>
+            <p class="print-meta-date">Emergency Standard Operating Procedures (SOP) · Valid for Offline Operations</p>
+            <p class="print-helpline-summary">National Helplines: <strong>1078</strong> (NDMA) | <strong>112</strong> (ERSS) | <strong>1070</strong> (State Relief) | <strong>1554</strong> (Coast Guard)</p>
+          </div>
+
           <!-- ── Urgent National Alert Banner ── -->
           <div class="alert-banner-wrap">
             <div class="official-alert-banner">
@@ -41,6 +51,12 @@
               <i data-lucide="map-pin"></i>
               <span>Active Region: <strong>Mumbai Coastal Zone &amp; Western Belt</strong></span>
             </div>
+
+            <!-- Print Action Button (Task 1.3) -->
+            <button type="button" class="btn-print-checklist" onclick="window.print()" title="Print Field SOP Checklist for offline emergency reference" aria-label="Print Emergency SOP Checklist">
+              <i data-lucide="printer"></i>
+              <span>Print Offline Checklist</span>
+            </button>
 
             <!-- Dynamic Safety Carousel -->
             <div class="safety-carousel">

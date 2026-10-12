@@ -510,11 +510,11 @@ function renderSharedHeader() {
 
           <!-- Notification Button & Dropdown -->
           <div class="dropdown-wrapper" id="notifWrapper">
-            <button class="icon-utility-btn" id="home-notification-btn" title="Recent Alerts" type="button" aria-label="Notifications">
+            <button class="icon-utility-btn" id="home-notification-btn" title="Recent Alerts" type="button" aria-label="Notifications" aria-haspopup="true" aria-expanded="false" aria-controls="home-notification-dropdown">
               <span class="badge">3</span>
               <i data-lucide="bell"></i>
             </button>
-            <div class="notification-dropdown" id="home-notification-dropdown">
+            <div class="notification-dropdown" id="home-notification-dropdown" role="region" aria-label="Notifications Panel">
               <div class="dropdown-header">
                 <div class="dropdown-header-title">
                   <i data-lucide="shield-alert"></i>
@@ -561,12 +561,12 @@ function renderSharedHeader() {
 
           <!-- Profile Button (Existing single profile button preserved & enhanced with dropdown menu) -->
           <div class="profile-dropdown-wrapper" id="profileWrapper">
-            <button class="user-profile-btn" id="headerProfileBtn" type="button" aria-label="User Account Menu">
+            <button class="user-profile-btn" id="headerProfileBtn" type="button" aria-label="User Account Menu" aria-haspopup="true" aria-expanded="false" aria-controls="profileDropdown">
               <div class="avatar">${avatarLetter}</div>
               <span class="profile-name">${displayName}</span>
               <i data-lucide="chevron-down" class="profile-chevron"></i>
             </button>
-            <div class="profile-menu-dropdown" id="profileDropdown">
+            <div class="profile-menu-dropdown" id="profileDropdown" role="menu" aria-label="User Menu">
               <div class="profile-menu-header">
                 <div class="avatar-lg">${avatarLetter}</div>
                 <div>
@@ -628,7 +628,7 @@ function renderSharedHeader() {
           </div>
 
           <!-- Mobile Hamburger Toggle -->
-          <button class="mobile-hamburger-btn" id="mobileMenuToggle" type="button" aria-label="Toggle Navigation Menu">
+          <button class="mobile-hamburger-btn" id="mobileMenuToggle" type="button" aria-label="Toggle Navigation Menu" aria-haspopup="true" aria-expanded="false" aria-controls="mobileNavDrawer">
             <i data-lucide="menu"></i>
           </button>
         </div>
@@ -788,27 +788,48 @@ function initializeNavigationEvents() {
   const drawerClose = document.getElementById("mobileDrawerClose");
   const logoutBtn = document.getElementById("logoutActionBtn");
 
+  const closeDropdowns = () => {
+    if (notifWrapper) {
+      notifWrapper.classList.remove("active");
+      notifBtn?.setAttribute("aria-expanded", "false");
+    }
+    if (profileWrapper) {
+      profileWrapper.classList.remove("active");
+      profileBtn?.setAttribute("aria-expanded", "false");
+    }
+  };
+
   // Notifications toggle
   notifBtn?.addEventListener("click", (e) => {
     e.stopPropagation();
-    profileWrapper?.classList.remove("active");
-    notifWrapper?.classList.toggle("active");
+    const isOpening = !notifWrapper?.classList.contains("active");
+    closeDropdowns();
+    if (isOpening) {
+      notifWrapper?.classList.add("active");
+      notifBtn.setAttribute("aria-expanded", "true");
+    }
   });
 
   // Profile dropdown toggle
   profileBtn?.addEventListener("click", (e) => {
     e.stopPropagation();
-    notifWrapper?.classList.remove("active");
-    profileWrapper?.classList.toggle("active");
+    const isOpening = !profileWrapper?.classList.contains("active");
+    closeDropdowns();
+    if (isOpening) {
+      profileWrapper?.classList.add("active");
+      profileBtn.setAttribute("aria-expanded", "true");
+    }
   });
 
   // Close menus on outside click
   document.addEventListener("click", (e) => {
     if (notifWrapper && !notifWrapper.contains(e.target)) {
       notifWrapper.classList.remove("active");
+      notifBtn?.setAttribute("aria-expanded", "false");
     }
     if (profileWrapper && !profileWrapper.contains(e.target)) {
       profileWrapper.classList.remove("active");
+      profileBtn?.setAttribute("aria-expanded", "false");
     }
   });
 
@@ -816,18 +837,30 @@ function initializeNavigationEvents() {
   const openDrawer = () => {
     drawer?.classList.add("active");
     backdrop?.classList.add("active");
+    mobileToggle?.setAttribute("aria-expanded", "true");
     document.body.style.overflow = "hidden";
   };
 
   const closeDrawer = () => {
     drawer?.classList.remove("active");
     backdrop?.classList.remove("active");
+    mobileToggle?.setAttribute("aria-expanded", "false");
     document.body.style.overflow = "";
   };
 
   mobileToggle?.addEventListener("click", openDrawer);
   drawerClose?.addEventListener("click", closeDrawer);
   backdrop?.addEventListener("click", closeDrawer);
+
+  // Keyboard accessibility: Escape key dismisses modals, drawers & menus
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      closeDropdowns();
+      if (drawer?.classList.contains("active")) {
+        closeDrawer();
+      }
+    }
+  });
 
   window.addEventListener("resize", () => {
     if (window.innerWidth > 860) {
@@ -840,6 +873,62 @@ function initializeNavigationEvents() {
     clearAuthSession();
     window.location.replace(getPagePath("login.html"));
   });
+}
+
+/**
+ * Task 1.2: Offline Notification Pill
+ * Shows an accessible, high-tech toast notification when network connectivity is lost/restored.
+ */
+function initializeOfflineListener() {
+  const OFFLINE_BANNER_ID = "geonetra-offline-pill";
+
+  function renderStatusPill(isOnline) {
+    let pill = document.getElementById(OFFLINE_BANNER_ID);
+    if (!pill) {
+      pill = document.createElement("div");
+      pill.id = OFFLINE_BANNER_ID;
+      pill.className = "offline-toast-pill";
+      pill.setAttribute("role", "status");
+      pill.setAttribute("aria-live", "polite");
+      document.body.appendChild(pill);
+    }
+
+    if (!isOnline) {
+      pill.className = "offline-toast-pill is-offline active";
+      pill.innerHTML = `
+        <span class="offline-pill-dot"></span>
+        <i data-lucide="wifi-off" class="offline-pill-icon"></i>
+        <div class="offline-pill-text">
+          <span class="offline-pill-title">Network Disconnected</span>
+          <span class="offline-pill-sub">Local telemetry cache active · Offline operations enabled</span>
+        </div>
+      `;
+      refreshIcons();
+    } else {
+      if (!pill.classList.contains("is-offline")) return;
+      pill.className = "offline-toast-pill is-online active";
+      pill.innerHTML = `
+        <span class="offline-pill-dot"></span>
+        <i data-lucide="wifi" class="offline-pill-icon"></i>
+        <div class="offline-pill-text">
+          <span class="offline-pill-title">Network Reconnected</span>
+          <span class="offline-pill-sub">Cloud synchronization restored with GeoNetra nodes</span>
+        </div>
+      `;
+      refreshIcons();
+      setTimeout(() => {
+        pill.classList.remove("active");
+        setTimeout(() => pill.remove(), 400);
+      }, 3500);
+    }
+  }
+
+  window.addEventListener("offline", () => renderStatusPill(false));
+  window.addEventListener("online", () => renderStatusPill(true));
+
+  if (typeof navigator !== "undefined" && navigator.onLine === false) {
+    renderStatusPill(false);
+  }
 }
 
 function initializeThemeToggle() {
@@ -3755,6 +3844,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeAdminPages();
   initializeVerificationPage();
   initializeHomeRecentReports();
+  initializeOfflineListener();
 
   refreshIcons();
 });

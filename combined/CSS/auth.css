@@ -559,3 +559,27 @@ input::-webkit-credentials-auto-fill-button {
   flex-shrink: 0;
   vertical-align: middle;
 }
+
+/* ═════════════════════════════════════════════════════════════════════
+   MEMBER 1 DELIVERABLE: MOBILE ERGONOMICS FOR AUTH (TASK 1.1)
+   ═════════════════════════════════════════════════════════════════════ */
+@media (max-width: 480px) {
+  .auth-page-wrapper {
+    padding: 1.5rem 0.85rem;
+  }
+  .auth-card {
+    padding: 1.75rem 1.25rem 1.5rem;
+    border-radius: 16px;
+  }
+  .auth-title {
+    font-size: 1.32rem;
+  }
+  .auth-subtitle {
+    font-size: 0.85rem;
+  }
+  .country-dropdown-popover {
+    max-width: calc(100vw - 2rem);
+    left: 0;
+    right: 0;
+  }
+}

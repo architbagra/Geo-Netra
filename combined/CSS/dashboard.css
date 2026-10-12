@@ -294,3 +294,30 @@
     align-items: flex-start;
   }
 }
+
+/* ═════════════════════════════════════════════════════════════════════
+   MEMBER 1 DELIVERABLE: MOBILE ERGONOMICS FOR DASHBOARD (TASK 1.1)
+   ═════════════════════════════════════════════════════════════════════ */
+@media (max-width: 520px) {
+  .dashboard-hero-banner {
+    padding: 2rem 0 2.5rem;
+  }
+  .dashboard-kpi-bar {
+    grid-template-columns: 1fr;
+    gap: 0.85rem;
+  }
+  .dashboard-kpi-item {
+    padding: 0.85rem 1.1rem;
+  }
+  .service-card-body {
+    padding: 1.35rem;
+  }
+  .service-card-meta {
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+  .recent-notices-section {
+    padding: 1.25rem;
+    margin-top: 2rem;
+  }
+}
